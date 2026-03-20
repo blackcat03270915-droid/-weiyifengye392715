@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>猫叶的塔罗工作台 - 塔罗占卜</title>
+    <style>
+        :root {
+            --bg-light: #fdfbf7; 
+            --bg-grad: #f0ebe1;
+            --accent: #bda285; 
+            --accent-dim: #e6dfd6;
+            --text-main: #7a6e62;
+            --card-w: 79px; 
+            --card-h: 136px;
+            --danger: #d9534f;
+        }
+        
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; user-select: none; }
+        
+        body {
+            background: var(--bg-light); 
+            background-image: radial-gradient(circle at 50% 50%, #ffffff 0%, var(--bg-grad) 100%);
+            margin: 0; padding: 0; height: 100dvh; width: 100vw; 
+            overflow: hidden; touch-action: none; position: fixed;
+            font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            color: var(--text-main);
+        }
+
+        .view-container { width: 100%; height: 100%; position: absolute; top: 0; left: 0; }
+        
+        .header-bar {
+            height: 60px; display: flex; justify-content: space-between; align-items: center;
+            padding: 0 20px; background: rgba(253, 251, 247, 0.7);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(189, 162, 133, 0.15); z-index: 10000; position: relative;
+        }
+        .header-bar .title { font-weight: bold; color: var(--text-main); font-size: 17px; letter-spacing: 1px;}
+        
+        .nav-btn {
+            background: #fff; border: 1px solid var(--accent-dim); 
+            color: var(--text-main); padding: 5px 12px; border-radius: 12px; font-size: 10px;
+            cursor: pointer; transition: all 0.2s;
+            box-shadow: 0 2px 8px rgba(122, 110, 98, 0.06);
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+        }
+        .nav-btn:active { background: var(--bg-grad); transform: scale(0.95); }
+        .nav-btn svg { width: 18px; height: 18px; opacity: 0.85; stroke-width: 2.5; }
+
+        #sidebar {
+            position: absolute; left: 12px; top: 70px; bottom: 120px;
+            display: flex; flex-direction: column; justify-content: center; gap: 8px;
+            z-index: 10000; pointer-events: none; 
+        }
+        #action-sidebar {
+            position: absolute; right: 12px; top: 70px; bottom: 120px;
+            display: flex; flex-direction: column; justify-content: center; gap: 8px;
+            z-index: 10000; pointer-events: none; 
+        }
+        
+        .sidebar-btn {
+            pointer-events: auto; 
+            background: rgba(253, 251, 247, 0.85); 
+            border: 1px solid var(--accent-dim); 
+            color: var(--text-main); 
+            width: 46px; height: 46px; 
+            border-radius: 12px; 
+            font-size: 9px; font-weight: bold;
+            cursor: pointer; transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(122, 110, 98, 0.08);
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+            backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+        }
+        .sidebar-btn.active { background: var(--text-main); color: #fff; border-color: var(--text-main); }
+        .sidebar-btn:active { transform: scale(0.92); }
+        .sidebar-btn svg { width: 17px; height: 17px; opacity: 0.9; stroke-width: 2; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; }
+
+        #hint { position: absolute; top: 75px; width: 100%; text-align: center; font-size: 12px; color: #a3998f; pointer-events: none; opacity: 0.9; z-index: 2000; letter-spacing: 1px;}
+        
+        #desktop { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000; pointer-events: none;}
+        #fan-track { position: absolute; bottom: -20px; left: 0; width: 100%; height: 260px; z-index: 500; pointer-events: auto; }
+
+        .card {
+            position: absolute; width: var(--card-w); height: var(--card-h);
+            left: 50%; bottom: 30px; margin-left: calc(var(--card-w) / -2);
+            will-change: transform, opacity; z-index: 10;
+            perspective: 1000px;
+        }
+        
+        .card-inner {
+            position: relative; width: 100%; height: 100%;
+            transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+            transform-style: preserve-3d;
+            border-radius: 8px; box-shadow: 0 4px 12px rgba(122, 110, 98, 0.12);
+        }
+        
+        .card-front, .card-back {
+            position: absolute; width: 100%; height: 100%;
+            -webkit-backface-visibility: hidden; backface-visibility: hidden;
+            border-radius: 8px; border: 1px solid #fff;
+            display: flex; justify-content: center; align-items: center; text-align: center;
+        }
+
+        .card-back {
+            background: #faf7f2;
+            box-shadow: inset 0 0 0 3px #fff, inset 0 0 0 4px var(--accent-dim);
+        }
+        .card-back::after { content: "✧"; color: var(--accent); font-size: 20px; }
+
+        .card-index {
+            position: absolute; top: 3px; left: 5px;
+            font-size: 11px; font-weight: bold; font-family: 'Helvetica Neue', Helvetica, sans-serif;
+            color: var(--text-main); opacity: 0; transition: opacity 0.3s;
+            z-index: 2;
+        }
+        .card.is-fanned .card-index { opacity: 1; }
+
+        .card-front {
+            background: #fff; 
+            color: var(--text-main);
+            transform: rotateY(180deg);
+            flex-direction: column; padding: 5px;
+            box-shadow: inset 0 0 10px rgba(189, 162, 133, 0.05);
+            position: relative;
+        }
+        
+        .card-image {
+            position: absolute;
+            top: 4px; left: 4px;
+            width: calc(100% - 8px); height: calc(100% - 8px);
+            object-fit: cover;
+            border-radius: 4px;
+            z-index: 1;
+            /* 新增：完全屏蔽图片的默认拖拽与交互，解决桌面端禁止符号和卡顿 */
+            -webkit-user-drag: none;
+            user-drag: none;
+            pointer-events: none;
+        }
+        
+        .card.is-reversed .card-front { transform: rotateY(180deg) rotateZ(180deg); }
+        .card-front .name { font-size: 11px; font-weight: bold; margin-top: auto; margin-bottom: auto; position: relative; z-index: 2;}
+        
+        .card.is-flipped .card-inner { transform: rotateY(180deg); }
+        .card.animating { transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.3, 1), opacity 0.4s; }
+        
+        .card.on-desktop { position: fixed; z-index: 8000; pointer-events: auto; cursor: pointer; }
+        .card.dragging { z-index: 9999 !important; }
+        .card.dragging .card-inner { box-shadow: 0 12px 25px rgba(122, 110, 98, 0.2); transform: scale(1.08); transition: transform 0.2s; }
+        .card.dragging.is-flipped .card-inner { transform: rotateY(180deg) scale(1.08); }
+
+        /* ================= 后台排版样式 ================= */
+        .admin-scroll-area {
+            height: calc(100% - 60px);
+            overflow-y: auto;
+            padding: 20px;
+            padding-bottom: 80px;
+        }
+
+        .admin-top-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        .btn-primary {
+            background: var(--text-main);
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-size: 13px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(122, 110, 98, 0.25);
+            transition: all 0.2s;
+        }
+        .btn-primary:active { transform: scale(0.95); opacity: 0.9; }
+
+        .deck-item {
+            background: rgba(253, 251, 247, 0.85);
+            border: 1px solid var(--accent-dim);
+            border-radius: 16px;
+            padding: 18px 20px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(122, 110, 98, 0.04);
+            backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+        }
+        .deck-info { display: flex; flex-direction: column; gap: 4px; }
+        .deck-name { font-size: 15px; font-weight: bold; color: var(--text-main); }
+        .deck-status { font-size: 10px; color: var(--accent); letter-spacing: 1px; }
+        .deck-item.active { border-color: var(--accent); border-width: 2px; }
+
+        .deck-actions { display: flex; gap: 8px; }
+        .action-btn {
+            background: #fff;
+            border: 1px solid var(--accent-dim);
+            color: var(--text-main);
+            width: 36px; height: 36px;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.2s;
+            box-shadow: 0 2px 6px rgba(122, 110, 98, 0.05);
+        }
+        .action-btn:active { transform: scale(0.9); background: var(--bg-grad); }
+        .action-btn svg { width: 17px; height: 17px; stroke-width: 2.5; }
+        .action-btn.delete { color: var(--danger); border-color: rgba(217, 83, 79, 0.2); }
+        .action-btn.apply.active { background: var(--text-main); color: #fff; border-color: var(--text-main); }
+
+        .admin-list-item {
+            background: rgba(253, 251, 247, 0.85);
+            border: 1px solid var(--accent-dim);
+            border-radius: 12px;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 4px 10px rgba(122, 110, 98, 0.04);
+            backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+        }
+        .admin-item-title {
+            width: 75px;
+            font-size: 13px;
+            font-weight: bold;
+            color: var(--text-main);
+            flex-shrink: 0;
+            text-align: left;
+        }
+        .admin-item-input {
+            flex-grow: 1;
+            min-width: 0; 
+            background: #fff;
+            border: 1px solid var(--accent-dim);
+            padding: 8px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            color: var(--text-main);
+            outline: none;
+            transition: all 0.2s;
+        }
+        .admin-item-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(189, 162, 133, 0.2);
+        }
+        .admin-item-input::placeholder { color: #ccc; }
+        .admin-item-btn {
+            background: #fff;
+            border: 1px solid var(--accent-dim);
+            color: var(--text-main);
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex-shrink: 0;
+            box-shadow: 0 2px 6px rgba(122, 110, 98, 0.05);
+        }
+        .admin-item-btn:active {
+            background: var(--bg-grad);
+            transform: scale(0.92);
+        }
+
+        /* ================= 自定义弹窗样式 ================= */
+        .custom-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.35);
+            z-index: 100000;
+            display: flex; align-items: center; justify-content: center;
+            backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+        }
+        .modal-content {
+            background: var(--bg-light);
+            border: 1px solid var(--accent-dim);
+            border-radius: 16px;
+            padding: 24px;
+            width: 85%; max-width: 320px;
+            box-shadow: 0 10px 30px rgba(122, 110, 98, 0.2);
+            text-align: center;
+            animation: modalPop 0.3s cubic-bezier(0.2, 0.8, 0.3, 1);
+        }
+        @keyframes modalPop {
+            0% { transform: scale(0.9); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .modal-title { font-size: 16px; font-weight: bold; color: var(--text-main); margin-bottom: 12px; }
+        .modal-message { font-size: 13px; color: var(--text-main); margin-bottom: 20px; line-height: 1.5; opacity: 0.9; }
+        
+        .modal-input {
+            width: 100%; background: #fff; border: 1px solid var(--accent-dim);
+            padding: 12px 14px; border-radius: 8px; font-size: 14px;
+            color: var(--text-main); outline: none; margin-bottom: 24px;
+            transition: all 0.2s; box-sizing: border-box; text-align: center;
+        }
+        .modal-input:focus { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(189, 162, 133, 0.2); }
+        
+        .modal-textarea {
+            width: 100%; height: 120px; background: #fff; border: 1px solid var(--accent-dim);
+            padding: 12px; border-radius: 8px; font-size: 12px; font-family: monospace;
+            color: var(--text-main); outline: none; margin-bottom: 24px;
+            transition: all 0.2s; box-sizing: border-box; resize: none; word-break: break-all;
+        }
+        .modal-textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(189, 162, 133, 0.2); }
+
+        .modal-actions { display: flex; gap: 12px; justify-content: center; }
+        .modal-btn {
+            flex: 1; padding: 12px 0; border-radius: 20px; font-size: 14px; font-weight: bold;
+            cursor: pointer; transition: all 0.2s; border: none; box-shadow: 0 2px 6px rgba(122, 110, 98, 0.05);
+        }
+        .modal-btn.cancel { background: #fff; border: 1px solid var(--accent-dim); color: var(--text-main); }
+        .modal-btn.confirm { background: var(--text-main); color: #fff; }
+        .modal-btn.delete { background: var(--danger); color: #fff; }
+        .modal-btn:active { transform: scale(0.95); }
+    </style>
+</head>
+<body>
+
+    <!-- 视图 1：工作台 -->
+    <div id="workbench-view" class="view-container">
+        <div class="header-bar">
+            <div class="title">✧ 猫叶的塔罗工作台 ✧</div>
+            <button class="nav-btn" onclick="toggleView('admin')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                <span>进入后台</span>
+            </button>
+        </div>
+        
+        <div id="sidebar">
+            <button class="sidebar-btn active" data-filter="all" onclick="setFilter('all')">
+                <svg viewBox="0 0 24 24"><rect x="2" y="6" width="14" height="16" rx="2"/><path d="M6 2h14v16H6z"/></svg>
+                <span>全部</span>
+            </button>
+            <button class="sidebar-btn" data-filter="major" onclick="setFilter('major')">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/><path d="M12 2v4 M12 18v4 M2 12h4 M18 12h4 M4.93 4.93l2.83 2.83 M16.24 16.24l2.83 2.83 M4.93 19.07l2.83-2.83 M16.24 7.76l2.83-2.83"/></svg>
+                <span>大阿卡纳</span>
+            </button>
+            <button class="sidebar-btn" data-filter="minor" onclick="setFilter('minor')">
+                <svg viewBox="0 0 24 24"><polygon points="12 2 22 20 2 20"/></svg>
+                <span>小阿卡纳</span>
+            </button>
+            <button class="sidebar-btn" data-filter="wands" onclick="setFilter('wands')">
+                <svg viewBox="0 0 24 24"><line x1="5" y1="19" x2="19" y2="5"/><path d="M16 4h4v4 M4 20h4v-4"/></svg>
+                <span>权杖</span>
+            </button>
+            <button class="sidebar-btn" data-filter="cups" onclick="setFilter('cups')">
+                <svg viewBox="0 0 24 24"><path d="M7 3h10v6c0 2.76-2.24 5-5 5s-5-2.24-5-5V3z"/><line x1="12" y1="14" x2="12" y2="21"/><line x1="8" y1="21" x2="16" y2="21"/></svg>
+                <span>圣杯</span>
+            </button>
+            <button class="sidebar-btn" data-filter="swords" onclick="setFilter('swords')">
+                <svg viewBox="0 0 24 24"><line x1="12" y1="2" x2="12" y2="16"/><line x1="8" y1="16" x2="16" y2="16"/><line x1="12" y1="16" x2="12" y2="22"/></svg>
+                <span>宝剑</span>
+            </button>
+            <button class="sidebar-btn" data-filter="pentacles" onclick="setFilter('pentacles')">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polygon points="12 5 14.5 10 20 10 16 13.5 17.5 19 12 15.5 6.5 19 8 13.5 4 10 9.5 10"/></svg>
+                <span>星币</span>
+            </button>
+        </div>
+
+        <div id="action-sidebar">
+            <button class="sidebar-btn" onclick="ritualShuffle()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"></polyline><line x1="4" y1="20" x2="21" y2="3"></line><polyline points="21 16 21 21 16 21"></polyline><line x1="15" y1="15" x2="21" y2="21"></line><line x1="4" y1="4" x2="9" y2="9"></line></svg>
+                <span>洗牌</span>
+            </button>
+            <button class="sidebar-btn" onclick="ritualCut()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="10" width="12" height="12" rx="2"></rect><rect x="9" y="2" width="12" height="12" rx="2"></rect></svg>
+                <span>切牌</span>
+            </button>
+            <button class="sidebar-btn" onclick="ritualFan()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="4" height="16" rx="1"></rect><rect x="10" y="4" width="4" height="16" rx="1"></rect><rect x="17" y="4" width="4" height="16" rx="1"></rect></svg>
+                <span>铺开</span>
+            </button>
+            <button class="sidebar-btn" onclick="ritualCollect()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                <span>收牌</span>
+            </button>
+        </div>
+
+        <div id="hint">左右滑动浏览牌阵 · 向上拖拽抽牌</div>
+        
+        <div id="desktop"></div>
+        <div id="fan-track"></div>
+    </div>
+
+    <!-- 视图 2：后台管理 -->
+    <div id="admin-view" class="view-container" style="display: none;">
+        <div class="header-bar">
+            <div class="title">✧ 后台管理 ✧</div>
+            <div style="display: flex; gap: 8px;">
+                <button id="admin-back-btn" class="nav-btn" onclick="closeEditView()" style="display: none;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                    <span>返回列表</span>
+                </button>
+                <button class="nav-btn" onclick="toggleView('workbench')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+                    <span>工作台</span>
+                </button>
+            </div>
+        </div>
+        
+        <div class="admin-scroll-area">
+            <div id="deck-list-view">
+                <div class="admin-top-actions">
+                    <button class="btn-primary" onclick="openCreateModal()">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        新建一套牌
+                    </button>
+                    <button class="btn-primary" onclick="openImportModal()" style="background: #fff; color: var(--text-main); border: 1px solid var(--accent-dim);">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        导入配置
+                    </button>
+                </div>
+                <div id="deck-list-container">
+                    <!-- 牌组列表由 JS 渲染 -->
+                </div>
+            </div>
+
+            <div id="deck-edit-view" style="display: none;">
+                <div class="admin-top-actions" style="justify-content: center; align-items: center;">
+                    <div id="edit-deck-title" style="font-weight: bold; font-size: 16px; color: var(--text-main);"></div>
+                </div>
+                <div id="admin-list-container">
+                    <!-- 牌面列表由 JS 渲染 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= 自定义交互弹窗 ================= -->
+    <div id="modal-create" class="custom-modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-title">新建一套牌</div>
+            <input type="text" id="modal-input-name" class="modal-input" placeholder="请输入新牌组名称" value="我的新牌组">
+            <div class="modal-actions">
+                <button class="modal-btn cancel" onclick="closeModal('modal-create')">取消</button>
+                <button class="modal-btn confirm" onclick="confirmCreateDeck()">确定</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-delete" class="custom-modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-title">删除牌组</div>
+            <div class="modal-message">确定要删除这套牌组吗？<br>此操作不可恢复。</div>
+            <div class="modal-actions">
+                <button class="modal-btn cancel" onclick="closeModal('modal-delete')">取消</button>
+                <button class="modal-btn delete" onclick="confirmDeleteDeck()">删除</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-alert" class="custom-modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-title">提示</div>
+            <div class="modal-message" id="modal-alert-msg"></div>
+            <div class="modal-actions">
+                <button class="modal-btn confirm" onclick="closeModal('modal-alert')">确定</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-export" class="custom-modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-title">导出牌组配置</div>
+            <div class="modal-message">请复制以下配置码，发送给其他设备并妥善保存。</div>
+            <textarea id="export-textarea" class="modal-textarea" readonly></textarea>
+            <div class="modal-actions">
+                <button class="modal-btn cancel" onclick="closeModal('modal-export')">关闭</button>
+                <button class="modal-btn confirm" onclick="copyExportCode()" id="copy-btn">复制配置码</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-import" class="custom-modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-title">导入牌组配置</div>
+            <div class="modal-message">请在此处粘贴你备份的配置码。</div>
+            <textarea id="import-textarea" class="modal-textarea" placeholder="请粘贴配置码..."></textarea>
+            <div class="modal-actions">
+                <button class="modal-btn cancel" onclick="closeModal('modal-import')">取消</button>
+                <button class="modal-btn confirm" onclick="confirmImportDeck()">导入新牌组</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let pendingDeleteId = null;
+
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+        function showCustomAlert(msg) {
+            document.getElementById('modal-alert-msg').innerText = msg;
+            openModal('modal-alert');
+        }
+
+        let editingDeckId = null;
+
+        function toggleView(viewName) {
+            if (viewName === 'admin') {
+                document.getElementById('workbench-view').style.display = 'none';
+                document.getElementById('admin-view').style.display = 'block';
+                closeEditView(); 
+                renderDeckList(); 
+            } else {
+                document.getElementById('workbench-view').style.display = 'block';
+                document.getElementById('admin-view').style.display = 'none';
+            }
+        }
+
+        const majorArcana = ["愚者", "魔术师", "女祭司", "皇后", "皇帝", "教皇", "恋人", "战车", "力量", "隐士", "命运之轮", "正义", "倒吊人", "死神", "节制", "恶魔", "高塔", "星星", "月亮", "太阳", "审判", "世界"];
+        const suits = ["权杖", "圣杯", "宝剑", "星币"];
+        const ranks = ["王牌", "二", "三", "四", "五", "六", "七", "八", "九", "十", "侍从", "骑士", "王后", "国王"];
+        let tarotData = [...majorArcana];
+        suits.forEach(suit => ranks.forEach(rank => tarotData.push(suit + rank)));
+
+        const track = document.getElementById('fan-track');
+        const desktop = document.getElementById('desktop');
+        
+        const TOTAL = 78; 
+        const SPACING = 16; 
+        let TOTAL_W = (TOTAL - 1) * SPACING; 
+        
+        let decks = [
+            { id: 1, name: "默认牌组", cards: new Array(TOTAL).fill("") }
+        ];
+        let activeDeckId = 1; 
+        
+        let cardObjs = []; 
+        let scrollPos = TOTAL_W / 2; 
+        let velocity = 0;
+        let engineOn = false; 
+        let protrudedObj = null;
+        let ritualSequence = 0; 
+        let currentFilter = 'all'; 
+
+        let activePointerId = null;
+        let dragTarget = null;
+        let dragStartX = 0, dragStartY = 0;
+        let lastTouchX = 0;
+        let interactMode = 'idle'; 
+        let lastMoveTime = 0;
+
+        function init() {
+            track.innerHTML = ''; desktop.innerHTML = ''; cardObjs = [];
+            
+            const currentDeck = decks.find(d => d.id === activeDeckId) || decks[0];
+
+            for (let i = 0; i < TOTAL; i++) {
+                const el = document.createElement('div'); 
+                el.className = 'card'; 
+                
+                const imgSrc = currentDeck.cards[i] || '';
+                const imgStyle = imgSrc ? 'block' : 'none';
+                const nameStyle = imgSrc ? 'none' : 'block';
+
+                el.innerHTML = `
+                    <div class="card-inner">
+                        <div class="card-back"><div class="card-index"></div></div>
+                        <div class="card-front">
+                            <img class="card-image" src="${imgSrc}" style="display: ${imgStyle};" alt="${tarotData[i]}">
+                            <div class="name" style="display: ${nameStyle};">${tarotData[i]}</div>
+                        </div>
+                    </div>
+                `;
+                
+                let isMinor = i >= 22;
+                let category = 'major';
+                if (isMinor) {
+                    if (tarotData[i].includes('权杖')) category = 'wands';
+                    else if (tarotData[i].includes('圣杯')) category = 'cups';
+                    else if (tarotData[i].includes('宝剑')) category = 'swords';
+                    else if (tarotData[i].includes('星币')) category = 'pentacles';
+                }
+
+                const obj = { 
+                    el, id: i, 
+                    deckIndex: 0, 
+                    baseX: 0,     
+                    status: 'fan', 
+                    name: tarotData[i],
+                    isMinor: isMinor,
+                    category: category,
+                    offX: 0, offY: 0,
+                    protrudeY: 0 
+                };
+                
+                track.appendChild(el); 
+                cardObjs.push(obj);
+            }
+            
+            let initialPositions = cardObjs.map((_, i) => i);
+            for (let i = initialPositions.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [initialPositions[i], initialPositions[j]] = [initialPositions[j], initialPositions[i]];
+            }
+            cardObjs.forEach((o, i) => {
+                o.deckIndex = initialPositions[i];
+                if (Math.random() > 0.5) o.el.classList.add('is-reversed');
+            });
+
+            setupEvents();
+            ritualFan();
+            requestAnimationFrame(renderLoop);
+        }
+
+        function renderDeckList() {
+            const container = document.getElementById('deck-list-container');
+            container.innerHTML = '';
+            
+            decks.forEach(deck => {
+                const isActive = deck.id === activeDeckId;
+                const div = document.createElement('div');
+                div.className = `deck-item ${isActive ? 'active' : ''}`;
+                
+                div.innerHTML = `
+                    <div class="deck-info">
+                        <div class="deck-name">${deck.name}</div>
+                        <div class="deck-status">${isActive ? '● 当前应用中' : '○ 未应用'}</div>
+                    </div>
+                    <div class="deck-actions">
+                        <button class="action-btn" title="导出配置" onclick="openExportModal(${deck.id})">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                        </button>
+                        <button class="action-btn" title="编辑牌面" onclick="openEditView(${deck.id})">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                        </button>
+                        <button class="action-btn apply ${isActive ? 'active' : ''}" title="应用此牌" onclick="applyDeck(${deck.id}, this)">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                        </button>
+                        <button class="action-btn delete" title="删除" onclick="requestDeleteDeck(${deck.id})">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function openExportModal(id) {
+            const deck = decks.find(d => d.id === id);
+            if (!deck) return;
+            const exportData = { name: deck.name, cards: deck.cards };
+            const jsonStr = JSON.stringify(exportData);
+            const code = btoa(unescape(encodeURIComponent(jsonStr)));
+            document.getElementById('export-textarea').value = code;
+            document.getElementById('copy-btn').innerText = "复制配置码";
+            openModal('modal-export');
+        }
+
+        function copyExportCode() {
+            const textarea = document.getElementById('export-textarea');
+            textarea.select();
+            document.execCommand('copy');
+            document.getElementById('copy-btn').innerText = "已复制！";
+        }
+
+        function openImportModal() {
+            document.getElementById('import-textarea').value = "";
+            openModal('modal-import');
+            setTimeout(() => document.getElementById('import-textarea').focus(), 100);
+        }
+
+        function confirmImportDeck() {
+            const code = document.getElementById('import-textarea').value.trim();
+            if (!code) { showCustomAlert("配置码不能为空！"); return; }
+            try {
+                const jsonStr = decodeURIComponent(escape(atob(code)));
+                const data = JSON.parse(jsonStr);
+                if (!data.name || !Array.isArray(data.cards) || data.cards.length !== TOTAL) throw new Error("格式不正确");
+                const newId = Date.now();
+                decks.push({ id: newId, name: data.name + " (导入)", cards: data.cards });
+                renderDeckList(); closeModal('modal-import'); showCustomAlert("导入成功！");
+            } catch (e) { showCustomAlert("无效的配置码，请检查是否复制完整！"); }
+        }
+
+        function openCreateModal() {
+            document.getElementById('modal-input-name').value = "我的新牌组";
+            openModal('modal-create');
+            setTimeout(() => document.getElementById('modal-input-name').focus(), 100);
+        }
+
+        function confirmCreateDeck() {
+            const nameInput = document.getElementById('modal-input-name');
+            const name = nameInput.value.trim();
+            if (name) {
+                const newId = Date.now();
+                decks.push({ id: newId, name: name, cards: new Array(TOTAL).fill("") });
+                renderDeckList(); closeModal('modal-create');
+            } else { showCustomAlert("牌组名称不能为空！"); }
+        }
+
+        function requestDeleteDeck(id) {
+            if (decks.length <= 1) { showCustomAlert("至少需要保留一个牌组。"); return; }
+            if (id === activeDeckId) { showCustomAlert("当前正在应用的牌组无法删除，\n请先应用其他牌组。"); return; }
+            pendingDeleteId = id; openModal('modal-delete');
+        }
+
+        function confirmDeleteDeck() {
+            if (pendingDeleteId) {
+                decks = decks.filter(d => d.id !== pendingDeleteId);
+                renderDeckList(); pendingDeleteId = null; closeModal('modal-delete');
+            }
+        }
+
+        function applyDeck(id, btnElement) {
+            if (activeDeckId === id) return; 
+            activeDeckId = id;
+            const deck = decks.find(d => d.id === id);
+            cardObjs.forEach((obj, i) => {
+                const imgSrc = deck.cards[i] || '';
+                const cardImg = obj.el.querySelector('.card-image');
+                const cardName = obj.el.querySelector('.name');
+                if (imgSrc) { cardImg.src = imgSrc; cardImg.style.display = 'block'; cardName.style.display = 'none'; } 
+                else { cardImg.src = ''; cardImg.style.display = 'none'; cardName.style.display = 'block'; }
+            });
+            if (btnElement) {
+                const originalHTML = btnElement.innerHTML;
+                btnElement.innerHTML = '<span style="font-size: 11px; font-weight: bold; padding: 0 4px;">已应用</span>';
+                btnElement.style.width = 'auto'; btnElement.classList.add('active');
+                setTimeout(() => { renderDeckList(); }, 800);
+            } else { renderDeckList(); }
+        }
+
+        function openEditView(deckId) {
+            editingDeckId = deckId;
+            document.getElementById('deck-list-view').style.display = 'none';
+            document.getElementById('deck-edit-view').style.display = 'block';
+            document.getElementById('admin-back-btn').style.display = 'flex';
+            const deck = decks.find(d => d.id === deckId);
+            document.getElementById('edit-deck-title').innerText = `正在配置：${deck.name}`;
+            initAdminUI(deckId);
+        }
+
+        function closeEditView() {
+            editingDeckId = null;
+            document.getElementById('deck-edit-view').style.display = 'none';
+            document.getElementById('deck-list-view').style.display = 'block';
+            document.getElementById('admin-back-btn').style.display = 'none';
+            renderDeckList();
+        }
+
+        function initAdminUI(deckId) {
+            const adminContainer = document.getElementById('admin-list-container');
+            adminContainer.innerHTML = '';
+            const deck = decks.find(d => d.id === deckId);
+            if (!deck) return;
+            tarotData.forEach((name, i) => {
+                const row = document.createElement('div'); row.className = 'admin-list-item';
+                const indexStr = String(i + 1).padStart(2, '0');
+                row.innerHTML = `
+                    <div class="admin-item-title">${indexStr}. ${name}</div>
+                    <input type="text" class="admin-item-input" placeholder="输入图片 URL (例如: https://...)">
+                    <button class="admin-item-btn">保存</button>
+                `;
+                const inputEl = row.querySelector('.admin-item-input');
+                const btnEl = row.querySelector('.admin-item-btn');
+                inputEl.value = deck.cards[i] || ''; 
+                btnEl.onclick = () => {
+                    const newUrl = inputEl.value.trim(); deck.cards[i] = newUrl; 
+                    if (deckId === activeDeckId) {
+                        const cardImg = cardObjs[i].el.querySelector('.card-image');
+                        const cardName = cardObjs[i].el.querySelector('.name');
+                        if (newUrl) { cardImg.src = newUrl; cardImg.style.display = 'block'; cardName.style.display = 'none'; } 
+                        else { cardImg.src = ''; cardImg.style.display = 'none'; cardName.style.display = 'block'; }
+                    }
+                    const originalText = btnEl.innerText;
+                    btnEl.innerText = "已保存"; btnEl.style.background = "var(--text-main)"; btnEl.style.color = "#fff";
+                    setTimeout(() => { btnEl.innerText = originalText; btnEl.style.background = ""; btnEl.style.color = ""; }, 800);
+                };
+                adminContainer.appendChild(row);
+            });
+        }
+
+        function isMatch(o, filterType) {
+            if (filterType === 'all') return true;
+            if (filterType === 'major') return !o.isMinor;
+            if (filterType === 'minor') return o.isMinor;
+            return o.category === filterType;
+        }
+
+        function setFilter(filterType) {
+            currentFilter = filterType;
+            document.querySelectorAll('#sidebar .sidebar-btn').forEach(btn => { btn.classList.toggle('active', btn.dataset.filter === filterType); });
+            cardObjs.forEach(o => {
+                if (o.status === 'desktop' || o.status === 'returning') return; 
+                if (isMatch(o, filterType)) { if (o.status === 'hidden') { o.status = 'fan'; o.el.style.display = 'flex'; } } 
+                else { if (o.status === 'fan') { o.status = 'hidden'; o.el.style.display = 'none'; o.el.classList.remove('is-fanned'); } }
+            });
+            ritualFan();
+        }
+
+        function renderLoop() {
+            if (engineOn) {
+                if (interactMode !== 'scrolling' && Math.abs(velocity) > 0.1) { scrollPos += velocity; velocity *= 0.94; }
+                else if (interactMode !== 'scrolling') { velocity = 0; }
+                if (scrollPos < 0) { scrollPos = 0; velocity = 0; }
+                if (scrollPos > TOTAL_W) { scrollPos = TOTAL_W; velocity = 0; }
+                
+                cardObjs.forEach(obj => {
+                    if (obj.status !== 'fan') return;
+                    let renderX = obj.baseX - scrollPos;
+                    const radius = Math.max(window.innerWidth * 1.8, 800); 
+                    const angleRad = renderX / radius; 
+                    const angleDeg = angleRad * (180 / Math.PI);
+                    const yDrop = radius - radius * Math.cos(angleRad);
+                    
+                    let targetYOffset = (protrudedObj === obj) ? -40 : 0;
+                    obj.protrudeY += (targetYOffset - obj.protrudeY) * 0.08; 
+
+                    obj.el.style.transform = `translate3d(${renderX}px, ${yDrop + obj.protrudeY}px, 0) rotate(${angleDeg}deg)`;
+                    
+                    const dist = Math.abs(renderX);
+                    obj.el.style.opacity = Math.max(0, 1.2 - dist / (window.innerWidth * 0.6));
+                    obj.el.style.zIndex = Math.floor(1000 + obj.baseX);
+                });
+            }
+            requestAnimationFrame(renderLoop);
+        }
+
+        function resetProtruded() { if (protrudedObj) protrudedObj = null; }
+
+        function ritualShuffle() {
+            ritualSequence++; engineOn = false; resetProtruded();
+            const active = cardObjs.filter(o => o.status === 'fan');
+            active.forEach(o => {
+                o.el.classList.add('animating');
+                o.el.classList.remove('is-flipped', 'is-fanned'); 
+                if (Math.random() > 0.5) o.el.classList.toggle('is-reversed');
+                const rx = (Math.random() - 0.5) * window.innerWidth * 0.8; 
+                const ry = (Math.random() - 0.5) * window.innerHeight * 0.4 - 100;
+                o.el.style.opacity = "1";
+                o.el.style.transform = `translate3d(${rx}px, ${ry}px, 0) rotate(${Math.random()*360}deg)`;
+            });
+            const newIndices = active.map(o => o.deckIndex);
+            for (let i = newIndices.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newIndices[i], newIndices[j]] = [newIndices[j], newIndices[i]];
+            }
+            active.forEach((o, i) => o.deckIndex = newIndices[i]);
+        }
+
+        function ritualCut() {
+            ritualSequence++; engineOn = false; resetProtruded();
+            const active = cardObjs.filter(o => o.status === 'fan');
+            active.sort((a,b) => a.deckIndex - b.deckIndex);
+            const mid = Math.floor(active.length / 2);
+            const reverseTopStack = Math.random() > 0.5;
+            const reverseBottomStack = Math.random() > 0.5;
+            active.forEach((o, i) => {
+                o.el.classList.add('animating');
+                o.el.classList.remove('is-fanned'); 
+                const isLeft = i < mid;
+                if ((isLeft && reverseTopStack) || (!isLeft && reverseBottomStack)) o.el.classList.toggle('is-reversed');
+                const stackIdx = isLeft ? i : i - mid;
+                const side = isLeft ? -75 : 75;
+                const tx = side - (stackIdx * 0.4); 
+                const ty = -110 - (stackIdx * 0.6); 
+                o.el.style.zIndex = stackIdx;
+                o.el.style.transform = `translate3d(${tx}px, ${ty}px, 0) rotate(0deg)`;
+            });
+            setTimeout(() => {
+                active.forEach((o, i) => {
+                    const isLeft = i >= mid; 
+                    const stackIdx = isLeft ? i - mid : i;
+                    const side = isLeft ? -75 : 75;
+                    const tx = side - (stackIdx * 0.4);
+                    const ty = -110 - (stackIdx * 0.6);
+                    o.el.style.zIndex = stackIdx + (isLeft ? 100 : 0); 
+                    o.el.style.transform = `translate3d(${tx}px, ${ty}px, 0) rotate(0deg)`;
+                });
+                const topHalf = active.slice(0, mid);
+                const bottomHalf = active.slice(mid);
+                const newOrder = [...bottomHalf, ...topHalf];
+                const originalIndices = active.map(o => o.deckIndex);
+                newOrder.forEach((o, i) => o.deckIndex = originalIndices[i]);
+            }, 600);
+        }
+
+        function ritualFan() {
+            ritualSequence++; const currentSeq = ritualSequence;
+            resetProtruded(); const active = cardObjs.filter(o => o.status === 'fan');
+            active.sort((a,b) => a.deckIndex - b.deckIndex);
+            TOTAL_W = Math.max(0, (active.length - 1) * SPACING);
+            scrollPos = TOTAL_W / 2;
+            const radius = Math.max(window.innerWidth * 1.8, 800); 
+            active.forEach((o, i) => {
+                o.baseX = i * SPACING; 
+                const idxLabel = o.el.querySelector('.card-index');
+                idxLabel.innerText = i + 1;
+            });
+            active.forEach((o, i) => {
+                setTimeout(() => {
+                    if (currentSeq !== ritualSequence) return; 
+                    o.el.classList.add('animating'); o.el.classList.add('is-fanned');
+                    let renderX = o.baseX - scrollPos;
+                    const angleRad = renderX / radius; const angleDeg = angleRad * (180 / Math.PI);
+                    const yDrop = radius - radius * Math.cos(angleRad);
+                    
+                    o.protrudeY = 0;
+
+                    o.el.style.transform = `translate3d(${renderX}px, ${yDrop}px, 0) rotate(${angleDeg}deg)`;
+                    const dist = Math.abs(renderX);
+                    o.el.style.opacity = Math.max(0, 1.2 - dist / (window.innerWidth * 0.6));
+                    o.el.style.zIndex = Math.floor(1000 + o.baseX);
+                }, i * 15); 
+            });
+            const totalDealTime = active.length * 15 + 600; 
+            setTimeout(() => { if (currentSeq !== ritualSequence) return; active.forEach(o => o.el.classList.remove('animating')); engineOn = true; }, totalDealTime);
+        }
+
+        function ritualCollect() {
+            resetProtruded(); const desktopCards = cardObjs.filter(o => o.status === 'desktop');
+            if (desktopCards.length === 0) return;
+            let maxDeckIndex = Math.max(-1, ...cardObjs.map(o => o.deckIndex));
+            desktopCards.forEach((o, i) => { o.deckIndex = ++maxDeckIndex; o.status = 'returning'; setTimeout(() => { returnToFanAnimated(o); }, i * 20); });
+            setTimeout(() => { ritualFan(); }, desktopCards.length * 20 + 600);
+        }
+
+        function setupEvents() {
+            window.addEventListener('pointerdown', onPointerDown);
+            window.addEventListener('pointermove', onPointerMove, { passive: false });
+            window.addEventListener('pointerup', onPointerUp);
+            window.addEventListener('pointercancel', onPointerUp);
+        }
+
+        function onPointerDown(e) {
+            if (e.button !== 0 && e.button !== undefined) return;
+            if (e.target.closest('#sidebar') || e.target.closest('#action-sidebar') || e.target.closest('#admin-view') || e.target.closest('.custom-modal')) return;
+            const targetEl = e.target.closest('.card');
+            if (targetEl) {
+                dragTarget = cardObjs.find(o => o.el === targetEl);
+                if (dragTarget && dragTarget.status === 'returning') { dragTarget = null; return; }
+                if (dragTarget && dragTarget.status === 'desktop') {
+                    const rect = dragTarget.el.getBoundingClientRect();
+                    dragTarget.offX = e.clientX - rect.left; dragTarget.offY = e.clientY - rect.top;
+                    const maxZ = Math.max(...cardObjs.map(o => parseInt(o.el.style.zIndex) || 0));
+                    dragTarget.el.style.zIndex = maxZ + 1;
+                }
+            } else { dragTarget = null; }
+            activePointerId = e.pointerId; dragStartX = e.clientX; dragStartY = e.clientY; lastTouchX = e.clientX;
+            if (dragTarget && dragTarget.status === 'desktop') { interactMode = 'dragging_desktop'; dragTarget.el.classList.add('dragging'); }
+            else { interactMode = 'idle'; }
+            velocity = 0;
+            if (dragTarget && dragTarget.status === 'fan') {
+                const rect = dragTarget.el.getBoundingClientRect();
+                dragTarget.offX = e.clientX - rect.left; dragTarget.offY = e.clientY - rect.top;
+            }
+        }
+
+        function onPointerMove(e) {
+            if (e.pointerId !== activePointerId) return; e.preventDefault(); 
+            const dx = e.clientX - dragStartX; const dy = e.clientY - dragStartY;
+            const now = Date.now(); const dt = now - lastMoveTime || 16;
+            if (interactMode === 'idle') {
+                if (Math.abs(dx) > 10) { interactMode = 'scrolling'; resetProtruded(); }
+                else if (dy < -15 && dragTarget && dragTarget.status === 'fan') { interactMode = 'dragging'; promoteToDesktop(dragTarget, e.clientX, e.clientY); }
+            }
+            if (interactMode === 'scrolling' && engineOn) { const deltaX = e.clientX - lastTouchX; scrollPos -= deltaX; velocity = -deltaX * (16 / dt); }
+            if ((interactMode === 'dragging' || interactMode === 'dragging_desktop') && dragTarget) {
+                if (interactMode === 'dragging') { dragTarget.el.style.left = (e.clientX - 32) + 'px'; dragTarget.el.style.top = (e.clientY - 60) + 'px'; }
+                else { dragTarget.el.style.left = (e.clientX - dragTarget.offX) + 'px'; dragTarget.el.style.top = (e.clientY - dragTarget.offY) + 'px'; }
+            }
+            lastTouchX = e.clientX; lastMoveTime = now;
+        }
+
+        function onPointerUp(e) {
+            if (e.pointerId !== activePointerId) return;
+            const dist = Math.hypot(e.clientX - dragStartX, e.clientY - dragStartY);
+            if (interactMode === 'idle' && dist < 5 && dragTarget && dragTarget.status === 'fan') {
+                if (protrudedObj === dragTarget) { protrudedObj = null; } else { protrudedObj = dragTarget; }
+            }
+            if ((interactMode === 'dragging' || interactMode === 'dragging_desktop') && dragTarget) {
+                dragTarget.el.classList.remove('dragging');
+                if (interactMode === 'dragging_desktop' && dist < 5) dragTarget.el.classList.toggle('is-flipped');
+                if (e.clientY > window.innerHeight - 80) {
+                    let maxDeckIndex = Math.max(-1, ...cardObjs.map(c => c.deckIndex));
+                    dragTarget.deckIndex = maxDeckIndex + 1; dragTarget.status = 'returning';
+                    returnToFanAnimated(dragTarget); setTimeout(() => { ritualFan(); }, 600); 
+                }
+            }
+            activePointerId = null; dragTarget = null; interactMode = 'idle';
+        }
+
+        function promoteToDesktop(obj, x, y) {
+            if (obj.status === 'desktop') return; if (protrudedObj === obj) protrudedObj = null;
+            obj.status = 'desktop'; obj.el.classList.add('on-desktop', 'dragging'); obj.el.classList.remove('animating'); 
+            desktop.appendChild(obj.el);
+            const maxZ = Math.max(8000, ...cardObjs.map(o => parseInt(o.el.style.zIndex) || 0));
+            obj.el.style.zIndex = maxZ + 1;
+            obj.el.style.bottom = 'auto'; obj.el.style.margin = '0';
+            if (x && y) { obj.el.style.left = (x - 32) + 'px'; obj.el.style.top = (y - 60) + 'px'; }
+            obj.el.style.transform = `rotate(${(Math.random()-0.5)*10}deg)`; obj.el.style.opacity = '1';
+        }
+
+        function returnToFanAnimated(obj) {
+            obj.el.classList.remove('dragging');
+            let match = isMatch(obj, currentFilter);
+            let targetTop, targetLeft, angleDeg, renderX = 0, yDrop = 0;
+            const radius = Math.max(window.innerWidth * 1.8, 800); 
+            if (match) {
+                const activeCount = cardObjs.filter(c => (c.status === 'fan' || c.status === 'returning') && isMatch(c, currentFilter)).length;
+                obj.baseX = (activeCount - 1) * SPACING; TOTAL_W = Math.max(0, obj.baseX);
+                renderX = obj.baseX - scrollPos; const angleRad = renderX / radius; angleDeg = angleRad * (180 / Math.PI);
+                yDrop = radius - radius * Math.cos(angleRad);
+                targetTop = window.innerHeight - 135 + yDrop; targetLeft = window.innerWidth / 2 - 32.5 + renderX;
+            } else { renderX = 0; angleDeg = 0; yDrop = radius - radius * Math.cos(0); targetTop = window.innerHeight - 135 + yDrop; targetLeft = window.innerWidth / 2 - 32.5; }
+            obj.el.style.transition = 'left 0.5s ease-out, top 0.5s ease-out, transform 0.5s ease-out';
+            obj.el.style.left = targetLeft + 'px'; obj.el.style.top = targetTop + 'px'; obj.el.style.transform = `rotate(${angleDeg}deg)`;
+            obj.el.classList.remove('is-flipped'); 
+            setTimeout(() => {
+                if (obj.status !== 'returning') return;
+                obj.el.style.transition = ''; obj.el.classList.remove('on-desktop');
+                obj.el.style.left = ''; obj.el.style.top = ''; obj.el.style.bottom = ''; obj.el.style.margin = '';
+                if (match) { obj.status = 'fan'; obj.el.style.display = 'flex'; obj.el.style.transform = `translate3d(${renderX}px, ${yDrop}px, 0) rotate(${angleDeg}deg)`; track.appendChild(obj.el); }
+                else { obj.status = 'hidden'; obj.el.style.display = 'none'; obj.el.classList.remove('is-fanned'); track.appendChild(obj.el); }
+            }, 500);
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
