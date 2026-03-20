@@ -26,7 +26,6 @@
             font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Microsoft YaHei', sans-serif;
             color: var(--text-main);
         }
-
         .view-container { width: 100%; height: 100%; position: absolute; top: 0; left: 0; }
         
         .header-bar {
@@ -35,15 +34,13 @@
             backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(189, 162, 133, 0.15); z-index: 10000; position: relative;
         }
-
-        /* ================= 新增：顶部白色的复古花边边角美化 ================= */
+        /* 顶部白色的复古花边边角美化 */
         .header-bg-decor {
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 72px; /* 高度延伸出遮罩波浪空间 */
+            top: 0; left: 0; width: 100%; height: 72px; 
             pointer-events: none;
             z-index: 0;
             opacity: 0.95;
-            /* 巧用遮罩切出向下悬垂的圆润波浪边 */
             -webkit-mask-image: linear-gradient(black, black), radial-gradient(circle at 12px 0px, black 12px, transparent 12.5px);
             -webkit-mask-size: 100% 60px, 24px 12px;
             -webkit-mask-position: top left, bottom left;
@@ -53,7 +50,6 @@
             mask-position: top left, bottom left;
             mask-repeat: no-repeat, repeat-x;
         }
-
         .title-badge {
             font-size: 14px;
             font-weight: 900;
@@ -62,13 +58,12 @@
             background: rgba(253, 251, 247, 0.95);
             color: var(--text-main);
             padding: 6px 14px;
-            border-radius: 8px; /* 带有微小弧度的手工贴纸质感 */
+            border-radius: 8px; 
             box-shadow: 0 2px 8px rgba(122, 110, 98, 0.08), inset 0 0 0 1px rgba(189, 162, 133, 0.3);
             letter-spacing: 1px;
             backdrop-filter: blur(4px);
             -webkit-backdrop-filter: blur(4px);
         }
-        /* ================================================================ */
         
         .nav-btn {
             background: #fff; border: 1px solid var(--accent-dim); 
@@ -76,11 +71,10 @@
             cursor: pointer; transition: all 0.2s;
             box-shadow: 0 2px 8px rgba(122, 110, 98, 0.06);
             display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
-            position: relative; z-index: 1; /* 确保按钮在花边上方 */
+            position: relative; z-index: 1; 
         }
         .nav-btn:active { background: var(--bg-grad); transform: scale(0.95); }
         .nav-btn svg { width: 18px; height: 18px; opacity: 0.85; stroke-width: 2.5; }
-
         #sidebar {
             position: absolute; left: 12px; top: 70px;
             display: flex; flex-direction: column; justify-content: flex-start; gap: 8px;
@@ -109,7 +103,6 @@
             pointer-events: auto;
             margin-top: 4px;
         }
-
         #action-sidebar {
             position: absolute; right: 12px; top: 70px;
             display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-end; gap: 8px;
@@ -131,7 +124,6 @@
             pointer-events: none;
         }
         #action-sidebar-menu::-webkit-scrollbar { display: none; }
-
         #action-sidebar-menu.open {
             max-height: calc(100dvh - 140px);
             opacity: 1;
@@ -139,7 +131,6 @@
             pointer-events: auto;
             margin-top: 4px;
         }
-
         .sidebar-btn {
             pointer-events: auto; 
             background: rgba(253, 251, 247, 0.85); 
@@ -156,12 +147,10 @@
         .sidebar-btn.active { background: var(--text-main); color: #fff; border-color: var(--text-main); }
         .sidebar-btn:active { transform: scale(0.92); }
         .sidebar-btn svg { width: 22px; height: 22px; opacity: 0.9; stroke-width: 2; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; }
-
         #hint { position: absolute; top: 75px; width: 100%; text-align: center; font-size: 12px; color: #a3998f; pointer-events: none; opacity: 0.9; z-index: 2000; letter-spacing: 1px;}
         
         #desktop { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000; pointer-events: none;}
         #fan-track { position: absolute; bottom: -20px; left: 0; width: 100%; height: 260px; z-index: 500; pointer-events: auto; }
-
         .card {
             position: absolute; width: var(--card-w); height: var(--card-h);
             left: 50%; bottom: 30px; margin-left: calc(var(--card-w) / -2);
@@ -182,13 +171,11 @@
             border-radius: 8px; border: 1px solid #fff;
             display: flex; justify-content: center; align-items: center; text-align: center;
         }
-
         .card-back {
             background: #faf7f2;
             box-shadow: inset 0 0 0 3px #fff, inset 0 0 0 4px var(--accent-dim);
         }
-        .card-back::after { content: "✧"; color: var(--accent); font-size: 20px; }
-
+        .card-back::after { content: " ✧ "; color: var(--accent); font-size: 20px; }
         .card-index {
             position: absolute; top: 3px; left: 5px;
             font-size: 11px; font-weight: bold; font-family: 'Helvetica Neue', Helvetica, sans-serif;
@@ -196,7 +183,6 @@
             z-index: 2;
         }
         .card.is-fanned .card-index { opacity: 1; }
-
         .card-front {
             background: #fff; 
             color: var(--text-main);
@@ -228,15 +214,101 @@
         .card.dragging { z-index: 9999 !important; }
         .card.dragging .card-inner { box-shadow: 0 12px 25px rgba(122, 110, 98, 0.2); transform: scale(1.08); transition: transform 0.2s; }
         .card.dragging.is-flipped .card-inner { transform: rotateY(180deg) scale(1.08); }
-
-        /* ================= 后台排版样式 ================= */
+        /* 卡牌放大详情弹窗结构 */
+        #card-zoom-modal {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100dvh;
+            background: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+            z-index: 1000000;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s;
+        }
+        #card-zoom-modal.show {
+            opacity: 1; pointer-events: auto;
+        }
+        .zoom-card-container {
+            position: relative;
+            width: 55vw;             
+            max-width: 240px;        
+            aspect-ratio: 100 / 172;
+            perspective: 1200px;
+            transform: translateY(20px) scale(0.95);
+            transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.3, 1);
+        }
+        #card-zoom-modal.show .zoom-card-container {
+            transform: translateY(0) scale(1);
+        }
+        .zoom-card-inner {
+            width: 100%; height: 100%; position: relative;
+            transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1); 
+            transform-style: preserve-3d;
+            border-radius: 16px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            transform: rotateY(0deg); 
+        }
+        .zoom-card-inner.is-flipped { transform: rotateY(180deg); }
+        
+        .zoom-card-front, .zoom-card-back {
+            position: absolute; width: 100%; height: 100%;
+            -webkit-backface-visibility: hidden; backface-visibility: hidden;
+            border-radius: 16px; border: 2px solid #fff;
+            display: flex; justify-content: center; align-items: center;
+            background: #fff;
+        }
+        
+        .zoom-card-front {
+            transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+            transform: rotateZ(0deg); 
+        }
+        .zoom-card-inner.is-rotated .zoom-card-front { transform: rotateZ(180deg); }
+        
+        .zoom-card-front img {
+            width: calc(100% - 12px); height: calc(100% - 12px);
+            object-fit: cover; border-radius: 10px;
+        }
+        /* 牌意背板排版优化 */
+        .zoom-card-back {
+            transform: rotateY(180deg);
+            background: #fdfbf8; 
+            padding: 20px 16px;
+            box-shadow: inset 0 0 0 3px #fff, inset 0 0 0 4px var(--accent-dim);
+            flex-direction: column; justify-content: flex-start;
+            color: var(--text-main);
+            overflow-y: auto;
+            scrollbar-width: none;
+        }
+        .zoom-card-back::-webkit-scrollbar { display: none; }
+        
+        /* 牌意内容排版类 */
+        .m-header { display: flex; justify-content: space-between; align-items: center; width: 100%; border-bottom: 2px dashed var(--accent-dim); padding-bottom: 8px; margin-bottom: 10px; }
+        .m-status { font-size: 18px; font-weight: 900; color: #a48165; }
+        .m-status.rev { color: var(--danger); opacity: 0.8; }
+        .m-title { font-size: 16px; font-weight: bold; letter-spacing: 1px; }
+        .m-meta { display: flex; justify-content: space-between; width: 100%; font-size: 11px; background: rgba(189, 162, 133, 0.1); padding: 6px; border-radius: 4px; margin-bottom: 12px; }
+        .m-section { width: 100%; font-size: 12px; line-height: 1.6; margin-bottom: 10px; text-align: justify; }
+        .m-hl { background: rgba(234, 203, 150, 0.5); padding: 1px 4px; font-weight: bold; border-radius: 3px; display: inline-block; margin-right: 4px;}
+        .zoom-btn {
+            position: absolute; width: 48px; height: 48px; border-radius: 50%;
+            background: rgba(253, 251, 247, 0.95); border: 1px solid var(--accent-dim);
+            color: var(--text-main);
+            display: flex; justify-content: center; align-items: center;
+            cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            z-index: 100; transition: all 0.2s;
+            backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+        }
+        .zoom-btn:active { transform: scale(0.9); }
+        .zoom-btn.close-btn { top: -20px; left: -20px; }
+        .zoom-btn.moon-btn { bottom: -20px; right: -20px; }
+        .zoom-btn.rotate-btn { bottom: -20px; left: -20px; } 
+        .zoom-btn svg { width: 22px; height: 22px; stroke-width: 2.5; }
+        /* ============================================================== */
+        /* 后台排版样式 */
         .admin-scroll-area {
             height: calc(100% - 60px);
             overflow-y: auto;
             padding: 20px;
             padding-bottom: 80px;
         }
-
         .admin-top-actions {
             display: flex;
             justify-content: center;
@@ -259,7 +331,6 @@
             transition: all 0.2s;
         }
         .btn-primary:active { transform: scale(0.95); opacity: 0.9; }
-
         .deck-item {
             background: rgba(253, 251, 247, 0.85);
             border: 1px solid var(--accent-dim);
@@ -276,7 +347,6 @@
         .deck-name { font-size: 15px; font-weight: bold; color: var(--text-main); }
         .deck-status { font-size: 10px; color: var(--accent); letter-spacing: 1px; }
         .deck-item.active { border-color: var(--accent); border-width: 2px; }
-
         .deck-actions { display: flex; gap: 8px; }
         .action-btn {
             background: #fff;
@@ -292,7 +362,6 @@
         .action-btn svg { width: 17px; height: 17px; stroke-width: 2.5; }
         .action-btn.delete { color: var(--danger); border-color: rgba(217, 83, 79, 0.2); }
         .action-btn.apply.active { background: var(--text-main); color: #fff; border-color: var(--text-main); }
-
         .admin-list-item {
             background: rgba(253, 251, 247, 0.85);
             border: 1px solid var(--accent-dim);
@@ -347,8 +416,7 @@
             background: var(--bg-grad);
             transform: scale(0.92);
         }
-
-        /* ================= 自定义弹窗样式 ================= */
+        /* 自定义弹窗样式 */
         .custom-modal {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.35);
@@ -388,7 +456,6 @@
             transition: all 0.2s; box-sizing: border-box; resize: none; word-break: break-all;
         }
         .modal-textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(189, 162, 133, 0.2); }
-
         .modal-actions { display: flex; gap: 12px; justify-content: center; }
         .modal-btn {
             flex: 1; padding: 12px 0; border-radius: 20px; font-size: 14px; font-weight: bold;
@@ -401,8 +468,7 @@
     </style>
 </head>
 <body>
-
-    <!-- 全局 SVG 纹理定义，避免因 display:none 导致引用失效 -->
+    <!-- 全局 SVG 纹理定义 -->
     <svg style="width:0;height:0;position:absolute;" aria-hidden="true" focusable="false">
         <defs>
             <pattern id="plaid-pattern" width="60" height="60" patternUnits="userSpaceOnUse">
@@ -416,7 +482,6 @@
             </pattern>
         </defs>
     </svg>
-
     <!-- 视图 1：工作台 -->
     <div id="workbench-view" class="view-container">
         <div class="header-bar">
@@ -427,8 +492,13 @@
                 </svg>
             </div>
             
+            <!-- 新增：左侧书籍图案搜索按钮 -->
+            <button class="nav-btn" onclick="openSearchModal()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path></svg>
+                <span>辞典</span>
+            </button>
             <!-- 精简标题，使用奶油方格贴纸样式突出 -->
-            <div class="title-badge">✧ 链接潜意识。</div>
+            <div class="title-badge"> ✧  链接潜意识。</div>
             
             <button class="nav-btn" onclick="toggleView('admin')">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
@@ -465,7 +535,6 @@
                 </button>
             </div>
         </div>
-
         <div id="action-sidebar">
             <button class="sidebar-btn" id="action-toggle-btn" onclick="toggleActionMenu()" style="pointer-events: auto;">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"></polyline><line x1="4" y1="20" x2="21" y2="3"></line><polyline points="21 16 21 21 16 21"></polyline><line x1="15" y1="15" x2="21" y2="21"></line><line x1="4" y1="4" x2="9" y2="9"></line></svg>
@@ -489,13 +558,67 @@
                 </button>
             </div>
         </div>
-
         <div id="hint">左右滑动浏览牌阵 · 向上拖拽抽牌</div>
         
         <div id="desktop"></div>
         <div id="fan-track"></div>
     </div>
-
+    <!-- ================= 专属卡牌放大与释义面板 ================= -->
+    <div id="card-zoom-modal">
+        <div class="zoom-card-container">
+            <div class="zoom-card-inner" id="zoom-card-inner" data-current-card="">
+                <!-- 正面：放大的卡牌图片 -->
+                <div class="zoom-card-front">
+                    <img id="zoom-card-img" src="" alt="Card">
+                    <div id="zoom-card-name" style="display:none; font-size: 24px; font-weight: bold;"></div>
+                </div>
+                <!-- 背面：奶白色牌意背板 -->
+                <div class="zoom-card-back">
+                    <div class="m-header">
+                        <div class="m-status" id="meaning-status">正位</div>
+                        <div class="m-title" id="meaning-title">0. 愚人</div>
+                    </div>
+                    <div class="m-meta">
+                        <span id="meaning-element">元素：风</span>
+                        <span id="meaning-planet">行星：天王星</span>
+                    </div>
+                    <div class="m-section">
+                        <span class="m-hl">人物描述</span><br>
+                        <span id="meaning-desc">画面描绘了...</span>
+                    </div>
+                    <div class="m-section">
+                        <span class="m-hl">核心牌意</span><br>
+                        <span id="meaning-core">...</span>
+                    </div>
+                    <div class="m-section">
+                        <span class="m-hl">感情</span> <span id="meaning-love">...</span>
+                    </div>
+                    <div class="m-section">
+                        <span class="m-hl">事业</span> <span id="meaning-career">...</span>
+                    </div>
+                    <div class="m-section">
+                        <span class="m-hl">财富</span> <span id="meaning-wealth">...</span>
+                    </div>
+                    <div class="m-section" style="margin-bottom: 20px;">
+                        <span class="m-hl">建议</span> <span id="meaning-advice">...</span>
+                    </div>
+                </div>
+            </div>
+            <!-- 左上角：圆形 X 关闭按钮 -->
+            <button class="zoom-btn close-btn" onclick="closeZoomModal(event)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            
+            <!-- 左下角：圆形 旋转 按钮 -->
+            <button class="zoom-btn rotate-btn" onclick="toggleZoomRotate(event)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"></path><path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path><path d="M3 22v-6h6"></path><path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path></svg>
+            </button>
+            <!-- 右下角：圆形 月亮 牌意按钮 -->
+            <button class="zoom-btn moon-btn" onclick="toggleZoomFlip(event)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+            </button>
+        </div>
+    </div>
     <!-- 视图 2：后台管理 -->
     <div id="admin-view" class="view-container" style="display: none;">
         <div class="header-bar">
@@ -506,7 +629,7 @@
                 </svg>
             </div>
             
-            <div class="title-badge">✧ 后台管理</div>
+            <div class="title-badge"> ✧  后台管理</div>
             <div style="display: flex; gap: 8px; position: relative; z-index: 1;">
                 <button id="admin-back-btn" class="nav-btn" onclick="closeEditView()" style="display: none;">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
@@ -535,7 +658,6 @@
                     <!-- 牌组列表由 JS 渲染 -->
                 </div>
             </div>
-
             <div id="deck-edit-view" style="display: none;">
                 <div class="admin-top-actions" style="justify-content: center; align-items: center;">
                     <div id="edit-deck-title" style="font-weight: bold; font-size: 16px; color: var(--text-main);"></div>
@@ -546,8 +668,7 @@
             </div>
         </div>
     </div>
-
-    <!-- ================= 自定义交互弹窗 ================= -->
+    <!-- 自定义交互弹窗 -->
     <div id="modal-create" class="custom-modal" style="display: none;">
         <div class="modal-content">
             <div class="modal-title">新建一套牌</div>
@@ -558,7 +679,6 @@
             </div>
         </div>
     </div>
-
     <div id="modal-delete" class="custom-modal" style="display: none;">
         <div class="modal-content">
             <div class="modal-title">删除牌组</div>
@@ -569,7 +689,6 @@
             </div>
         </div>
     </div>
-
     <div id="modal-alert" class="custom-modal" style="display: none;">
         <div class="modal-content">
             <div class="modal-title">提示</div>
@@ -579,7 +698,6 @@
             </div>
         </div>
     </div>
-
     <div id="modal-export" class="custom-modal" style="display: none;">
         <div class="modal-content">
             <div class="modal-title">导出牌组配置</div>
@@ -591,7 +709,6 @@
             </div>
         </div>
     </div>
-
     <div id="modal-import" class="custom-modal" style="display: none;">
         <div class="modal-content">
             <div class="modal-title">导入牌组配置</div>
@@ -603,19 +720,59 @@
             </div>
         </div>
     </div>
-
+    <!-- 新增：牌意辞典搜索弹窗 -->
+    <div id="modal-search" class="custom-modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-title">牌意辞典</div>
+            <div class="modal-message">输入塔罗牌名，快速翻阅牌意。</div>
+            <div style="display: flex; gap: 8px; margin-bottom: 24px; align-items: center; justify-content: center;">
+                <input type="text" id="search-input-name" class="modal-input" placeholder="如: 愚者 / 圣杯二" style="margin-bottom: 0; text-align: left;" onkeypress="if(event.keyCode===13) searchAndOpenCard()">
+                <button class="modal-btn confirm" onclick="searchAndOpenCard()" style="flex: 0 0 46px; height: 44px; padding: 0; display: flex; align-items: center; justify-content: center; border-radius: 12px; margin: 0;">
+                    <!-- 搜索指南针图标 -->
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </button>
+            </div>
+            <div class="modal-actions">
+                <button class="modal-btn cancel" onclick="closeModal('modal-search')">关闭</button>
+            </div>
+        </div>
+    </div>
     <script>
         let pendingDeleteId = null;
-
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
         function showCustomAlert(msg) {
             document.getElementById('modal-alert-msg').innerText = msg;
             openModal('modal-alert');
         }
-
+        /* ================= 新增补全：牌意辞典搜索功能 ================= */
+        function openSearchModal() {
+            document.getElementById('search-input-name').value = '';
+            openModal('modal-search');
+            setTimeout(() => document.getElementById('search-input-name').focus(), 100);
+        }
+        function searchAndOpenCard() {
+            const inputEl = document.getElementById('search-input-name');
+            const searchTerm = inputEl.value.trim();
+            if (!searchTerm) {
+                showCustomAlert("请输入要搜索的牌名！");
+                return;
+            }
+            // 模糊搜索逻辑
+            let foundCard = cardObjs.find(c => c.name === searchTerm);
+            if (!foundCard) {
+                foundCard = cardObjs.find(c => c.name.includes(searchTerm) || searchTerm.includes(c.name));
+            }
+            if (foundCard) {
+                closeModal('modal-search');
+                // 直接调起底层放大引擎
+                openZoomModal(foundCard);
+            } else {
+                showCustomAlert("未找到匹配的塔罗牌，请检查名称是否正确（如：愚者、权杖王牌）。");
+            }
+        }
+        /* ============================================================== */
         let editingDeckId = null;
-
         function toggleView(viewName) {
             if (viewName === 'admin') {
                 document.getElementById('workbench-view').style.display = 'none';
@@ -627,20 +784,349 @@
                 document.getElementById('admin-view').style.display = 'none';
             }
         }
-
         const majorArcana = ["愚者", "魔术师", "女祭司", "皇后", "皇帝", "教皇", "恋人", "战车", "力量", "隐士", "命运之轮", "正义", "倒吊人", "死神", "节制", "恶魔", "高塔", "星星", "月亮", "太阳", "审判", "世界"];
         const suits = ["权杖", "圣杯", "宝剑", "星币"];
         const ranks = ["王牌", "二", "三", "四", "五", "六", "七", "八", "九", "十", "侍从", "骑士", "王后", "国王"];
         let tarotData = [...majorArcana];
         suits.forEach(suit => ranks.forEach(rank => tarotData.push(suit + rank)));
-
+        // ================= 完整牌意数据库 (78张全集) =================
+        const tarotMeanings = {
+            "愚者": { element: "风元素", planet: "天王星",
+                desc: "乐天派，充满活力，爱好冒险。凭感觉行事，不在意他人的看法，活在当下的乐观主义者。身处悬崖边缘却不知危险，白狗在脚边提醒着未知的挑战。",
+                up: { core: "新事物的开端，充满潜力和未知；有勇气追求内心的想法；自由奔放。", love: "旅途中的恋情，单纯本能的爱，一见钟情。", career: "好奇心强，勇于试错，适合自由创造类工作。", wealth: "赚钱轻松但不善理财，注意风险。", advice: "遵循内心，勇敢迈出第一步，别太在乎成败。" },
+                rev: { core: "过于鲁莽冲动，缺乏计划；错失良机；逃避责任。", love: "感情不稳定，容易被骗，不负责任的暧昧。", career: "工作频频失误，缺乏长远规划，频繁跳槽。", wealth: "过度挥霍，容易因冲动投资导致财务危机。", advice: "三思而后行，不要盲目跳入未知的深渊。" } },
+            "魔术师": { element: "风元素", planet: "水星",
+                desc: "拥有无限潜能的创造者。桌面上摆放着四大元素（权杖、圣杯、宝剑、星币），右手持法杖指向天空，左手指向大地，代表沟通上下界的能量。",
+                up: { core: "具备一切成功的资源；沟通能力强；主动出击；充满自信的开始。", love: "充满魅力，主动追求，沟通顺畅，浪漫的展开。", career: "工作能力强，适合沟通、销售、策划类职位，得心应手。", wealth: "依靠才华和沟通能力赚钱，财运亨通。", advice: "相信自己的能力，现在是采取行动的最佳时机。" },
+                rev: { core: "缺乏自信或能力不足；沟通不畅；欺骗或夸大其词。", love: "花言巧语，缺乏真诚，沟通出现误会。", career: "才华受限，计划难以推进，提防职场欺诈。", wealth: "容易因为虚假信息破财，不宜盲目投资。", advice: "充实自己，谨言慎行，不要轻易许下无法兑现的诺言。" } },
+            "女祭司": { element: "水元素", planet: "月亮",
+                desc: "端坐于黑白双柱之间的智慧象征，手持卷轴，脚踏新月。她代表着潜意识、直觉与内在的平静，是通往神秘知识的门户。",
+                up: { core: "直觉敏锐；深思熟虑；内在的智慧；静止与等待。", love: "柏拉图式的恋爱，隐藏在心底的感情，单相思。", career: "适合研究、教育、心理学等工作；需要冷静思考。", wealth: "理财保守，善于储蓄，不宜进行高风险投资。", advice: "倾听你内心的声音，保持冷静，暂缓行动。" },
+                rev: { core: "直觉被蒙蔽；情绪化；过度理性导致冷漠；缺乏内在平静。", love: "情绪起伏大，冷战，难以表达真实的感情。", career: "缺乏判断力，粗心大意，过于神经质导致工作失误。", wealth: "冲动消费，因情绪不佳而破财。", advice: "不要被表象迷惑，找回内心的平静再做决定。" } },
+            "皇后": { element: "土元素", planet: "金星",
+                desc: "象征丰饶、母性与自然的女性。她身穿华丽长袍，坐在舒适的靠椅上，周围是麦田与瀑布，代表着物质的丰盛与感官的享受。",
+                up: { core: "丰收与富足；充满母爱与关怀；享受生活；孕育新生命或新计划。", love: "充满安全感与包容的爱，感情修成正果，婚姻美满。", career: "工作环境舒适，人际关系融洽，适合艺术或服务行业。", wealth: "财运极佳，物质生活丰裕，投资回报丰厚。", advice: "慷慨地给予爱与关怀，享受生命带给你的丰盛。" },
+                rev: { core: "过度溺爱导致窒息；物质匮乏或过度挥霍；虚荣与嫉妒。", love: "占有欲过强，感情出现裂痕，意外怀孕。", career: "懒散怠惰，缺乏进取心，工作停滞不前。", wealth: "挥霍无度，盲目追求奢侈品导致财务紧张。", advice: "节制你的欲望，学会独立，不要过度依赖他人。" } },
+            "皇帝": { element: "火元素", planet: "白羊座",
+                desc: "威严的统治者，坐在饰有公羊头的石座上，手持权杖与宝球。他代表着世俗的权力、秩序、规则与强大的掌控力。",
+                up: { core: "建立秩序；强有力的领导；物质成功；规则与权威。", love: "稳重可靠但略显强势的伴侣，感情稳定缺乏浪漫。", career: "极强的领导力，适合管理层，事业稳步上升。", wealth: "财富积累稳定，适合投资稳健的实体产业。", advice: "承担起你的责任，用理性和规则去掌控局面。" },
+                rev: { core: "专制独裁；滥用权力；缺乏自律；失去控制。", love: "大男子主义，关系中充满压迫感，甚至暴力。", career: "管理混乱，刚愎自用导致团队反叛，事业受挫。", wealth: "因固执己见而破财，财务管理失控。", advice: "放下你的傲慢，学会倾听他人的意见，不要过于死板。" } },
+            "教皇": { element: "土元素", planet: "金牛座",
+                desc: "精神领域的权威，坐在两根柱子之间，向两名信徒传授教义。代表着传统、信仰、社会规范与指引。",
+                up: { core: "遵循传统与规范；寻求专业指导；精神契合；贵人相助。", love: "传统的婚姻，相亲认识，长辈看好的感情。", career: "在传统行业稳步发展，有良师益友的提携。", wealth: "收入稳定，适合正规的理财渠道，不宜投机。", advice: "遵守规则，寻求专业人士的建议，不要标新立异。" },
+                rev: { core: "打破传统；反叛精神；盲从权威导致受骗；孤立无援。", love: "遭到长辈反对的恋情，价值观不合，解除婚约。", career: "职场潜规则，遭到小人排挤，摒弃传统的做事方法。", wealth: "容易因为盲信他人而遭受财务损失。", advice: "敢于质疑权威，坚持自己的独立思考。" } },
+            "恋人": { element: "风元素", planet: "双子座",
+                desc: "亚当与夏娃在伊甸园中，大天使拉斐尔在上方赐予祝福。代表着爱情、和谐的结合以及面临重大选择。",
+                up: { core: "美好的爱情；完美的合作关系；面临重要的价值观选择。", love: "情投意合，浪漫的爱情，充满吸引力，灵魂伴侣。", career: "极佳的合伙关系，沟通顺畅，面临事业的好机会。", wealth: "合作生财，在轻松愉快的氛围中获得收益。", advice: "倾听内心的声音，做出遵循你价值观的选择。" },
+                rev: { core: "感情破裂；错误的决定；背叛或三角关系；合作失败。", love: "争吵不断，面临分手，诱惑导致的出轨。", career: "合作破裂，沟通不畅，做出了错误的职业规划。", wealth: "因感情纠纷或合作失利导致破财。", advice: "重新审视你们的关系，对自己的选择负责。" } },
+            "战车": { element: "水元素", planet: "巨蟹座",
+                desc: "意志坚定的勇士驾驭着由黑白两只狮身人面兽拉着的战车。代表着意志力、克服困难、胜利与行动力。",
+                up: { core: "克服重重困难获得胜利；极强的意志力；积极的行动；控制对立面。", love: "主动出击的爱情，虽然有波折但能克服，感情迅速升温。", career: "充满干劲，竞争中获胜，事业迎来快速发展期。", wealth: "通过努力工作获得丰厚回报，动中生财。", advice: "坚定信念，掌控局面，勇敢地向前冲。" },
+                rev: { core: "失去控制；方向错误；冲突与挫败；冲动行事。", love: "冲突不断，互不让步，感情面临失控甚至分手。", career: "遭遇强劲对手，计划受阻，精力分散导致失败。", wealth: "因冲动投资或交通意外造成财务损失。", advice: "暂缓脚步，重新调整方向，不要硬碰硬。" } },
+            "力量": { element: "火元素", planet: "狮子座",
+                desc: "一位温柔的女性安抚着一头凶猛的狮子。代表着用柔情、耐心和内在的勇气去克服本能与恐惧。",
+                up: { core: "内在的勇气；以柔克刚；耐心与毅力；战胜恐惧与本能。", love: "包容的爱，能够化解矛盾，关系深厚且坚定。", career: "充满韧性，能够处理棘手的问题，深受同事信赖。", wealth: "稳健的投资，不急于求成，最终获得回报。", advice: "用耐心和温柔去化解危机，你比想象中更强大。" },
+                rev: { core: "失去勇气；被本能或情绪控制；软弱退缩；失去信心。", love: "关系失衡，被对方压制，缺乏维系感情的勇气。", career: "屈服于困难，缺乏自信，工作表现软弱无力。", wealth: "因怯懦错失良机，或因情绪失控破财。", advice: "找回你的自信，直面内心的恐惧。" } },
+            "隐士": { element: "土元素", planet: "处女座",
+                desc: "一位孤独的老者提着指路明灯，站在冰天雪地的山巅。代表着内省、孤独、探索内心真理与寻找人生指引。",
+                up: { core: "寻求内在智慧；暂时退避反省；独自探索；谨慎行事。", love: "享受独处，暗恋，或者关系进入冷静期，需要空间。", career: "专心钻研，适合独立工作，不盲从大流。", wealth: "保守理财，看淡物质，精神富足大于物质财富。", advice: "暂时从喧嚣中抽身，去倾听自己内心的真实声音。" },
+                rev: { core: "过度孤僻导致孤立；拒绝他人帮助；固执己见；内心迷茫。", love: "过度封闭内心，导致沟通断裂，错失良缘。", career: "不合群，闭门造车导致工作受阻，缺乏团队精神。", wealth: "因固执错失投资机会，财务状况停滞不前。", advice: "不要过度封闭自己，适时接受他人的帮助与建议。" } },
+            "命运之轮": { element: "火元素", planet: "木星",
+                desc: "巨大的轮盘不断旋转，四角有四大元素的象征。代表着不可抗拒的命运、转折点、好运以及轮回。",
+                up: { core: "命运的转折点；好运降临；命中注定的相遇；顺应变化的趋势。", love: "命中注定的缘分，一见钟情，关系迎来关键的转机。", career: "抓住机遇，事业出现意想不到的良好发展。", wealth: "偏财运极佳，时来运转，意外之财。", advice: "顺应命运的安排，抓住眼前稍纵即逝的机会。" },
+                rev: { core: "运气不佳；遭遇挫折；抗拒改变导致痛苦；原地踏步。", love: "错在不对的时间遇到对的人，缘分未到，关系恶化。", career: "错失良机，计划赶不上变化，事业陷入低谷。", wealth: "财运不济，投资失利，注意避免赌博和投机。", advice: "接受现实，不要逆势而为，耐心等待下一个周期的到来。" } },
+            "正义": { element: "风元素", planet: "天秤座",
+                desc: "正义女神一手持剑，一手持天平，端坐于宝座之上。代表着公平、公正、理性决策以及因果报应。",
+                up: { core: "公平公正的裁决；理性与平衡；契约精神；承担责任。", love: "理性的感情，双方付出平等，可能面临婚姻登记或法律程序。", career: "合同顺利签订，考核公平，适合法律、财务等严谨工作。", wealth: "收支平衡，获得应得的报酬，理财规划合理。", advice: "保持客观理性，做出的决定必须经得起良心的考验。" },
+                rev: { core: "不公的待遇；偏见与偏袒；毁约；逃避责任或法律纠纷。", love: "关系失衡，付出与回报不成正比，面临离婚或争财产。", career: "遭遇职场不公，合同陷阱，考核被暗箱操作。", wealth: "财务纠纷，官司缠身，收支严重失衡。", advice: "警惕偏见，勇于维护自己的合法权益。" } },
+            "倒吊人": { element: "水元素", planet: "海王星",
+                desc: "一名男子被倒吊在T字形树脊上，头部散发着光芒，神情安详。代表着自我牺牲、换位思考、短暂的停滞与顿悟。",
+                up: { core: "自愿的牺牲；换个角度看问题；暂时的停滞以换取觉醒。", love: "为了对方默默付出，感情处于停滞期，需要耐心等待。", career: "项目延期，暂时处于低谷，需要换一种思维方式破局。", wealth: "不宜急于求财，可能会为了长远目标暂时牺牲眼前利益。", advice: "换个角度看世界，顺其自然，不要急于挣脱目前的束缚。" },
+                rev: { core: "无谓的牺牲；钻牛角尖；白费心机；挣扎与急躁。", love: "付出得不到回报，单方面死撑，或者终于决定放弃。", career: "拒绝改变，努力用错了方向，导致徒劳无功。", wealth: "投资被套牢，因不甘心而造成更大的损失。", advice: "停止无意义的自我感动，该放手时就放手。" } },
+            "死神": { element: "水元素", planet: "天蝎座",
+                desc: "骑着白马的骷髅死神正在收割生命，远处有冉冉升起的太阳。代表着结束、彻底的转变、旧事物的毁灭与新生的开始。",
+                up: { core: "旧事物的彻底结束；必然的转变；除旧布新；割舍过去。", love: "一段感情的彻底结束，分手，但也意味着迎接新的开始。", career: "离职、转行或项目终止，必须接受改变才能迎来新生。", wealth: "旧的财务模式崩溃，需要彻底重组资产。", advice: "接受结束的事实，唯有放下过去，才能拥抱未来。" },
+                rev: { core: "抗拒改变；害怕结束；拖泥带水；在痛苦中挣扎。", love: "藕断丝连，无法割舍一段有害的关系，互相折磨。", career: "害怕失业而死守没有前途的工作，错失转型的时机。", wealth: "财务状况持续恶化，不愿面对现实。", advice: "不要抗拒必然的改变，长痛不如短痛。" } },
+            "节制": { element: "火元素", planet: "射手座",
+                desc: "大天使米迦勒将水在两个圣杯之间来回倾倒，双脚分别踏在陆地和水中。代表着平衡、调和、净化与适度。",
+                up: { core: "极佳的平衡与调和；适度与节制；净化心灵；沟通融洽。", love: "双方沟通顺畅，性格互补，感情在平稳中升温。", career: "人际关系和谐，能平衡多方利益，工作稳步推进。", wealth: "收支极度平衡，理财观念健康，细水长流。", advice: "保持内心的平和，寻找折中与平衡的解决方案。" },
+                rev: { core: "失去平衡；过度放纵；沟通不良；情绪失控。", love: "缺乏沟通，性格冲突放大，感情失衡甚至破裂。", career: "人际关系紧张，无法协调团队，精力被无谓消耗。", wealth: "过度消费，沉迷享乐导致财务状况失衡。", advice: "节制你的欲望，重新找回生活的节奏与平衡。" } },
+            "恶魔": { element: "土元素", planet: "摩羯座",
+                desc: "长着羊角的恶魔坐在祭坛上，一对男女被锁链拴在祭坛下方，但锁链其实很松。代表着欲望、束缚、物质沉迷与诱惑。",
+                up: { core: "受到物质或欲望的诱惑；被不良习惯束缚；沉迷肉欲；执念。", love: "充满肉体吸引力但缺乏真心的关系，虐恋，或被第三者诱惑。", career: "为了利益不择手段，陷入职场黑幕，被高薪工作束缚。", wealth: "通过不正当手段获利，或者沉迷赌博、过度消费。", advice: "看清束缚你的究竟是什么，你其实有能力挣脱它。" },
+                rev: { core: "摆脱控制与诱惑；戒除恶习；重获自由；看破虚妄。", love: "看清烂桃花的本质，果断抽身，摆脱有害的关系。", career: "辞去压抑的工作，拒绝职场诱惑，找回职业初心。", wealth: "停止挥霍，开始理智规划财务，还清债务。", advice: "恭喜你挣脱了枷锁，迎接心灵的自由吧。" } },
+            "高塔": { element: "火元素", planet: "火星",
+                desc: "雷电击中高塔，塔顶的王冠掉落，人们从高塔上绝望地坠落。代表着突如其来的灾难、毁灭性的打击、打破虚假的认知。",
+                up: { core: "突发的灾难或变故；毁灭性的打击；价值观崩塌；意外事故。", love: "突如其来的分手或背叛，发现惊人的秘密，关系瞬间崩塌。", career: "公司倒闭，突遭解雇，或是项目遭遇不可抗力的毁灭。", wealth: "遭遇破产、被骗或巨大的意外财产损失。", advice: "不要试图挽救崩塌的幻象，在废墟中寻找重生的力量。" },
+                rev: { core: "危机被暂时延缓；逃避现实；内心深处的恐慌；难以避免的改变。", love: "死撑着不愿面对感情破裂的事实，危机仍在地底酝酿。", career: "工作环境摇摇欲坠，你却选择视而不见，自欺欺人。", wealth: "财务危机已显现，依然抱有侥幸心理不愿止损。", advice: "面对现实吧，逃避只会让最终的崩溃更加痛苦。" } },
+            "星星": { element: "风元素", planet: "水瓶座",
+                desc: "一位裸体女子在夜空下倾倒生命之水，天空中闪烁着八角星。代表着希望、宁静、灵感、疗愈与未来的指引。",
+                up: { core: "充满希望与灵感；心灵的疗愈；美好的憧憬；愿望达成。", love: "理想的感情状态，充满希望和浪漫，彼此心灵契合。", career: "充满创造力，前景光明，适合艺术和创意领域。", wealth: "投资前景看好，财务状况逐渐好转，充满希望。", advice: "保持乐观，你的灵感和直觉将指引你走向光明。" },
+                rev: { core: "失去希望；感到绝望与孤立；好高骛远；灵感枯竭。", love: "对感情失去信心，理想幻灭，沟通充满隔阂。", career: "目标定得太高不切实际，创意枯竭，工作缺乏动力。", wealth: "盲目乐观导致投资失败，财务状况令人失望。", advice: "脚踏实地，不要让虚幻的期望掩盖了真实的自己。" } },
+            "月亮": { element: "水元素", planet: "双鱼座",
+                desc: "满月之下，狗和狼对着月亮吠叫，一只龙虾从水中爬出。代表着潜意识的恐惧、迷惑、不安、欺骗与未知的变数。",
+                up: { core: "内心的恐惧与不安；隐瞒与欺骗；局势不明朗；直觉的警告。", love: "充满猜忌与不安的关系，可能有隐瞒或第三者介入。", career: "职场中充满小人和暗箭，局势混乱，容易做错决定。", wealth: "提防金融诈骗，财务状况不明朗，不宜进行任何投资。", advice: "不要在黑夜中盲目赶路，等局势明朗再做决定。" },
+                rev: { core: "迷雾散去；真相大白；摆脱恐惧；走出低谷。", love: "解开误会，看清对方的真实面目，走出感情的阴霾。", career: "职场黑幕被揭露，局势明朗，重新找到工作方向。", wealth: "识破骗局，挽回损失，财务状况逐渐明朗。", advice: "真相即将显现，相信自己的直觉，勇敢面对事实。" } },
+            "太阳": { element: "火元素", planet: "太阳",
+                desc: "灿烂的太阳下，一个快乐的赤裸孩童骑在白马上。代表着成功、活力、纯真、喜悦与生命力。",
+                up: { core: "巨大的成功与喜悦；充满活力与能量；前景一片光明；纯真与快乐。", love: "热情洋溢的爱情，关系公开且受到祝福，可能有添丁之喜。", career: "事业蒸蒸日上，获得极大的认可与成功，充满干劲。", wealth: "财运极其旺盛，投资大获全胜，物质丰盈。", advice: "尽情享受属于你的高光时刻，将你的热情传递给周围的人。" },
+                rev: { core: "成功被延迟；热情减退；缺乏自信；快乐打折。", love: "感情出现小波折，热情消退，但整体仍然乐观。", career: "项目进展缓慢，未能达到预期的完美结果，稍微受挫。", wealth: "收益不如预期，或者因为过度乐观而盲目消费。", advice: "不要因为小挫折而失去信心，太阳只是暂时被云层遮挡。" } },
+            "审判": { element: "火元素", planet: "冥王星",
+                desc: "大天使加百列吹响号角，死者从坟墓中苏醒起立。代表着觉醒、重生、因果清算、重要的决定与自我救赎。",
+                up: { core: "关键的转折点；内心的觉醒与重生；过去的努力得到公正的评价。", love: "破镜重圆，或是经历了重大考验后感情得到升华。", career: "迎来重要的考核或晋升，过去的努力终于得到回报。", wealth: "之前的投资获得清算与回报，财务状况迎来新生。", advice: "诚实面对自己的过去，做出决定，迎接新生的召唤。" },
+                rev: { core: "拒绝改变；逃避内心的声音；因果报应的惩罚；缺乏决断力。", love: "死不悔改导致关系彻底破裂，逃避感情中的问题。", career: "考核失败，因过去的错误受到惩罚，错失晋升机会。", wealth: "为过去的财务错误买单，遭受损失。", advice: "不要再自欺欺人，逃避只会让你永远困在坟墓里。" } },
+            "世界": { element: "土元素", planet: "土星",
+                desc: "一位女子在由桂冠围绕的圆环中舞动，四角是四大元素的终极形态。代表着圆满、完成、成功、旅行以及新的轮回境界。",
+                up: { core: "完美的结局；目标的达成；身心圆满；开启新的更高轮回。", love: "修成正果的完美感情，步入婚姻殿堂，灵魂的绝对契合。", career: "项目圆满完成，达到事业巅峰，名利双收。", wealth: "财富积累达到理想状态，极其丰盛与富足。", advice: "尽情享受你的完美胜利，准备迎接下一个更高层次的挑战。" },
+                rev: { core: "接近成功却功亏一篑；拖延导致无法完成；缺乏远见；不完美。", love: "对现状不满意，感情缺乏实质性的进展，迟迟不肯承诺。", career: "项目在最后关头卡壳，无法完美收尾，感到挫败。", wealth: "资金未能如期到位，投资回报未达到理想预期。", advice: "找出最后缺失的那一块拼图，不要在终点线前放弃。" } },
+            // ================= 权杖牌组 =================
+            "权杖王牌": { element: "火元素", planet: "火星",
+                desc: "一只从云中伸出的手紧握一根生机勃勃的权杖，绿叶发芽，背景是城堡。代表创造力、新机遇、激情的开端。",
+                up: { core: "行动的起点；充满灵感与激情；全新的机遇；创造力迸发。", love: "充满激情的新恋情，热烈的追求，关系的新阶段。", career: "接手新项目，创业的冲动，充满干劲和创造力的时期。", wealth: "有新的赚钱点子，适合开展新业务。", advice: "抓住灵感，大胆去行动，现在是开始的最佳时机。" },
+                rev: { core: "计划受阻；缺乏动力或灵感；精力分散；错失良机。", love: "热情减退，承诺难以兑现，关系缺乏进展。", career: "项目难产，缺乏执行力，方向不明确。", wealth: "新投资面临延期或受挫，谨慎投入。", advice: "重新找回初心，不要三分钟热度。" } },
+            "权杖二": { element: "火元素", planet: "火星",
+                desc: "领主站在城墙上，一手拿着地球仪，一手扶着权杖，眺望远方的海洋。代表远见、规划、选择、跳出舒适区。",
+                up: { core: "宏大的规划；面临选择；不安于现状；掌控全局。", love: "对未来进行规划的感情，异地恋，或者在关系中握有主导权。", career: "制定长远战略，寻求扩张，面临升职或跳槽的选择。", wealth: "财务状况稳健，有跨国或跨领域的投资意向。", advice: "放眼未来，大胆规划，不要局限于眼前的成就。" },
+                rev: { core: "犹豫不决；害怕未知的风险；计划受阻；固步自封。", love: "对未来感到迷茫，不敢做出承诺，害怕异地或改变。", career: "缺乏远见，错失扩张机会，被困在不喜欢的岗位上。", wealth: "因犹豫错失投资良机，或海外投资受挫。", advice: "勇敢跳出舒适区，不要因为害怕未知而止步不前。" } },
+            "权杖三": { element: "火元素", planet: "太阳",
+                desc: "商人背对画面，目送自己的船队远航，三根权杖稳稳扎根。代表探索、远见、合作、计划的顺利开展。",
+                up: { core: "前瞻性的视野；计划顺利推进；团队合作；海外发展。", love: "感情发展顺利，开始共同憧憬未来，建立长远的默契。", career: "项目进展顺利，团队合作默契，业务向外扩张。", wealth: "贸易或合作带来丰厚利润，长线投资开始见效。", advice: "保持开阔的视野，积极寻求合作，让计划扬帆起航。" },
+                rev: { core: "计划延误；合作不顺；目光短浅；孤立无援。", love: "对未来的期望不一致，缺乏共同目标，异地恋出现危机。", career: "项目受阻，团队协作出现问题，对外拓展失败。", wealth: "合作破裂导致财务受损，投资回报延期。", advice: "重新评估你的计划，解决团队沟通问题。" } },
+            "权杖四": { element: "火元素", planet: "金星",
+                desc: "两名女子在由四根权杖和花环搭成的彩门前欢呼，背景是喜庆的城堡。代表庆祝、和谐、稳定、里程碑式的成功。",
+                up: { core: "阶段性的胜利；庆祝与欢乐；和谐稳定的环境；建立根基。", love: "感情进入稳定期，同居或订婚，充满安全感与幸福。", career: "项目成功落地，获得团队肯定，工作环境和谐。", wealth: "财务稳定，适合置产或进行长期稳健的投资。", advice: "享受此刻的欢愉，为你所取得的里程碑庆祝吧。" },
+                rev: { core: "稳定被打破；庆祝延期；内心的不安全感；环境不和。", love: "婚礼或同居计划推迟，家庭内部出现不和与矛盾。", career: "项目遭遇变故无法如期完成，团队氛围紧张。", wealth: "置产计划受挫，或面临意外的家庭开销。", advice: "找出破坏稳定的根源，不要急于庆祝。" } },
+            "权杖五": { element: "火元素", planet: "土星",
+                desc: "五个年轻人手持权杖互相比划，像是在混战又像是在演习。代表竞争、冲突、意见不合、内耗。",
+                up: { core: "激烈的竞争；意见分歧；混乱与内耗；不打不相识。", love: "关系中充满争吵和摩擦，外部竞争者出现，意见难以统一。", career: "职场竞争激烈，团队内斗，项目推进充满阻力。", wealth: "陷入财务纠纷，竞争导致利润受损。", advice: "正视良性竞争，在冲突中寻找共识，避免无谓的内耗。" },
+                rev: { core: "逃避冲突；内部妥协；竞争结束；问题被掩盖。", love: "勉强妥协以维持表面和平，或者彻底厌倦了争吵而退缩。", career: "竞争尘埃落定，或为了避免冲突而采取逃避态度。", wealth: "财务纠纷逐渐平息，但可能以妥协为代价。", advice: "逃避解决不了问题，但如果是无意义的争吵，适时退出是明智的。" } },
+            "权杖六": { element: "火元素", planet: "木星",
+                desc: "骑着白马的胜利者戴着桂冠，周围是欢呼的人群和高举的权杖。代表胜利、荣耀、被认可、自信。",
+                up: { core: "获得胜利与荣耀；公众的认可；充满自信；处于领导地位。", love: "感情受到众人的祝福，关系取得突破性进展，骄傲的伴侣。", career: "项目大获成功，升职加薪，成为团队的焦点与领袖。", wealth: "投资获得显著回报，因成就而带来财富增长。", advice: "尽情享受你的胜利与荣耀，你的努力值得被认可。" },
+                rev: { core: "骄兵必败；缺乏认可；名誉受损；从高处跌落。", love: "因为过于骄傲或爱面子导致感情破裂，不被看好的关系。", career: "遭遇挫折，功劳被抢，失去领导地位，公众形象受损。", wealth: "因盲目自信导致投资失利，名誉受损引发财务危机。", advice: "保持谦逊，反思失败的原因，不要被虚荣心蒙蔽。" } },
+            "权杖七": { element: "火元素", planet: "火星",
+                desc: "一个男子站在高处，手持权杖勇敢地抵御下方攻来的六根权杖。代表防御、坚持立场、面对挑战、勇气。",
+                up: { core: "坚守阵地；面临众多挑战但占据优势；毫不退缩的勇气。", love: "为了维护感情而对抗外界的压力，坚守自己的选择。", career: "面临激烈的职场竞争或反对意见，但你能凭实力守住地位。", wealth: "顶住经济压力，成功捍卫自己的财产或利益。", advice: "不要退缩，你拥有居高临下的优势，坚持你的立场。" },
+                rev: { core: "失去优势；寡不敌众；妥协退缩；自信心受挫。", love: "无法承受外界压力而放弃感情，失去守护对方的勇气。", career: "竞争中处于劣势，被反对意见淹没，地位岌岌可危。", wealth: "无力应对财务危机，资产流失，防线崩溃。", advice: "如果实在难以支撑，学会战略性撤退，不要做无谓的消耗。" } },
+            "权杖八": { element: "火元素", planet: "水星",
+                desc: "八根权杖如箭一般在空中疾驰，背景是开阔的风景。代表迅速的发展、消息、旅行、快节奏的行动。",
+                up: { core: "迅速的行动与进展；好消息传来；旅行；打破僵局。", love: "一见钟情，感情进展神速，突如其来的浪漫表白。", career: "项目进展顺利且迅速，沟通高效，即将收到好消息。", wealth: "资金周转迅速，短期投资获得快节奏的回报。", advice: "跟上节奏，趁热打铁，现在是全速前进的时候。" },
+                rev: { core: "行动受阻；延误；冲动行事导致的混乱；沟通不良。", love: "感情发展过快导致隐患，或者沟通充满误会，关系停滞。", career: "项目延期，计划赶不上变化，欲速则不达。", wealth: "资金流转出现问题，冲动投资导致套牢。", advice: "放慢脚步，理清思路，不要为了赶进度而盲目行动。" } },
+            "权杖九": { element: "火元素", planet: "月亮",
+                desc: "一个头上绑着绷带的男子紧握一根权杖，警惕地守卫着身后的八根权杖。代表疲惫但坚持、最后的防线、警惕、韧性。",
+                up: { core: "受伤但依然坚守；极强的韧性；防御与警惕；最后关头。", love: "曾在感情中受伤，现在变得极度警惕和自我保护。", career: "项目进入最后也是最艰难的攻坚阶段，咬牙坚持。", wealth: "财务状况紧张但仍能守住底线，保守理财。", advice: "你已经走了很远，保持警惕，咬紧牙关撑过这最后的一关。" },
+                rev: { core: "防线崩溃；彻底精疲力竭；放弃抵抗；过度的被害妄想。", love: "心力交瘁，最终放弃了这段充满戒备的疲惫关系。", career: "压力过大导致崩溃，项目在最后关头失败。", wealth: "防线失守，破产或遭遇重大的财产流失。", advice: "如果你真的已到极限，允许自己放下重担去休息。" } },
+            "权杖十": { element: "火元素", planet: "土星",
+                desc: "一个男子艰难地抱着十根沉重的权杖走向前方的村庄，几乎被压弯了腰。代表沉重的负担、压力、责任过大、濒临极限。",
+                up: { core: "巨大的压力与负担；责任过载；过度劳累；接近终点。", love: "感情成为沉重的负担，单方面承担所有的压力与责任。", career: "大包大揽，工作量超负荷，虽然接近成功但极度疲惫。", wealth: "沉重的债务压力，为了赚钱而牺牲了生活的所有乐趣。", advice: "学会放权，分担压力，不要试图一个人扛下所有。" },
+                rev: { core: "卸下重担；不堪重负而倒下；推卸责任；获得解脱。", love: "无法忍受压力而选择分手，或者终于学会让对方分担。", career: "彻底被工作压垮，辞职，或者终于把工作交接出去。", wealth: "破产重组，抛售资产以缓解财务压力，长痛不如短痛。", advice: "放下那些不属于你的责任，给自己喘息的空间。" } },
+            "权杖侍从": { element: "火元素", planet: "地球",
+                desc: "年轻的侍从双手握着权杖，抬头仰望，充满好奇与活力。代表新消息、热情、探索精神、渴望学习。",
+                up: { core: "充满热情的新开始；好消息的到来；好奇心与求知欲。", love: "充满青春活力的恋爱，热烈的追求者，令人兴奋的消息。", career: "充满创意的新入职者，获得新的学习机会，项目有了新点子。", wealth: "收到关于财务的好消息，适合尝试小额的新型投资。", advice: "保持你的好奇心和热情，勇敢地去探索未知。" },
+                rev: { core: "三分钟热度；坏消息；鲁莽冲动；缺乏专注力。", love: "不负责任的暧昧，失去新鲜感后迅速冷淡。", career: "做事不靠谱，无法集中精力，收到令人失望的消息。", wealth: "因冲动和缺乏经验导致投资亏损。", advice: "不要光说不练，把你的热情转化为实际的专注与行动。" } },
+            "权杖骑士": { element: "火元素", planet: "射手座",
+                desc: "骑士骑着奔腾的烈马，手持权杖，披风如火焰般飞舞。代表行动力、冲动、冒险、充满激情的追求。",
+                up: { core: "强烈的行动力；充满激情的冒险；迅速的改变；自信的追求者。", love: "轰轰烈烈的恋爱，热情如火但可能缺乏耐心的伴侣，闪恋。", career: "雷厉风行的执行力，适合开拓新市场或出差，勇敢出击。", wealth: "动中求财，短期高风险高回报的投资机会。", advice: "释放你的激情，勇敢冲刺，但也别忘了看看脚下的路。" },
+                rev: { core: "鲁莽暴躁；三心二意；行动受阻；缺乏方向感。", love: "脾气暴躁的伴侣，短暂的激情后迅速抽身，感情充满冲突。", career: "做事不计后果，计划被打乱，冲动导致项目失败。", wealth: "高风险投机导致破财，财务状况大起大落。", advice: "控制你的冲动与脾气，找准方向再行动。" } },
+            "权杖王后": { element: "火元素", planet: "白羊座",
+                desc: "王后坐在饰有狮子和向日葵的宝座上，手持权杖和向日葵，黑猫在脚边。代表魅力、自信、独立、热情、领导力。",
+                up: { core: "充满魅力与自信；独立自主；热情阳光；极佳的人缘。", love: "充满阳光和魅力的伴侣，感情热烈且平等，互相吸引。", career: "具有极强的感召力和领导力，擅长公关与团队建设，事业成功。", wealth: "凭借个人魅力和人脉获得财富，理财自信果断。", advice: "展现你真实的魅力和自信，用热情去感染周围的人。" },
+                rev: { core: "嫉妒心重；霸道专横；情绪化；固执己见。", love: "占有欲极强，善妒，关系中充满控制欲和情绪勒索。", career: "独断专行，听不进他人意见，导致团队分崩离析。", wealth: "因虚荣心作祟而盲目消费，财务状况受情绪影响大。", advice: "收敛你的锋芒与嫉妒心，学会倾听和包容。" } },
+            "权杖国王": { element: "火元素", planet: "狮子座",
+                desc: "国王威严地坐在宝座上，手持权杖，脚边有火蜥蜴。代表天生的领袖、远见卓识、魄力、权威与决断。",
+                up: { core: "卓越的领导力；宏大的远见；果断的决策；权威与尊严。", love: "成熟且有担当的伴侣，关系稳定，能为你提供强大的保护。", career: "处于事业巅峰，极具开拓精神和管理能力，备受尊敬。", wealth: "眼光独到，适合大规模的商业投资，财运稳健且丰厚。", advice: "发挥你的领导才能，勇敢地做出决断，掌控全局。" },
+                rev: { core: "独裁霸道；脾气暴躁；刚愎自用；缺乏包容心。", love: "极端的大男子主义/强势，不容反驳，关系压抑。", career: "暴君式的管理，滥用权力，决策失误导致惨重损失。", wealth: "盲目自信导致重大投资失利，财务状况岌岌可危。", advice: "放下你的高傲与独裁，真正的权威建立在包容与智慧之上。" } },
+            // ================= 宝剑牌组 =================
+            "宝剑王牌": { element: "风元素", planet: "水星",
+                desc: "一只从云中伸出的手紧握一把双刃剑，剑尖穿过一顶象征胜利的王冠。代表清晰的思维、真理、新想法、果断的决断力与斩断迷惘的决心。",
+                up: { core: "突破性的新想法；理智与真理；果断的决策；斩断阻碍。", love: "理性的沟通，解开误会，或者是一段由思想共鸣开启的感情。", career: "充满智慧的新项目，头脑清晰，做出重大的正确决策。", wealth: "清晰的理财思路，果断切断不良投资，寻找新机遇。", advice: "用理智斩断感性的羁绊，勇敢说出真相，果断行动。" },
+                rev: { core: "思维混乱；错误的判断；沟通受阻；滥用权力或语言暴力。", love: "言语上的互相伤害，冷战，充满误解与欺骗的关系。", career: "计划不切实际，思路不清，做出令自己后悔的错误决定。", wealth: "因判断失误导致破财，签署了不利的财务合同。", advice: "现在不适合做重大决定，先理清你脑海中的混乱。" } },
+            "宝剑二": { element: "风元素", planet: "月亮",
+                desc: "一位蒙眼的女子坐在海边，双手在胸前交叉握着两把剑。代表僵局、逃避选择、内心的冲突、维持表面的和平与防御。",
+                up: { core: "僵持不下的局面；逃避做决定；自我封闭；维持表面平衡。", love: "拒绝沟通，互相冷战，或是逃避去面对感情中真实存在的问题。", career: "面临两难的选择却迟迟不肯决断，工作推进陷入停滞。", wealth: "财务状况处于停滞，对两项投资难以取舍。", advice: "摘下蒙住眼睛的布，逃避不能解决问题，你必须做出选择。" },
+                rev: { core: "打破僵局；看清真相；做出艰难的决定；冲突表面化。", love: "冷战结束（无论是和好还是彻底分手），终于把问题摊开来说。", career: "不得不做出选择，打破舒适区，迎接随之而来的变化。", wealth: "终于决定止损或选择某个项目，财务状况开始流动。", advice: "虽然做出决定伴随着阵痛，但这总比永远僵持要好。" } },
+            "宝剑三": { element: "风元素", planet: "土星",
+                desc: "三把剑刺穿了一颗鲜红的心，背景是狂风暴雨的灰色天空。代表悲伤、心碎、痛苦的真相、分离与第三者介入。",
+                up: { core: "令人心碎的悲伤；痛苦的真相；分离或背叛；悲痛的体验。", love: "失恋，被劈腿，深刻的情感创伤，难以愈合的悲痛。", career: "合作破裂，被同事背叛，或是得知了关于工作的坏消息。", wealth: "遭遇严重的财务损失，甚至破产，让人痛心疾首。", advice: "允许自己悲伤和哭泣，直面痛苦是疗愈的必经之路。" },
+                rev: { core: "伤痛逐渐愈合；从悲伤中走出来；或者压抑痛苦拒绝疗愈。", love: "开始放下过去的感情创伤，原谅对方或放过自己。", career: "度过了工作中最艰难的时刻，开始重建信心与秩序。", wealth: "财务状况停止恶化，开始从亏损的阴影中恢复。", advice: "时间会治愈一切，不要把痛苦永远锁在心里。" } },
+            "宝剑四": { element: "风元素", planet: "木星",
+                desc: "一位骑士在教堂的彩色玻璃窗下双手合十躺在墓碑上休息，墙上挂着三把剑。代表休息、康复、退却、冥想与休战。",
+                up: { core: "暂时的休战与退却；身心需要休息；冥想与内省；康复期。", love: "感情进入冷静期，双方都需要个人空间来平复情绪。", career: "项目暂停，请假休息，或者退居二线进行战略性思考。", wealth: "暂缓一切投资活动，让资金和头脑都进入休眠期。", advice: "你需要给自己按下暂停键，远离喧嚣，让身心得到彻底的休息。" },
+                rev: { core: "恢复活力；重返战场；或者过度疲劳导致无法休息；失眠。", love: "冷静期结束，重新开始沟通，或者因焦虑而无法安然面对关系。", career: "假期结束重返工作，或者被繁重的工作剥夺了休息的权利。", wealth: "开始重新活跃于投资市场，或者因债务焦虑而无法安睡。", advice: "是时候从休息中醒来，用崭新的面貌迎接挑战了。" } },
+            "宝剑五": { element: "风元素", planet: "金星",
+                desc: "一个男子带着嘲讽的笑容捡起敌人丢下的剑，背景中两个战败者正在掩面哭泣离去。代表损人不利己的胜利、争吵、敌意与自私。",
+                up: { core: "充满敌意的冲突；虽胜犹败；不择手段；自私与背叛。", love: "互相伤害的争吵，为了赢不择言辞，感情被严重破坏。", career: "职场恶性竞争，踩着别人上位，团队关系彻底破裂。", wealth: "通过坑骗他人获利，或者在财务纠纷中付出了惨痛代价。", advice: "赢得争吵却失去了人心，这种胜利真的是你想要的吗？" },
+                rev: { core: "结束无谓的争端；和解与原谅；或者更严重的报复与怨恨。", love: "意识到争吵的破坏性，愿意各退一步寻求和解。", career: "停止恶性竞争，尝试修复职场人际关系。", wealth: "结束漫长的财务纠纷，选择息事宁人。", advice: "放下武器和敌意，不要让仇恨反过来吞噬了你自己。" } },
+            "宝剑六": { element: "风元素", planet: "水星",
+                desc: "船夫撑着一叶扁舟，载着一对母子在水面上航行。船头插着六把剑，水面一边波涛汹涌，一边平静。代表过渡、疗伤之旅、逐渐远离悲伤。",
+                up: { core: "从悲伤中逐渐恢复；过渡时期；搬家或旅行；平静的避风港。", love: "带着伤痛离开一段有害的关系，或者双方共同度过艰难时期。", career: "调离令人压抑的岗位，换了一个稍微平静的新环境。", wealth: "财务状况从极度糟糕中缓慢恢复，逐渐走向平稳。", advice: "虽然剑（伤痛）还插在船上，但你已经驶向了平静的水域。" },
+                rev: { core: "难以脱离困境；旧事重提；旅行取消；不愿面对改变。", love: "无法从失恋中走出来，反复咀嚼痛苦，拒绝新的开始。", career: "无法逃离有毒的职场环境，转型失败，困在原地。", wealth: "被债务或财务问题死死拖住，无法翻身。", advice: "不要沉溺于过去的波涛，你需要主动划向未来的彼岸。" } },
+            "宝剑七": { element: "风元素", planet: "月亮",
+                desc: "一个男子蹑手蹑脚地抱走五把剑，回头看着留下的两把剑，背景是敌人的营地。代表欺骗、策略、逃避责任、孤军奋战与投机取巧。",
+                up: { core: "使用策略或欺骗；不诚实的行为；逃避正面冲突；孤军奋战。", love: "感情中存在谎言或隐瞒，背叛，或者逃避承担关系的责任。", career: "职场中有人耍小聪明，窃取他人成果，不道德的商业竞争。", wealth: "提防诈骗或偷窃，不宜进行投机倒把的理财行为。", advice: "正面解决问题，投机取巧和欺骗最终会让你失去更多。" },
+                rev: { core: "谎言被揭穿；放弃欺骗；坦白真相；计划失败；良心发现。", love: "谎言暴露，被迫面对真相，或者主动坦白内心的秘密。", career: "小动作被发现，商业阴谋破产，必须老老实实按规矩办事。", wealth: "识破了骗局，或者因投机行为受到严厉的惩罚。", advice: "诚实是最好的策略，纸是包不住火的。" } },
+            "宝剑八": { element: "风元素", planet: "木星",
+                desc: "一位女子被蒙住双眼并绑住双手，站在泥泞的水坑中，周围插着八把剑，但并没有完全困住她。代表自我束缚、受困、无力感与画地为牢。",
+                up: { core: "感到被困和无助；自我设限；被恐惧蒙蔽；画地为牢。", love: "在痛苦的关系中觉得自己无法脱身，充满深深的无力感。", career: "觉得自己被死板的工作困住，看不到出路，其实是没有勇气改变。", wealth: "觉得自己的财务状况毫无希望，被债务束缚得喘不过气。", advice: "你脚下并没有锁链，困住你的不是外界，而是你自己的恐惧。" },
+                rev: { core: "挣脱思想的束缚；重获自由；看清现实；找回自信与力量。", love: "终于看清了这段感情的本质，解开束缚，勇敢离开。", career: "打破思维定势，找到解决问题的新方法，跳出困境。", wealth: "找到解决债务或增加收入的途径，财务状况得到解放。", advice: "摘下蒙眼的布，勇敢走出去，你会发现路一直都在。" } },
+            "宝剑九": { element: "风元素", planet: "火星",
+                desc: "一个人在深夜从床上惊醒，双手掩面，似乎在哭泣或陷入极度的焦虑，墙壁上横挂着九把剑。代表焦虑、噩梦、精神折磨、内疚与担忧。",
+                up: { core: "极度的焦虑与担忧；失眠噩梦；内心的折磨；负罪感。", love: "因为感情问题而彻夜难眠，充满极度的不安全感或深深的内疚。", career: "工作压力大到让你精神崩溃，对未来充满无法控制的担忧。", wealth: "为钱发愁，债务压力导致严重的心理负担和失眠。", advice: "你担心的很多事情其实并不会发生，不要让思想的折磨摧毁你。" },
+                rev: { core: "噩梦结束；焦虑缓解；面对现实；或者更深度的抑郁与崩溃。", love: "终于把内心的担忧说出来，解开心结；或者彻底绝望。", career: "压力得到释放，情况比想象中好；或者压力超载导致辞职。", wealth: "财务危机迎来转机，或者不得不面对最坏的破产结果。", advice: "寻求心理疏导或他人的帮助，不要一个人在黑夜里硬抗。" } },
+            "宝剑十": { element: "风元素", planet: "太阳",
+                desc: "一名男子趴在荒凉的地上，背部插着十把致命的剑，远处天空漆黑，但地平线上有一抹金色的曙光。代表彻底的失败、触底、毁灭、但也意味着厄运的终结。",
+                up: { core: "彻底的失败与毁灭；惨痛的结束；被背叛；物极必反（触底反弹）。", love: "关系遭受毁灭性的打击，惨痛的分手，被深深地伤害和背叛。", career: "公司倒闭，项目彻底流产，职场生涯遭遇滑铁卢式的失败。", wealth: "破产，严重的财务崩溃，跌入谷底。", advice: "这已经是你能经历的最坏情况了，既然已经触底，接下来只会向上。" },
+                rev: { core: "绝处逢生；从低谷中艰难爬起；幸存；或者拒绝接受失败的事实。", love: "在极度的痛苦中开始漫长而艰难的疗愈，慢慢找回自我。", career: "在毁灭的废墟中重新寻找机会，吸取惨痛教训重新开始。", wealth: "最糟糕的财务时期已经过去，开始进行艰难的重组和恢复。", advice: "不要沉溺于受害者的角色中，看着远方的曙光，重新站起来。" } },
+            "宝剑侍从": { element: "风元素", planet: "地球",
+                desc: "一个年轻人站在狂风中，双手紧握宝剑，警惕地环顾四周。代表机智、警觉、好奇、收集信息、思维活跃与八卦。",
+                up: { core: "思维敏捷与机智；充满好奇心；警惕与防备；新的消息或想法。", love: "充满机锋的对话，试探性的了解，或者在关系中保持警惕和观察。", career: "思维活跃，善于收集信息和分析情报，适合调研或策划工作。", wealth: "对市场动态非常敏感，正在收集理财信息，谨慎观望。", advice: "保持你的敏锐和警觉，用你的智慧去洞察事情的真相。" },
+                rev: { core: "言语伤人；过度防备；狡猾与欺骗；散播谣言或八卦。", love: "言语尖酸刻薄，充满猜忌和不信任，或者被恶意的流言中伤。", career: "职场中的小人，背后说坏话，或者获取了虚假的情报导致失误。", wealth: "因为听信不靠谱的小道消息而盲目投资，遭受损失。", advice: "管好你的嘴，不要把聪明才智用在算计和造谣上。" } },
+            "宝剑骑士": { element: "风元素", planet: "双子座",
+                desc: "一位穿着全副铠甲的骑士骑着白马迎风狂奔，高举宝剑，背景是狂风卷动的云层和树木。代表行动迅速、直言不讳、勇往直前、缺乏耐心与冲动。",
+                up: { core: "雷厉风行的行动；直截了当的沟通；充满魄力；思维的狂飙。", love: "感情发展极其迅速，不拖泥带水，甚至有些咄咄逼人或言辞直接。", career: "极高的执行力和效率，敢于直面冲突，快速推进项目。", wealth: "快速的短期投资，果断抓住转瞬即逝的财务机会。", advice: "你的决断力和速度是优势，但也别忘了考虑他人的感受。" },
+                rev: { core: "鲁莽冲动；言语暴力；不顾后果的破坏；失去理智与方向。", love: "争吵时口不择言，严重伤害对方，关系因为冲动而破裂。", career: "做事不经大脑，横冲直撞导致项目搞砸，与同事发生激烈冲突。", wealth: "极其冲动和盲目的投资行为，导致财富迅速流失。", advice: "停下来！你的冲动和锐利正在伤害你自己和周围的人。" } },
+            "宝剑王后": { element: "风元素", planet: "天秤座",
+                desc: "一位严厉的王后侧面端坐于宝座上，一手高举宝剑，一手像在招呼或拒绝。代表理性、独立、洞察力、公正严明与冷酷的智慧。",
+                up: { core: "绝对的理性与客观；独立坚强；敏锐的洞察力；公正无私；界限清晰。", love: "理性大于感性的关系，绝不委曲求全，或是经历过伤痛后变得独立自主。", career: "专业的职场女性，做事严谨公正，一眼看穿问题本质，绝不拖泥带水。", wealth: "理财观念极强，投资精明冷静，不会被任何花言巧语蒙蔽。", advice: "用理智斩断纠缠不清的感性，保持你的独立和清晰的边界。" },
+                rev: { core: "冷酷无情；尖酸刻薄；过度的批判；情绪被压抑导致扭曲。", love: "对伴侣极其苛刻，言语如刀，或者因为过去的创伤而完全封闭内心。", career: "职场上的暴君，缺乏同理心，对下属严厉至极，难以沟通。", wealth: "因为过度算计而失去人心和财路，对金钱极其吝啬。", advice: "理智不等于冷血，试着在你的决断中加入一丝柔软的同理心。" } },
+            "宝剑国王": { element: "风元素", planet: "水瓶座",
+                desc: "国王正面端坐于宝座上，手持略微倾斜的宝剑，神情严肃冷静，宝座上刻有蝴蝶图案。代表权威、专业、极度理性的决策者、客观与冷静。",
+                up: { core: "专业的权威；绝对的理智与逻辑；客观公正的裁决；制定规则者。", love: "感情中占据主导，沟通讲究逻辑而非情绪，一位冷静且负责任的伴侣。", career: "行业的专家或高管，能冷静处理危机，做出长远且理性的战略决策。", wealth: "基于详尽的数据分析进行稳健理财，适合与法律、专业咨询相关的投资。", advice: "排除一切情绪干扰，用纯粹的逻辑和专业知识来解决眼前的问题。" },
+                rev: { core: "滥用权力；冷酷无情；残暴的独裁者；充满偏见；不择手段。", love: "控制欲极强且冷血无情，感情中充满冷暴力和精神压迫。", career: "利用职权打压异己，冷血地牺牲团队利益，手段极其不光彩。", wealth: "利用法律漏洞或专业壁垒谋取私利，甚至涉及财务犯罪。", advice: "你的智慧应该用来造福而非伤害，警惕自己变成冰冷的机器。" } },
+            // ================= 圣杯牌组 =================
+            "圣杯王牌": { element: "水元素", planet: "海王星",
+                desc: "一只从云中伸出的手托起一只溢溢生辉的圣杯，鸽子衔着带有十字的圣饼飞入杯中，五道水流如瀑布般涌出。代表爱、情感的开端、直觉与精神的充盈。",
+                up: { core: "情感的新阶段；爱的满溢；直觉敏锐；内心深处的喜悦。", love: "新恋情的开始，深厚的情感连接，敞开心扉，无条件的爱。", career: "充满创造力和灵感的工作，良好的人际开端，和谐的氛围。", wealth: "获得令人喜悦的礼物，或因人际关系带来的好运。", advice: "打开你的心扉，迎接新情感和直觉的指引。" },
+                rev: { core: "情感的枯竭或被压抑；内心空虚；单相思；错失的情感。", love: "付出得不到回应，情感陷入僵局，自我封闭。", career: "缺乏灵感，工作氛围冷漠，难以和团队建立连接。", wealth: "因情绪化消费破财，或人际交往中产生经济损失。", advice: "不要把感情倾注在干涸的土壤里，先学会爱自己。" } },
+            "圣杯二": { element: "水元素", planet: "金星",
+                desc: "一对男女含情脉脉地相对而立，各自手持一个圣杯，上方是狮子头和双蛇杖，象征着灵魂的结合与治愈。代表平等的关系、合作、和谐与吸引力。",
+                up: { core: "平等的结合；和谐的合作关系；互相吸引；友谊与爱情。", love: "两情相悦，天作之合，互相尊重和理解的完美伴侣。", career: "遇到极佳的合作伙伴，团队协作无间，互利共赢。", wealth: "合作带来财富，或者在投资上与人达成良好共识。", advice: "真诚地与他人建立连接，平等的沟通是破局的关键。" },
+                rev: { core: "关系破裂；沟通不畅；互相猜忌；不平等的结合。", love: "感情出现裂痕，信任危机，或者是一方付出过多的失衡关系。", career: "合作关系破裂，团队内部产生分歧，面临拆伙的风险。", wealth: "因合伙人冲突导致财务受损，不欢而散。", advice: "审视你们的关系是否失衡，不要勉强维持表面的和平。" } },
+            "圣杯三": { element: "水元素", planet: "水星",
+                desc: "三位头戴花环的女子在果园里围成一圈，高举圣杯欢庆。地上满是丰收的果实。代表欢聚、庆祝、友谊、分享喜悦与结盟。",
+                up: { core: "欢乐的相聚；庆祝胜利或丰收；真挚的友谊；团队的成功。", love: "参加聚会认识新朋友，或者感情得到朋友们的祝福与支持。", career: "团队项目圆满完成，举办庆功宴，职场人际关系极佳。", wealth: "通过朋友或社交圈获得财富信息，丰收的喜悦。", advice: "走出家门，与朋友分享你的快乐，享受社交的馈赠。" },
+                rev: { core: "乐极生悲；放纵过度；塑料友谊；三人行（第三者插足）。", love: "感情中出现第三者，或者因为过度社交忽略了伴侣。", career: "团队表面和谐暗地里勾心斗角，因沉迷享乐而耽误工作。", wealth: "过度铺张浪费的聚会开销，因纵欲导致破财。", advice: "警惕过度放纵带来的后遗症，重新审视你周围的社交圈。" } },
+            "圣杯四": { element: "水元素", planet: "月亮",
+                desc: "一个男子盘腿坐在树下，双臂交叉在胸前，对云中递来的第四个圣杯视而不见，他面前的地上已经放着三个杯子。代表冷漠、不满足、疲倦、错失良机与内省。",
+                up: { core: "对现状不满足；冷漠与厌倦；沉浸在自我世界；错失眼前的机会。", love: "对伴侣感到厌倦，缺乏激情，对外界的追求者视而不见。", career: "处于职业倦怠期，提不起干劲，对新的工作机会毫无兴趣。", wealth: "对现有的财富不满足，但也懒得去寻找新的投资渠道。", advice: "不要沉溺于不满中，睁开眼睛看看周围，新的机会已经递到你面前。" },
+                rev: { core: "从疲倦中醒来；接受新事物；抓住机会；重燃热情。", love: "走出感情的低谷，愿意重新敞开心扉，接受新的缘分。", career: "重新找到工作动力，把握住曾被忽略的好机会。", wealth: "打破理财的僵局，尝试接受新的投资建议。", advice: "走出你画地为牢的舒适区，主动迎接生活的馈赠。" } },
+            "圣杯五": { element: "水元素", planet: "火星",
+                desc: "一个披着黑斗篷的人低头哀悼倒在面前的三个圣杯（绿色的液体流出），却背对着身后两个依然直立的圣杯。远处的桥通向城堡。代表悲伤、失落、遗憾、只看消极面与忽视拥有的东西。",
+                up: { core: "沉浸在悲痛与失落中；难以释怀的遗憾；只看失去的，不看拥有的。", love: "经历分手的痛苦，对逝去的感情无法释怀，忽视了身边关心你的人。", career: "项目遭遇挫折，深陷失败的阴影，错过了挽救的余地。", wealth: "遭受了部分财务损失，因过度悲观而错失剩下的资产。", advice: "悲伤过后请转过身去，看看你身后那些仍然为你保留的东西。" },
+                rev: { core: "走出伤痛的阴影；释怀过去；看到新的希望；重拾生活。", love: "终于放下前任，开始关注身边真正爱你的人，重新振作。", career: "从失败中吸取教训，利用手头仅剩的资源重新出发。", wealth: "止损成功，接受了部分亏损的事实，开始重新积累。", advice: "你已经从最深的悲伤中挺过来了，现在是时候重建生活了。" } },
+            "圣杯六": { element: "水元素", planet: "太阳",
+                desc: "在一个充满安全感的村庄里，一个小男孩微笑着将一个装满白色百合花的圣杯递给一个小女孩。代表怀旧、童真、回忆、纯洁的善意与过去的连接。",
+                up: { core: "回忆与怀旧；纯洁的善意；过去的连接；安全感；照顾与被照顾。", love: "与青梅竹马或初恋重逢，充满童真和保护欲的温柔感情。", career: "工作环境温馨互助，或者之前积累的人脉现在发挥了作用。", wealth: "获得家人的经济支持，或者收回一笔陈年旧账。", advice: "保留内心的纯真，过去的美好记忆将为你提供当下的力量。" },
+                rev: { core: "沉溺于过去无法自拔；不愿长大；拒绝面对现实；过去的阴影。", love: "过度留恋前任，导致无法开始新感情；或者被原生家庭的问题困扰。", career: "死守陈旧的做事方式，不愿学习新技能，被时代淘汰。", wealth: "因为过去的财务观念或遗留的债务问题拖累了现在。", advice: "回忆再美也不能代替明天，你必须学会向未来看。" } },
+            "圣杯七": { element: "水元素", planet: "金星",
+                desc: "七个装满不同幻象（珠宝、桂冠、蛇、恶魔、城堡等）的圣杯漂浮在云端，一个人面对它们陷入沉思。代表幻梦、选择困难、不切实际的幻想、诱惑与白日梦。",
+                up: { core: "面对众多选择但充满迷惑；不切实际的白日梦；欲望与诱惑；眼花缭乱。", love: "桃花运旺盛但良莠不齐，沉迷于对完美爱情的幻想而不付诸行动。", career: "看似机会很多，但其实大多是画大饼，缺乏落地执行的可能。", wealth: "警惕那些承诺高回报的理财陷阱，不要被虚幻的财富迷了眼。", advice: "拨开迷雾，从幻想中醒来，挑选那个最踏实的杯子。" },
+                rev: { core: "打破幻想；看清现实；做出明确的决定；目标逐渐清晰。", love: "从不切实际的择偶标准中清醒过来，选择了一个踏实的人。", career: "抛弃了那些虚无缥缈的念头，选定了一个切实可行的方向。", wealth: "识破了投资骗局，选择了最稳妥的理财方式。", advice: "恭喜你看清了现实，现在的决定将是明智且扎实的。" } },
+            "圣杯八": { element: "水元素", planet: "土星",
+                desc: "一个人拄着拐杖，在月夜下背对着摆放整齐的八个圣杯，毅然走向远方的崎岖高山。代表寻求更深层次的意义、抛弃旧有、离开舒适区、疲倦与精神追求。",
+                up: { core: "主动放弃已有的成就；寻找心灵的归宿；离开不满足的现状；一段孤独的旅程。", love: "对表面和谐但内心空虚的感情感到疲倦，决定转身离开去寻找真爱。", career: "放弃了稳定的工作或现有的成绩，去追寻更有意义的职业目标。", wealth: "看淡物质财富，不再为了金钱牺牲精神生活。", advice: "追随你内心的呼唤，勇敢地离开那些不再滋养你的地方。" },
+                rev: { core: "害怕改变；死守现状；缺乏离开的勇气；逃避内心的渴望。", love: "即使感情已经形同枯木，却因为习惯或恐惧而不敢提出分手。", career: "对工作极度不满，但因为害怕未知的风险而继续忍受煎熬。", wealth: "死守着一份没有前景的投资，不敢尝试新的出路。", advice: "拖延和妥协只会让你更加痛苦，你需要给自己一个决断的勇气。" } },
+            "圣杯九": { element: "水元素", planet: "木星",
+                desc: "一个体态丰满、神情得意的男子双臂交叉坐在木凳上，身后半圆形的桌子上整齐地排列着九个圣杯。代表愿望达成、满足、物质享受、傲慢与美梦成真。",
+                up: { core: "心愿达成；极度的满足感；美梦成真；物质与精神的双重享受。", love: "感情发展如你所愿，生活滋润，充满幸福和安全感的伴侣关系。", career: "项目取得圆满成功，达到预期的目标，享受胜利的果实。", wealth: "财运极佳，获得了丰厚的回报，生活质量显著提升。", advice: "尽情享受你的成功和快乐，这是你应得的回报。" },
+                rev: { core: "贪婪与虚荣；乐极生悲；外表风光内心空虚；愿望落空。", love: "表面上令人羡慕，实际上内心缺乏真正的连接；或者因纵欲破坏了感情。", career: "因为过度骄傲和自满导致失误，或者取得的成就并没有带来真正的成就感。", wealth: "挥霍无度，贪得无厌导致财富流失。", advice: "不要被眼前的物质满足冲昏了头脑，警惕骄兵必败。" } },
+            "圣杯十": { element: "水元素", planet: "火星",
+                desc: "一对夫妇相拥，两个孩子在旁边快乐地跳舞，天空中出现由十个圣杯组成的彩虹，背景是一幅田园牧歌的景象。代表完美的幸福、家庭和睦、情绪的圆满与乌托邦式的安宁。",
+                up: { core: "极其圆满的结局；家庭的和谐与幸福；情绪的极大满足；灵魂的归宿。", love: "修成正果步入婚姻，建立幸福的家庭，彼此之间充满信任和无条件的爱。", career: "团队像一家人一样团结，工作环境极其融洽，共同庆祝巨大的成功。", wealth: "家庭财富稳定丰厚，能为家人提供优越的生活环境。", advice: "感恩你所拥有的幸福，将这份爱与和谐传递给更多的人。" },
+                rev: { core: "表面和谐背后的裂痕；家庭纠纷；失去平静；虚假的幸福。", love: "家庭内部出现矛盾，夫妻争吵，孩子成为牺牲品，或者只是维持表面的恩爱。", career: "团队内部出现不和，团队精神瓦解，美好的愿景破灭。", wealth: "因家庭纠纷（如财产分割）导致财务受损。", advice: "不要掩盖问题来维持表面的和平，直面并修复那些被隐藏的裂痕。" } },
+            "圣杯侍从": { element: "水元素", planet: "地球",
+                desc: "一个年轻的侍从穿着饰有睡莲图案的衣服，拿着一个圣杯，杯子里探出一条鱼，他在海边专注地看着它。代表浪漫的灵感、新奇的情感体验、直觉的显现与温柔体贴的新消息。",
+                up: { core: "温柔浪漫的新开始；情感的萌芽；直觉与灵感；令人开心的消息。", love: "浪漫的追求者出现，一段充满新鲜感和诗意的暧昧，感情细腻温柔。", career: "获得直觉上的启发，迸发创意的火花，或是收到一份令人愉快的邀请。", wealth: "凭借直觉和灵感获得小额的意外之财。", advice: "接受那些不期而遇的灵感和善意，保持一颗柔软的心。" },
+                rev: { core: "情感不成熟；过度敏感与多愁善感；逃避现实；令人失望的消息。", love: "容易受伤的玻璃心，多疑猜忌，或者遇到一个不成熟、只说不做的伴侣。", career: "灵感无法落地，沉迷于幻想而不去执行，收到拒绝的消息。", wealth: "因情绪化消费或轻信他人导致的小额破财。", advice: "收起你的玻璃心，把情绪转化为理性的思考，不要总是在幻想中逃避。" } },
+            "圣杯骑士": { element: "水元素", planet: "双鱼座",
+                desc: "骑着白马的骑士手持圣杯，马步平稳，背景是蜿蜒的河流和远山。他披着绣有鱼图案的披风。代表浪漫的追求者、倾听者、带来提议、充满诗意与理想主义。",
+                up: { core: "浪漫的提议；理想主义的行动；温柔的倾听者；追寻梦想。", love: "一位极其浪漫、体贴的伴侣，带着诚意而来，感情像童话般美好。", career: "带着合作的意向而来，善于交际和处理人际关系，推进富有创意的项目。", wealth: "通过良好的人际关系或艺术相关的领域获得财富。", advice: "追随你的心去行动，用温柔和浪漫去打动世界。" },
+                rev: { core: "虚情假意；花花公子；情绪化且不负责任；不切实际的空想家。", love: "充满欺骗的甜言蜜语，海王，逃避承诺，关系极其不稳定且充满戏剧性。", career: "画大饼，承诺无法兑现，因为情绪化影响了工作进度。", wealth: "轻信他人的投资建议而导致损失，提防财务上的虚假承诺。", advice: "摘下玫瑰色的眼镜，看清对方华丽辞藻背后的真实意图。" } },
+            "圣杯王后": { element: "水元素", planet: "巨蟹座",
+                desc: "王后坐在饰有海马和小天使的华丽宝座上，专注地看着手中一个封盖的精美圣杯，脚边是流动的海水。代表极度的同理心、温柔、直觉、母性的关怀与内在的情感。",
+                up: { core: "强大的直觉和同理心；温柔的倾听与疗愈；充满母爱的关怀；情绪稳定。", love: "包容力极强的伴侣，能提供极大的情感价值和安全感，灵魂伴侣。", career: "擅长协调人际关系，心理咨询师或服务行业，深受团队爱戴和信任。", wealth: "基于直觉的稳健理财，更看重生活品质而非数字的增长。", advice: "用你的温柔去包容他人，你的同理心是你最强大的武器。" },
+                rev: { core: "情绪泛滥与失控；过度依赖；容易受伤；失去理智；圣母心泛滥。", love: "在感情中失去自我，过度付出导致被榨干，极度缺乏安全感，情绪勒索。", career: "被情绪左右判断，工作生活不分，无法理性处理职场问题。", wealth: "因为过度同情他人而借钱不还，或因情绪极度低落而破财。", advice: "先学会爱自己，划清情感的界限，不要让别人的情绪淹没了你。" } },
+            "圣杯国王": { element: "水元素", planet: "天蝎座",
+                desc: "国王坐在漂浮在海面的坚固宝座上，一手拿圣杯，一手拿短杖，背景有船和跃出水面的海豚。代表情绪的掌控者、宽容、成熟的爱、有同情心却不失理智的领导者。",
+                up: { core: "成熟稳重的情感掌控力；宽容大度；理智与感性的完美平衡；外交家。", love: "深情且情绪稳定的伴侣，能妥善处理感情中的危机，成熟稳重的爱。", career: "一位极具亲和力与同理心的领导，能够平衡各方利益，带领团队度过难关。", wealth: "财务状况稳健，能冷静分析市场并在动荡中保持理智的投资。", advice: "掌控你的情绪而不是被情绪掌控，用成熟和宽容去解决问题。" },
+                rev: { core: "喜怒无常；控制欲强；冷酷无情；内心充满压抑的情绪或阴暗面。", love: "表面平静实则内心压抑，用冷暴力控制伴侣，极其记仇和容易嫉妒。", career: "虚伪的领导，利用他人的弱点进行精神控制，职场PUA，极度自私。", wealth: "为了金钱不择手段，甚至涉及财务欺诈或暗箱操作。", advice: "警惕那些看似平静但深不可测的漩涡，不要被虚伪的表象所欺骗。" } },
+            // ================= 星币牌组 =================
+            "星币王牌": { element: "土元素", planet: "金星",
+                desc: "云中伸出的手托起一枚闪耀的星币，下方是繁花似锦的庭院。代表物质世界的新起点、财富的机遇与丰收的潜能。",
+                up: { core: "物质层面的新机遇；丰厚的馈赠；踏实的开端；投资的好时机。", love: "稳定务实的感情基础，可能会收到贵重的礼物，考虑现实的恋爱。", career: "开启一项有利可图的新业务，加薪或获得丰厚的奖金。", wealth: "极佳的财运起点，适合开启新的储蓄或稳健投资计划。", advice: "抓住眼前切实的物质机遇，将计划落到实处。" },
+                rev: { core: "错失财富机会；贪婪；基础不稳；金钱损失。", love: "因物质条件不合而受阻，过于看重金钱而忽视了情感。", career: "资金不到位导致项目流产，错失加薪或赚钱的机会。", wealth: "投资失利，破财，或因为过度挥霍而导致财务拮据。", advice: "重新审视你的物质基础，不要为了金钱做出短视的决定。" } },
+            "星币二": { element: "土元素", planet: "木星",
+                desc: "一名年轻人在海边抛耍两枚星币，星币间用代表无限的符号相连，背后是起伏的波涛与船只。代表波动中的平衡、资金周转、兼顾多方与适应变化。",
+                up: { core: "在波动中维持平衡；灵活应对；资金周转；兼顾多方事务。", love: "在工作与感情之间努力寻找平衡，或者关系处于轻松快乐的波动期。", career: "同时处理多个项目，副业与主业兼顾，需要极强的灵活适应能力。", wealth: "资金流转灵活，收支勉强维持动态平衡，适合短线操作。", advice: "保持弹性，像抛接球一样灵活应对生活中的变化与多重任务。" },
+                rev: { core: "失去平衡；资金断裂；分身乏术；杂乱无章。", love: "难以兼顾工作和爱情，导致伴侣不满，或者面临二选一的困境。", career: "任务过多导致崩溃，无法集中精力，在多个选择中迷失。", wealth: "资金周转不灵，入不敷出，甚至面临债务危机。", advice: "不要再试图同时抓住两只兔子，现在必须做出取舍。" } },
+            "星币三": { element: "土元素", planet: "火星",
+                desc: "一名石匠在修道院里雕刻，一旁的修道士和图纸设计师正在与他讨论。代表团队合作、专业技能、初步的成就与互相学习。",
+                up: { core: "专业技能得到认可；高效的团队合作；初步的成就；精益求精。", love: "与伴侣像团队一样共同建设未来，或者在工作/学习场合结识对象。", career: "出色的团队协作，专业能力备受赞赏，项目打下坚实的基础。", wealth: "通过专业技能赚取稳定的收入，团队合作带来财富积累。", advice: "虚心听取他人的专业意见，合作能帮你打造更完美的作品。" },
+                rev: { core: "团队不和；专业技能不足；质量低劣；拒绝学习。", love: "双方缺乏沟通与合作，各自为政，无法共同解决现实问题。", career: "团队内部缺乏默契，有人拖后腿，或者因为技术不过关导致返工。", wealth: "因为专业能力不足或团队散伙而导致收入减少或投资失败。", advice: "正视自己技能的不足，修复团队的沟通裂痕。" } },
+            "星币四": { element: "土元素", planet: "太阳",
+                desc: "一个国王紧紧抱住胸前的星币，头顶和双脚也各自踩着星币，背景是繁华的城市。代表守财、固执、对物质的极度安全感需求与吝啬。",
+                up: { core: "积累与守护财富；物质安全感；保守固执；害怕改变。", love: "感情极其稳定但也有些沉闷，占有欲强，看重伴侣的物质条件。", career: "死守现有的职位和权力，不愿冒任何风险，工作稳定但缺乏突破。", wealth: "极具储蓄意识，守财奴，资产安全但不愿意进行任何投资。", advice: "守护财富是好事，但不要让金钱成为禁锢你灵魂的枷锁。" },
+                rev: { core: "打破固执；适度放手；财务流失；挥霍无度。", love: "放下控制欲，给彼此空间；或者因为财务问题导致关系动荡。", career: "放弃死板的做事方式，接受改变；或者因为固执己见失去权力。", wealth: "过度消费，破财，或是终于舍得拿出一部分钱进行投资。", advice: "是时候松开紧握的双手了，让停滞的能量重新流动起来。" } },
+            "星币五": { element: "土元素", planet: "水星",
+                desc: "两个衣衫褴褛、伤残的穷人在大雪中艰难前行，经过一扇透着灯光和五枚星币的彩色玻璃窗。代表贫穷、困境、孤立无援与精神物质的双重匮乏。",
+                up: { core: "物质上的贫穷与困境；感到被孤立；健康问题；遭遇严冬。", love: "面临现实的巨大考验（如没钱结婚），或者在低谷中互相扶持。", career: "失业，降薪，工作环境极其恶劣，感觉不到任何归属感和希望。", wealth: "严重的财务危机，破产，负债累累，陷入极度的匮乏感。", advice: "不要沉浸在自怜中，抬起头，也许援助的灯光就在你身旁的窗内。" },
+                rev: { core: "走出困境；获得援助；财务状况好转；重见光明。", love: "度过了最艰难的物质时期，感情因此变得更加坚不可摧。", career: "找到新的工作机会，或者在困境中得到了贵人的帮助。", wealth: "财务危机得到缓解，还清部分债务，重新站稳脚跟。", advice: "寒冬即将过去，接受他人的善意，你马上就能迎来复苏。" } },
+            "星币六": { element: "土元素", planet: "月亮",
+                desc: "一位富商手持天平，正在给两名乞丐施舍星币。代表慷慨、慈善、财务的平衡、给予和接受的动态关系。",
+                up: { core: "慷慨的给予或接受援助；财富分享；收支平衡；公平的交易。", love: "关系中存在照顾与被照顾的动态，或者收到了伴侣贵重的物质馈赠。", career: "获得资金赞助，顺利拿到奖金，或者在工作中帮助了新人。", wealth: "获得贷款、投资回报或他人的慷慨相助，财务状况良好。", advice: "如果你有能力，慷慨地分享；如果你需要帮助，坦然地接受。" },
+                rev: { core: "自私吝啬；不公平的交易；施恩图报；债务问题。", love: "双方在金钱或付出上斤斤计较，存在不平等的金钱关系或依附感。", career: "遭遇职场剥削，付出得不到应有的报酬，或者资金被恶意克扣。", wealth: "申请贷款被拒，被追讨债务，或者遭遇不公平的财务分配。", advice: "警惕那些带有附加条件的馈赠，保持财务上的独立性。" } },
+            "星币七": { element: "土元素", planet: "土星",
+                desc: "一个农夫倚靠在锄头上，注视着藤蔓上结出的七枚星币，表情带着评估与等待。代表辛勤耕耘、评估现状、等待收获与耐心。",
+                up: { core: "评估过去的努力；耐心的等待；长线投资；阶段性的反思。", love: "感情发展进入平稳期，开始认真评估两人未来的长远发展可能。", career: "项目进展到一定阶段，停下来复盘和规划下一步，稳扎稳打。", wealth: "长线投资逐渐看到回报，耐心等待收获，不宜急于套现。", advice: "你已经付出了足够的汗水，现在只需耐心等待果实的成熟。" },
+                rev: { core: "缺乏耐心；半途而废；投资回报不如预期；焦虑不安。", love: "对感情进展缓慢感到焦躁，或者觉得之前的付出不值得而想放弃。", career: "急于求成导致失误，或者努力了很久却没有得到应有的成果。", wealth: "投资失败，血本无归，或者因为急于变现而造成损失。", advice: "不要因为一时的焦躁而拔苗助长，坚持到底才能看到结果。" } },
+            "星币八": { element: "土元素", planet: "太阳",
+                desc: "一个工匠正专心致志地雕刻着第八枚星币，墙上挂着他的作品。代表专注、工匠精神、技能提升、勤奋与默默耕耘。",
+                up: { core: "极度的专注与投入；磨练技能；工匠精神；勤奋带来财富。", love: "专心经营目前的感情，平淡但踏实；或者因为太忙于工作而忽略了恋爱。", career: "专注于手头的工作，不断提升自己的专业技能，即将成为行业专家。", wealth: "通过扎实的工作和技能积累财富，一分耕耘一分收获。", advice: "全神贯注于你当下的任务，你的精益求精终将带来丰厚的回报。" },
+                rev: { core: "缺乏专注力；粗制滥造；缺乏长性；工作狂导致失衡。", love: "对感情失去耐心，敷衍了事；或者因为工作狂特质彻底摧毁了关系。", career: "好高骛远，做事不踏实，频繁跳槽导致没有一技之长。", wealth: "想要赚快钱却适得其反，或者因为缺乏专业技能而收入微薄。", advice: "少一些浮躁，多一些沉淀，踏踏实实地打磨你的基本功。" } },
+            "星币九": { element: "土元素", planet: "金星",
+                desc: "一位衣着华贵的女子站在丰盛的葡萄园中，左手停着一只猎鹰，右手放在星币上。代表独立、富足、物质享受、优雅与自我价值的实现。",
+                up: { core: "物质独立与丰裕；享受生活的美好；自我价值的实现；高雅与从容。", love: "享受单身的自由与富足，或者在关系中保持绝对的独立和优雅。", career: "事业取得显著成就，能够从容应对，享受工作带来的社会地位。", wealth: "财务完全自由，生活优渥，能够随心所欲地享受高品质的物质生活。", advice: "尽情享受你通过努力换来的美好生活，你值得拥有这一切。" },
+                rev: { core: "过度沉迷物质；失去独立性；表面风光内心孤独；挥霍无度。", love: "为了物质条件而勉强维持关系，失去了自我和感情的独立性。", career: "为了赚钱牺牲了生活的所有，或者过于追求虚名而忽略了本质。", wealth: "过度挥霍导致财务危机，或者有严重的财产安全隐患。", advice: "物质的丰盛填补不了精神的空虚，找回你内心的独立与平静。" } },
+            "星币十": { element: "土元素", planet: "水星",
+                desc: "一个老人在拱门外注视着幸福的一家人，十枚星币以生命之树的阵型排列，背景是繁华的城堡。代表家族传承、极致的稳定、家业繁荣与物质的终极圆满。",
+                up: { core: "家族财富与传承；长期的稳定与安全感；家业繁荣；物质的极致圆满。", love: "感情受到家族的祝福，建立稳固的家庭，甚至牵涉到家族企业的结合。", career: "进入大企业或家族企业，获得极其稳定的职位和长远的发展保障。", wealth: "继承遗产，家族财富积累丰厚，极其稳健的长期大额投资回报。", advice: "扎根于你的传统与家庭，这份坚实的根基将为你提供无尽的力量。" },
+                rev: { core: "家族纷争；失去安全感；传统的衰落；财务动荡。", love: "因家庭背景差异遭到长辈反对，或者面临离婚带来的财产分割。", career: "大企业面临倒闭裁员，失去原有的稳定保障，或者与家族企业决裂。", wealth: "遗产纠纷，家族企业破产，或者因重大失误导致家道中落。", advice: "不要被陈旧的家族观念束缚，是时候建立属于你自己的安全感了。" } },
+            "星币侍从": { element: "土元素", planet: "地球",
+                desc: "年轻的侍从站在繁花盛开的田野上，双手恭敬地托起一枚星币，专注地凝视着。代表务实的新起点、好学的学生、脚踏实地与有关物质的好消息。",
+                up: { core: "踏实的好奇心；新的学习机会；关于金钱或工作的好消息；务实。", love: "一段慢热但真诚的感情，虽然不浪漫但充满现实的可靠性。", career: "开启新的学习阶段，进入新行业，或者收到了一份满意的offer。", wealth: "收到奖学金、小额奖金，或者开始了一项稳健的储蓄/理财计划。", advice: "保持谦逊好学的心态，踏踏实实地打好物质与技能的基础。" },
+                rev: { core: "缺乏耐心与恒心；目光短浅；错失机会；关于金钱的坏消息。", love: "过于现实和算计导致感情无法进展，或者对方不思进取。", career: "学习不专心，眼高手低，或者因为粗心大意而错失了好的工作机会。", wealth: "乱花钱，或者轻信不靠谱的理财建议导致小额损失。", advice: "停止你的好高骛远，财富和技能都需要时间去慢慢积累。" } },
+            "星币骑士": { element: "土元素", planet: "金牛座",
+                desc: "骑士骑着一匹稳健的黑马，停在一片耕地前，手里端着一枚星币，神情坚毅。代表勤勉、可靠、稳重、进展缓慢但最终会成功。",
+                up: { core: "极其可靠与负责；坚持不懈；按部按班；缓慢但确定的进展。", love: "一位极其忠诚、负责任的伴侣，感情平淡但能提供绝对的安全感。", career: "工作勤勉踏实，不走捷径，虽然进展缓慢但最终一定能完成目标。", wealth: "坚持长期的定投或保守理财，拒绝任何高风险，财富稳步增长。", advice: "坚持你现在的步伐，不要被外界的快节奏打乱，稳扎稳打才是王道。" },
+                rev: { core: "固执死板；极其沉闷无趣；拖延症；过度保守错失良机。", love: "关系枯燥乏味到令人窒息，或者对方过于抠门和缺乏生活情趣。", career: "思维僵化，拒绝接受任何新事物，或者因为极度拖延导致工作停滞。", wealth: "过于保守而导致资金贬值，或者在财务问题上钻牛角尖。", advice: "打破常规，给你的生活和工作注入一丝变通与活力。" } },
+            "星币王后": { element: "土元素", planet: "摩羯座",
+                desc: "王后端坐在雕刻着花果的宝座上，膝上放着一枚星币，周围是茂密的植物和兔子。代表慷慨、滋养、现实的安全感、持家有道与享受自然。",
+                up: { core: "极佳的物质滋养；慷慨大方；充满生活情趣；现实的庇护所。", love: "充满温暖和关怀的关系，擅长照顾人，能把生活打理得井井有条。", career: "在工作中极具包容心，能够为团队提供充足的资源和安稳的环境。", wealth: "理财有道，擅长持家，不仅富有还能用财富极大地提升生活品质。", advice: "用你的宽容和富足去滋养身边的人，创造一个温馨舒适的环境。" },
+                rev: { core: "极度拜金；自私贪婪；失去生活自理能力；过度控制。", love: "只看重对方的钱财，或者用物质来控制伴侣，家庭关系充满算计。", career: "在工作中贪污腐败，或者因为极度自私而失去团队的信任与支持。", wealth: "挥霍无度却又极其贪婪，或者因为理财不慎导致原本丰厚的生活一落千丈。", advice: "金钱是为了服务于生活，不要让自己成为物质的奴隶。" } },
+            "星币国王": { element: "土元素", planet: "处女座",
+                desc: "国王坐在布满葡萄藤和公牛图案的黑色宝座上，一手拿权杖一手拿星币，背景是他的城堡。代表极其成功的企业家、物质的主宰者、稳健与可靠。",
+                up: { core: "顶级的物质成就；卓越的商业头脑；慷慨的赞助人；绝对的现实掌控力。", love: "一位事业有成且愿意为你提供优渥物质生活的伴侣，感情极其稳固。", career: "处于行业的顶端，拥有极强的商业敏锐度和管理资产的能力。", wealth: "财富自由，精通各种大额投资，能够稳稳掌控巨大的财富帝国。", advice: "运用你的商业智慧去掌控现实，你拥有将一切想法变现的能力。" },
+                rev: { core: "唯利是图；腐败与贪婪；固执暴躁；用钱压人。", love: "用金钱买断感情，极其大男子主义/物质主义，感情充满铜臭味。", career: "为了利益不择手段，商业欺诈，或者因为过于保守固执导致企业衰败。", wealth: "面临重大的财务丑闻、破产，或者变成了守财奴，为富不仁。", advice: "放下你的贪婪与控制欲，真正的成功不仅仅是账户上的数字。" } }
+        };
+        // 获取特定牌意数据的辅助函数
+        function getMeaningData(cardName) {
+            if (tarotMeanings[cardName]) {
+                return tarotMeanings[cardName];
+            } else {
+                return {
+                    element: "未知", planet: "未知", desc: "（牌面描述正在链接宇宙潜意识中，敬请期待...）",
+                    up: { core: "暂无", love: "暂无", career: "暂无", wealth: "暂无", advice: "暂无" },
+                    rev: { core: "暂无", love: "暂无", career: "暂无", wealth: "暂无", advice: "暂无" }
+                };
+            }
+        }
+        // ==============================================================
         const track = document.getElementById('fan-track');
         const desktop = document.getElementById('desktop');
         
         const TOTAL = 78; 
         const SPACING = 16; 
         let TOTAL_W = (TOTAL - 1) * SPACING; 
-
         // 你的配置作为网页的“出厂设置”
         const defaultFactoryCode = "eyJuYW1lIjoi57uP5YW457u054m5IiwiY2FyZHMiOlsiMOaEmuS6ui5wbmciLCIx6a2U5pyv5biILnBuZyIsIjLlpbPnpa3lj7gucG5nIiwiM+Wls+eahy5wbmciLCI05Zu9546LLnBuZyIsIjXmlZnnmocucG5nIiwiNuaBi+S6ui5wbmciLCI35oiY6L2mLnBuZyIsIjjlipvph48ucG5nIiwiOemakOWjqy5wbmciLCIxMOWRvei/kOS5i+i9ri5wbmciLCIxMeato+S5iS5wbmciLCIxMuWQiuS6ui5wbmciLCIxM+atu+elni5wbmciLCIxNOiKguWIti5wbmciLCIxNeaBtumtlC5wbmciLCIxNumrmOWhlC5wbmciLCIxN+aYn+aYny5wbmciLCIxOOaciOS6ri5wbmciLCIxOeWkqumYsy5wbmciLCIyMOWuoeWIpC5wbmciLCIyMeS4lueVjC5wbmciLCLmnYPmnZbkuIAucG5nIiwi5p2D5p2W5LqMLnBuZyIsIuadg+adluS4iS5wbmciLCLmnYPmnZblm5sucG5nIiwi5p2D5p2W5LqULnBuZyIsIuadg+adlueJjOWFrS5wbmciLCLmnYPmnZbniYzkuIMucG5nIiwi5p2D5p2W54mM5YWrLnBuZyIsIuadg+adlueJjOS5nS5wbmciLCLmnYPmnZbniYzljYEucG5nIiwi5p2D5p2W5L6N5LuOLnBuZyIsIuadg+adlumqkeWjqy5wbmciLCLmnYPmnZblpbPnmocucG5nIiwi5p2D5p2W5Zu9546LLnBuZyIsIuWco+adr+S4gC5wbmciLCLlnKPmna/kuowucG5nIiwi5Zyj5p2v5LiJLnBuZyIsIuWco+adr+Wbmy5wbmciLCLlnKPmna/kupQucG5nIiwi5Zyj5p2v54mM5YWtLnBuZyIsIuWco+adr+eJjOS4gy5wbmciLCIiLCLlnKPmna/niYzkuZ0ucG5nIiwi5Zyj5p2v54mM5Y2BLnBuZyIsIuWco+adr+S+jeS7ji5wbmciLCLlnKPmna/pqpHlo6sucG5nIiwi5Zyj5p2v5aWz55qHLnBuZyIsIuWco+adr+WbveeOiy5wbmciLCLlrp3liZHkuIAucG5nIiwi5a6d5YmR5LqMLnBuZyIsIuWuneWJkeS4iS5wbmciLCLlrp3liZHlm5sucG5nIiwi5a6d5YmR5LqULnBuZyIsIuWuneWJkeeJjOWFrS5wbmciLCLlrp3liZHniYzkuIMucG5nIiwi5a6d5YmR54mM5YWrLnBuZyIsIuWuneWJkeeJjOS5nS5wbmciLCLlrp3liZHniYzljYEucG5nIiwi5a6d5YmR5L6N5LuOLnBuZyIsIuWuneWJkemqkeWjqy5wbmciLCLlrp3liZHlpbPnmocucG5nIiwi5a6d5YmR5Zu9546LLnBuZyIsIuaYn+W4geS4gC5wbmciLCLmmJ/luIHkuowucG5nIiwi5pif5biB5LiJLnBuZyIsIuaYn+W4geWbmy5wbmciLCLmmJ/luIHkupQucG5nIiwi5pif5biB54mM5YWtLnBuZyIsIuaYn+W4geeJjOS4gy5wbmciLCLmmJ/luIHniYzlhasucG5nIiwi5pif5biB54mM5LmdLnBuZyIsIuaYn+W4geeJjOWNgS5wbmciLCLmmJ/luIHkvo3ku44ucG5nIiwi5pif5biB6aqR5aOrLnBuZyIsIuaYn+W4geWls+eahy5wbmciLCLmmJ/luIHlm73njosucG5nIl19";
         
@@ -651,12 +1137,11 @@
             const parsedData = JSON.parse(decodeURIComponent(escape(atob(defaultFactoryCode))));
             if (parsedData && parsedData.name && Array.isArray(parsedData.cards) && parsedData.cards.length === TOTAL) {
                 parsedDefaultName = parsedData.name;
-                parsedDefaultCards = parsedData.cards;
+                parsedDefaultCards = parsedData.cards.map(url => url ? url.replace(/\.png/gi, '.webp') : url);
             }
         } catch (e) {
             console.error("出厂配置解析失败", e);
         }
-
         let decks = [
             { id: 1, name: parsedDefaultName, cards: parsedDefaultCards }
         ];
@@ -669,27 +1154,23 @@
         let protrudedObj = null;
         let ritualSequence = 0; 
         let currentFilter = 'all'; 
-
         let activePointerId = null;
         let dragTarget = null;
         let dragStartX = 0, dragStartY = 0;
         let lastTouchX = 0;
         let interactMode = 'idle'; 
         let lastMoveTime = 0;
-
         let sizeLevel = 1;
         const sizeOptions = [
             { w: 80, h: 138, label: '小' },
             { w: 100, h: 172, label: '中' },
             { w: 120, h: 206, label: '大' }
         ];
-
         function toggleCardSize() {
             sizeLevel = (sizeLevel + 1) % 3; 
             document.documentElement.style.setProperty('--card-w', sizeOptions[sizeLevel].w + 'px');
             document.documentElement.style.setProperty('--card-h', sizeOptions[sizeLevel].h + 'px');
         }
-
         function toggleSidebarMenu() {
             const filters = document.getElementById('sidebar-filters');
             filters.classList.toggle('open');
@@ -702,7 +1183,6 @@
                 btn.style.color = '';
             }
         }
-
         function toggleActionMenu() {
             const menu = document.getElementById('action-sidebar-menu');
             menu.classList.toggle('open');
@@ -715,12 +1195,85 @@
                 btn.style.color = '';
             }
         }
-
+        // ================= 更新：渲染特定牌意的函数 =================
+        function renderMeaningPanel(cardName, isReversed) {
+            const data = getMeaningData(cardName);
+            const content = isReversed ? data.rev : data.up;
+            const statusEl = document.getElementById('meaning-status');
+            if(isReversed) {
+                statusEl.innerText = "逆位";
+                statusEl.classList.add('rev');
+            } else {
+                statusEl.innerText = "正位";
+                statusEl.classList.remove('rev');
+            }
+            
+            document.getElementById('meaning-element').innerText = "元素：" + data.element;
+            document.getElementById('meaning-planet').innerText = "行星：" + data.planet;
+            
+            document.getElementById('meaning-desc').innerText = data.desc;
+            document.getElementById('meaning-core').innerText = content.core;
+            document.getElementById('meaning-love').innerText = content.love;
+            document.getElementById('meaning-career').innerText = content.career;
+            document.getElementById('meaning-wealth').innerText = content.wealth;
+            document.getElementById('meaning-advice').innerText = content.advice;
+        }
+        // ================= 更新：卡牌放大与旋转控制（解绑联动） =================
+        function openZoomModal(cardObj) {
+            const modal = document.getElementById('card-zoom-modal');
+            const imgEl = document.getElementById('zoom-card-img');
+            const nameEl = document.getElementById('zoom-card-name');
+            const inner = document.getElementById('zoom-card-inner');
+            inner.classList.remove('is-flipped'); // 每次打开确保显示图片正面
+            
+            let isReversed = cardObj.el.classList.contains('is-reversed');
+            // 自动继承桌面卡牌的真实正逆位状态
+            if (isReversed) {
+                inner.classList.add('is-rotated');
+            } else {
+                inner.classList.remove('is-rotated');
+            }
+            
+            // 保存当前操作的卡牌名称，方便旋转时重新渲染牌意
+            inner.dataset.currentCard = cardObj.name;
+            
+            // 渲染对应的牌意背板
+            renderMeaningPanel(cardObj.name, isReversed);
+            const cardImg = cardObj.el.querySelector('.card-image');
+            if (cardImg.src && cardImg.style.display !== 'none') {
+                imgEl.src = cardImg.src;
+                imgEl.style.display = 'block';
+                nameEl.style.display = 'none';
+            } else {
+                imgEl.src = '';
+                imgEl.style.display = 'none';
+                nameEl.innerText = cardObj.name;
+                nameEl.style.display = 'block';
+            }
+            document.getElementById('meaning-title').innerText = cardObj.name;
+            modal.classList.add('show');
+        }
+        function closeZoomModal(e) {
+            if (e) e.stopPropagation();
+            document.getElementById('card-zoom-modal').classList.remove('show');
+        }
+        function toggleZoomFlip(e) {
+            if (e) e.stopPropagation();
+            document.getElementById('zoom-card-inner').classList.toggle('is-flipped');
+        }
+        function toggleZoomRotate(e) {
+            if (e) e.stopPropagation();
+            const inner = document.getElementById('zoom-card-inner');
+            inner.classList.toggle('is-rotated');
+            // 旋转时，动态刷新背面的“正逆位”牌意内容
+            let isRevNow = inner.classList.contains('is-rotated');
+            renderMeaningPanel(inner.dataset.currentCard, isRevNow);
+        }
+        // ==========================================================
         function init() {
             track.innerHTML = ''; desktop.innerHTML = ''; cardObjs = [];
             
             const currentDeck = decks.find(d => d.id === activeDeckId) || decks[0];
-
             for (let i = 0; i < TOTAL; i++) {
                 const el = document.createElement('div'); 
                 el.className = 'card'; 
@@ -728,7 +1281,6 @@
                 const imgSrc = currentDeck.cards[i] || '';
                 const imgStyle = imgSrc ? 'block' : 'none';
                 const nameStyle = imgSrc ? 'none' : 'block';
-
                 el.innerHTML = `
                     <div class="card-inner">
                         <div class="card-back"><div class="card-index"></div></div>
@@ -747,7 +1299,6 @@
                     else if (tarotData[i].includes('宝剑')) category = 'swords';
                     else if (tarotData[i].includes('星币')) category = 'pentacles';
                 }
-
                 const obj = { 
                     el, id: i, 
                     deckIndex: 0, 
@@ -773,12 +1324,10 @@
                 o.deckIndex = initialPositions[i];
                 if (Math.random() > 0.5) o.el.classList.add('is-reversed');
             });
-
             setupEvents();
             ritualFan();
             requestAnimationFrame(renderLoop);
         }
-
         function renderDeckList() {
             const container = document.getElementById('deck-list-container');
             container.innerHTML = '';
@@ -811,7 +1360,6 @@
                 container.appendChild(div);
             });
         }
-
         function openExportModal(id) {
             const deck = decks.find(d => d.id === id);
             if (!deck) return;
@@ -822,20 +1370,17 @@
             document.getElementById('copy-btn').innerText = "复制配置码";
             openModal('modal-export');
         }
-
         function copyExportCode() {
             const textarea = document.getElementById('export-textarea');
             textarea.select();
             document.execCommand('copy');
             document.getElementById('copy-btn').innerText = "已复制！";
         }
-
         function openImportModal() {
             document.getElementById('import-textarea').value = "";
             openModal('modal-import');
             setTimeout(() => document.getElementById('import-textarea').focus(), 100);
         }
-
         function confirmImportDeck() {
             const code = document.getElementById('import-textarea').value.trim();
             if (!code) { showCustomAlert("配置码不能为空！"); return; }
@@ -844,17 +1389,16 @@
                 const data = JSON.parse(jsonStr);
                 if (!data.name || !Array.isArray(data.cards) || data.cards.length !== TOTAL) throw new Error("格式不正确");
                 const newId = Date.now();
-                decks.push({ id: newId, name: data.name + " (导入)", cards: data.cards });
+                const processedCards = data.cards.map(url => url ? url.replace(/\.png/gi, '.webp') : url);
+                decks.push({ id: newId, name: data.name + " (导入)", cards: processedCards });
                 renderDeckList(); closeModal('modal-import'); showCustomAlert("导入成功！");
             } catch (e) { showCustomAlert("无效的配置码，请检查是否复制完整！"); }
         }
-
         function openCreateModal() {
             document.getElementById('modal-input-name').value = "我的新牌组";
             openModal('modal-create');
             setTimeout(() => document.getElementById('modal-input-name').focus(), 100);
         }
-
         function confirmCreateDeck() {
             const nameInput = document.getElementById('modal-input-name');
             const name = nameInput.value.trim();
@@ -864,20 +1408,17 @@
                 renderDeckList(); closeModal('modal-create');
             } else { showCustomAlert("牌组名称不能为空！"); }
         }
-
         function requestDeleteDeck(id) {
             if (decks.length <= 1) { showCustomAlert("至少需要保留一个牌组。"); return; }
             if (id === activeDeckId) { showCustomAlert("当前正在应用的牌组无法删除，\n请先应用其他牌组。"); return; }
             pendingDeleteId = id; openModal('modal-delete');
         }
-
         function confirmDeleteDeck() {
             if (pendingDeleteId) {
                 decks = decks.filter(d => d.id !== pendingDeleteId);
                 renderDeckList(); pendingDeleteId = null; closeModal('modal-delete');
             }
         }
-
         function applyDeck(id, btnElement) {
             if (activeDeckId === id) return; 
             activeDeckId = id;
@@ -900,7 +1441,6 @@
                 setTimeout(() => { renderDeckList(); }, 800);
             } else { renderDeckList(); }
         }
-
         function openEditView(deckId) {
             editingDeckId = deckId;
             document.getElementById('deck-list-view').style.display = 'none';
@@ -910,7 +1450,6 @@
             document.getElementById('edit-deck-title').innerText = `正在配置：${deck.name}`;
             initAdminUI(deckId);
         }
-
         function closeEditView() {
             editingDeckId = null;
             document.getElementById('deck-edit-view').style.display = 'none';
@@ -918,7 +1457,6 @@
             document.getElementById('admin-back-btn').style.display = 'none';
             renderDeckList();
         }
-
         function initAdminUI(deckId) {
             const adminContainer = document.getElementById('admin-list-container');
             adminContainer.innerHTML = '';
@@ -936,7 +1474,10 @@
                 const btnEl = row.querySelector('.admin-item-btn');
                 inputEl.value = deck.cards[i] || ''; 
                 btnEl.onclick = () => {
-                    const newUrl = inputEl.value.trim(); deck.cards[i] = newUrl; 
+                    let newUrl = inputEl.value.trim();
+                    newUrl = newUrl.replace(/\.png/gi, '.webp');
+                    inputEl.value = newUrl;
+                    deck.cards[i] = newUrl; 
                     if (deckId === activeDeckId) {
                         const cardImg = cardObjs[i].el.querySelector('.card-image');
                         const cardName = cardObjs[i].el.querySelector('.name');
@@ -954,14 +1495,12 @@
                 adminContainer.appendChild(row);
             });
         }
-
         function isMatch(o, filterType) {
             if (filterType === 'all') return true;
             if (filterType === 'major') return !o.isMinor;
             if (filterType === 'minor') return o.isMinor;
             return o.category === filterType;
         }
-
         function setFilter(filterType) {
             currentFilter = filterType;
             document.querySelectorAll('#sidebar-filters .sidebar-btn').forEach(btn => { btn.classList.toggle('active', btn.dataset.filter === filterType); });
@@ -972,7 +1511,6 @@
             });
             ritualFan();
         }
-
         function renderLoop() {
             if (engineOn) {
                 if (interactMode !== 'scrolling' && Math.abs(velocity) > 0.1) { scrollPos += velocity; velocity *= 0.94; }
@@ -990,7 +1528,6 @@
                     
                     let targetYOffset = (protrudedObj === obj) ? -40 : 0;
                     obj.protrudeY += (targetYOffset - obj.protrudeY) * 0.08; 
-
                     obj.el.style.transform = `translate3d(${renderX}px, ${yDrop + obj.protrudeY}px, 0) rotate(${angleDeg}deg)`;
                     
                     const dist = Math.abs(renderX);
@@ -1002,9 +1539,7 @@
             }
             requestAnimationFrame(renderLoop);
         }
-
         function resetProtruded() { if (protrudedObj) protrudedObj = null; }
-
         function ritualShuffle() {
             ritualSequence++; engineOn = false; resetProtruded();
             const active = cardObjs.filter(o => o.status === 'fan');
@@ -1024,7 +1559,6 @@
             }
             active.forEach((o, i) => o.deckIndex = newIndices[i]);
         }
-
         function ritualCut() {
             ritualSequence++; engineOn = false; resetProtruded();
             const active = cardObjs.filter(o => o.status === 'fan');
@@ -1061,7 +1595,6 @@
                 newOrder.forEach((o, i) => o.deckIndex = originalIndices[i]);
             }, 600);
         }
-
         function ritualFan() {
             ritualSequence++; const currentSeq = ritualSequence;
             resetProtruded(); const active = cardObjs.filter(o => o.status === 'fan');
@@ -1083,7 +1616,6 @@
                     const yDrop = radius - radius * Math.cos(angleRad);
                     
                     o.protrudeY = 0;
-
                     o.el.style.transform = `translate3d(${renderX}px, ${yDrop}px, 0) rotate(${angleDeg}deg)`;
                     const dist = Math.abs(renderX);
                     
@@ -1095,7 +1627,6 @@
             const totalDealTime = active.length * 15 + 600; 
             setTimeout(() => { if (currentSeq !== ritualSequence) return; active.forEach(o => o.el.classList.remove('animating')); engineOn = true; }, totalDealTime);
         }
-
         function ritualCollect() {
             resetProtruded(); const desktopCards = cardObjs.filter(o => o.status === 'desktop');
             if (desktopCards.length === 0) return;
@@ -1103,17 +1634,15 @@
             desktopCards.forEach((o, i) => { o.deckIndex = ++maxDeckIndex; o.status = 'returning'; setTimeout(() => { returnToFanAnimated(o); }, i * 20); });
             setTimeout(() => { ritualFan(); }, desktopCards.length * 20 + 600);
         }
-
         function setupEvents() {
             window.addEventListener('pointerdown', onPointerDown);
             window.addEventListener('pointermove', onPointerMove, { passive: false });
             window.addEventListener('pointerup', onPointerUp);
             window.addEventListener('pointercancel', onPointerUp);
         }
-
         function onPointerDown(e) {
             if (e.button !== 0 && e.button !== undefined) return;
-            if (e.target.closest('#sidebar') || e.target.closest('#action-sidebar') || e.target.closest('#admin-view') || e.target.closest('.custom-modal')) return;
+            if (e.target.closest('#sidebar') || e.target.closest('#action-sidebar') || e.target.closest('#admin-view') || e.target.closest('.custom-modal') || e.target.closest('#card-zoom-modal')) return;
             const targetEl = e.target.closest('.card');
             if (targetEl) {
                 dragTarget = cardObjs.find(o => o.el === targetEl);
@@ -1134,7 +1663,6 @@
                 dragTarget.offX = e.clientX - rect.left; dragTarget.offY = e.clientY - rect.top;
             }
         }
-
         function onPointerMove(e) {
             if (e.pointerId !== activePointerId) return; e.preventDefault(); 
             const dx = e.clientX - dragStartX; const dy = e.clientY - dragStartY;
@@ -1150,7 +1678,6 @@
             }
             lastTouchX = e.clientX; lastMoveTime = now;
         }
-
         function onPointerUp(e) {
             if (e.pointerId !== activePointerId) return;
             const dist = Math.hypot(e.clientX - dragStartX, e.clientY - dragStartY);
@@ -1159,7 +1686,14 @@
             }
             if ((interactMode === 'dragging' || interactMode === 'dragging_desktop') && dragTarget) {
                 dragTarget.el.classList.remove('dragging');
-                if (interactMode === 'dragging_desktop' && dist < 5) dragTarget.el.classList.toggle('is-flipped');
+                
+                if (interactMode === 'dragging_desktop' && dist < 5) {
+                    if (!dragTarget.el.classList.contains('is-flipped')) {
+                        dragTarget.el.classList.add('is-flipped');
+                    } else {
+                        openZoomModal(dragTarget);
+                    }
+                }
                 if (e.clientY > window.innerHeight - 80) {
                     let maxDeckIndex = Math.max(-1, ...cardObjs.map(c => c.deckIndex));
                     dragTarget.deckIndex = maxDeckIndex + 1; dragTarget.status = 'returning';
@@ -1168,7 +1702,6 @@
             }
             activePointerId = null; dragTarget = null; interactMode = 'idle';
         }
-
         function promoteToDesktop(obj, x, y) {
             if (obj.status === 'desktop') return; if (protrudedObj === obj) protrudedObj = null;
             obj.status = 'desktop'; obj.el.classList.add('on-desktop', 'dragging'); obj.el.classList.remove('animating'); 
@@ -1179,7 +1712,6 @@
             if (x && y) { obj.el.style.left = (x - 32) + 'px'; obj.el.style.top = (y - 60) + 'px'; }
             obj.el.style.transform = `rotate(${(Math.random()-0.5)*10}deg)`; obj.el.style.opacity = '1';
         }
-
         function returnToFanAnimated(obj) {
             obj.el.classList.remove('dragging');
             let match = isMatch(obj, currentFilter);
@@ -1203,7 +1735,6 @@
                 else { obj.status = 'hidden'; obj.el.style.display = 'none'; obj.el.classList.remove('is-fanned'); track.appendChild(obj.el); }
             }, 500);
         }
-
         window.onload = init;
     </script>
 </body>
