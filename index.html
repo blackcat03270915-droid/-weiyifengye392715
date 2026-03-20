@@ -6,13 +6,14 @@
     <title>猫叶的塔罗工作台 - 塔罗占卜</title>
     <style>
         :root {
-            --bg-light: #fdfbf7; 
-            --bg-grad: #f0ebe1;
+            /* 1. 更新为奶棕色系背景变量 */
+            --bg-light: #efe9e4; 
+            --bg-grad: #e2d3c5;
             --accent: #bda285; 
             --accent-dim: #e6dfd6;
             --text-main: #7a6e62;
-            --card-w: 79px; 
-            --card-h: 136px;
+            --card-w: 100px; 
+            --card-h: 172px;
             --danger: #d9534f;
         }
         
@@ -20,7 +21,8 @@
         
         body {
             background: var(--bg-light); 
-            background-image: radial-gradient(circle at 50% 50%, #ffffff 0%, var(--bg-grad) 100%);
+            /* 背景加上奶棕色晕染，中心保留微白以凸显卡牌 */
+            background-image: radial-gradient(circle at 50% 50%, #fdfbf8 0%, var(--bg-grad) 100%);
             margin: 0; padding: 0; height: 100dvh; width: 100vw; 
             overflow: hidden; touch-action: none; position: fixed;
             font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Microsoft YaHei', sans-serif;
@@ -31,12 +33,55 @@
         
         .header-bar {
             height: 60px; display: flex; justify-content: space-between; align-items: center;
-            padding: 0 20px; background: rgba(253, 251, 247, 0.7);
+            /* 保持上方栏为白色半透明磨砂质感 */
+            padding: 0 20px; background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(189, 162, 133, 0.15); z-index: 10000; position: relative;
         }
-        .header-bar .title { font-weight: bold; color: var(--text-main); font-size: 17px; letter-spacing: 1px;}
         
+        /* ================= 更新：黑猫月牙印章样式 ================= */
+        .stamp-title {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 1.5px solid var(--text-main);
+            border-radius: 20px; /* 胶囊圆角印章 */
+            padding: 6px 14px;
+            color: var(--text-main);
+            transform: rotate(-3deg);
+            background: #fff;
+            /* 利用多重内阴影制作出复古印章的双线压花质感 */
+            box-shadow: inset 0 0 0 2px #fff, inset 0 0 0 3.5px var(--text-main), 0 4px 10px rgba(122, 110, 98, 0.08);
+            opacity: 0; 
+            pointer-events: none;
+            gap: 2px;
+        }
+        .stamp-icon {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .stamp-sub {
+            font-size: 10px;
+            font-family: 'Helvetica Neue', Helvetica, sans-serif;
+            font-weight: 900;
+            letter-spacing: 1px;
+            color: var(--text-main);
+        }
+        @keyframes stampDrop {
+            0% { transform: scale(1.6) rotate(-15deg); opacity: 0; }
+            60% { transform: scale(0.9) rotate(-3deg); opacity: 1; }
+            80% { transform: scale(1.05) rotate(-3deg); opacity: 1; }
+            100% { transform: scale(1) rotate(-3deg); opacity: 1; }
+        }
+        .stamp-title.animate {
+            animation: stampDrop 0.5s cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
+        }
+        /* ========================================================= */
+
         .nav-btn {
             background: #fff; border: 1px solid var(--accent-dim); 
             color: var(--text-main); padding: 5px 12px; border-radius: 12px; font-size: 10px;
@@ -131,7 +176,6 @@
             object-fit: cover;
             border-radius: 4px;
             z-index: 1;
-            /* 新增：完全屏蔽图片的默认拖拽与交互，解决桌面端禁止符号和卡顿 */
             -webkit-user-drag: none;
             user-drag: none;
             pointer-events: none;
@@ -324,7 +368,14 @@
     <!-- 视图 1：工作台 -->
     <div id="workbench-view" class="view-container">
         <div class="header-bar">
-            <div class="title">✧ 猫叶的塔罗工作台 ✧</div>
+            <!-- 3. 动态印章 Logo 结构 -->
+            <div id="workbench-title" class="stamp-title">
+                <div class="stamp-icon" style="width: auto; font-size: 15px; letter-spacing: 2px;">
+                    🐈‍⬛🌙🔮
+                </div>
+                <div class="stamp-sub">♈ · XVIII</div>
+            </div>
+            
             <button class="nav-btn" onclick="toggleView('admin')">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
                 <span>进入后台</span>
@@ -363,6 +414,11 @@
         </div>
 
         <div id="action-sidebar">
+            <button class="sidebar-btn" onclick="toggleCardSize()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+                <span id="size-btn-text">大小:中</span>
+            </button>
+            
             <button class="sidebar-btn" onclick="ritualShuffle()">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"></polyline><line x1="4" y1="20" x2="21" y2="3"></line><polyline points="21 16 21 21 16 21"></polyline><line x1="15" y1="15" x2="21" y2="21"></line><line x1="4" y1="4" x2="9" y2="9"></line></svg>
                 <span>洗牌</span>
@@ -390,7 +446,7 @@
     <!-- 视图 2：后台管理 -->
     <div id="admin-view" class="view-container" style="display: none;">
         <div class="header-bar">
-            <div class="title">✧ 后台管理 ✧</div>
+            <div class="title" style="font-size: 15px; font-weight: bold;">✧ 后台管理</div>
             <div style="display: flex; gap: 8px;">
                 <button id="admin-back-btn" class="nav-btn" onclick="closeEditView()" style="display: none;">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
@@ -489,6 +545,16 @@
     </div>
 
     <script>
+        // ================= 触发印章动效逻辑 =================
+        function triggerStampAnimation() {
+            const titleEl = document.getElementById('workbench-title');
+            if (titleEl) {
+                titleEl.classList.remove('animate');
+                void titleEl.offsetWidth; // 触发重绘以重新播放动画
+                titleEl.classList.add('animate');
+            }
+        }
+
         let pendingDeleteId = null;
 
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
@@ -509,6 +575,7 @@
             } else {
                 document.getElementById('workbench-view').style.display = 'block';
                 document.getElementById('admin-view').style.display = 'none';
+                triggerStampAnimation(); // 从后台返回时，重新播放印章盖下的动画
             }
         }
 
@@ -544,6 +611,21 @@
         let lastTouchX = 0;
         let interactMode = 'idle'; 
         let lastMoveTime = 0;
+
+        let sizeLevel = 1;
+        const sizeOptions = [
+            { w: 80, h: 138, label: '小' },
+            { w: 100, h: 172, label: '中' },
+            { w: 120, h: 206, label: '大' }
+        ];
+
+        function toggleCardSize() {
+            sizeLevel = (sizeLevel + 1) % 3; 
+            document.documentElement.style.setProperty('--card-w', sizeOptions[sizeLevel].w + 'px');
+            document.documentElement.style.setProperty('--card-h', sizeOptions[sizeLevel].h + 'px');
+            const btnSpan = document.getElementById('size-btn-text');
+            if (btnSpan) btnSpan.innerText = '大小:' + sizeOptions[sizeLevel].label;
+        }
 
         function init() {
             track.innerHTML = ''; desktop.innerHTML = ''; cardObjs = [];
@@ -606,6 +688,8 @@
             setupEvents();
             ritualFan();
             requestAnimationFrame(renderLoop);
+            
+            triggerStampAnimation(); // 初次加载时播放印章动画
         }
 
         function renderDeckList() {
@@ -815,7 +899,10 @@
                     obj.el.style.transform = `translate3d(${renderX}px, ${yDrop + obj.protrudeY}px, 0) rotate(${angleDeg}deg)`;
                     
                     const dist = Math.abs(renderX);
-                    obj.el.style.opacity = Math.max(0, 1.2 - dist / (window.innerWidth * 0.6));
+                    
+                    /* 透明度护航：同上，使得铺开时卡牌保持实质感 */
+                    obj.el.style.opacity = Math.max(0, 3.0 - dist / (window.innerWidth * 0.5));
+                    
                     obj.el.style.zIndex = Math.floor(1000 + obj.baseX);
                 });
             }
@@ -905,7 +992,9 @@
 
                     o.el.style.transform = `translate3d(${renderX}px, ${yDrop}px, 0) rotate(${angleDeg}deg)`;
                     const dist = Math.abs(renderX);
-                    o.el.style.opacity = Math.max(0, 1.2 - dist / (window.innerWidth * 0.6));
+                    
+                    o.el.style.opacity = Math.max(0, 3.0 - dist / (window.innerWidth * 0.5));
+                    
                     o.el.style.zIndex = Math.floor(1000 + o.baseX);
                 }, i * 15); 
             });
