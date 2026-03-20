@@ -1137,7 +1137,14 @@
             const parsedData = JSON.parse(decodeURIComponent(escape(atob(defaultFactoryCode))));
             if (parsedData && parsedData.name && Array.isArray(parsedData.cards) && parsedData.cards.length === TOTAL) {
                 parsedDefaultName = parsedData.name;
-                parsedDefaultCards = parsedData.cards.map(url => url ? url.replace(/\.png/gi, '.webp') : url);
+                parsedDefaultCards = parsedData.cards.map(url => {
+                    if (!url) return url;
+                    let newUrl = url.replace(/\.png/gi, '.webp');
+                    if (!newUrl.startsWith('http') && !newUrl.startsWith('专用版/')) {
+                        newUrl = '专用版/' + newUrl;
+                    }
+                    return newUrl;
+                });
             }
         } catch (e) {
             console.error("出厂配置解析失败", e);
@@ -1389,7 +1396,14 @@
                 const data = JSON.parse(jsonStr);
                 if (!data.name || !Array.isArray(data.cards) || data.cards.length !== TOTAL) throw new Error("格式不正确");
                 const newId = Date.now();
-                const processedCards = data.cards.map(url => url ? url.replace(/\.png/gi, '.webp') : url);
+                const processedCards = data.cards.map(url => {
+                    if (!url) return url;
+                    let newUrl = url.replace(/\.png/gi, '.webp');
+                    if (!newUrl.startsWith('http') && !newUrl.startsWith('专用版/')) {
+                        newUrl = '专用版/' + newUrl;
+                    }
+                    return newUrl;
+                });
                 decks.push({ id: newId, name: data.name + " (导入)", cards: processedCards });
                 renderDeckList(); closeModal('modal-import'); showCustomAlert("导入成功！");
             } catch (e) { showCustomAlert("无效的配置码，请检查是否复制完整！"); }
@@ -1476,6 +1490,9 @@
                 btnEl.onclick = () => {
                     let newUrl = inputEl.value.trim();
                     newUrl = newUrl.replace(/\.png/gi, '.webp');
+                    if (newUrl && !newUrl.startsWith('http') && !newUrl.startsWith('专用版/')) {
+                        newUrl = '专用版/' + newUrl;
+                    }
                     inputEl.value = newUrl;
                     deck.cards[i] = newUrl; 
                     if (deckId === activeDeckId) {
