@@ -162,13 +162,14 @@
         .sidebar-btn svg { width: 22px; height: 22px; opacity: 0.9; stroke-width: 2; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; }
         #hint { position: absolute; top: 75px; width: 100%; text-align: center; font-size: 12px; color: #a3998f; pointer-events: none; opacity: 0.9; z-index: 2000; letter-spacing: 1px;}
         
-        /* 升级美化：全局复古纸张纹理 */
+        /* 升级美化：全局复古纸张纹理（性能优化防频闪版） */
         .texture-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 2;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-            opacity: 0.05;
+            background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAAGFBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANY0xEAAAACHRSTlMAAwUHCQoNDg8REhMUGBobHB0hIiQnKCkqMTI0NTc5Ojw/QERGR0lKS0xNTlBTVFVXWFlaXV5fYGFiY2VnaGtvcHFzdHV3eHl7fH1/gYKDhIWGh4iJjI2Oj5CRkpOUlZaXmJmcnZ6foKGjpKanqKmqrK2ur7CxsrO1tre4u7y+v8DBwsPExcbHyMnKzM3P0NHS09TV1tfY2drb3N3e3+Dh4uPk5ebn6Onq6+zt7u/w8fLz9PX29/j5+vv8/f6xTzkKAAACGElEQVQ4y2NgQAX8/Pz//wMGMAC1QIQDCAgI/EdTz8TEBFMIEgMJiIqK/kdXz8nJCVMAEgMJSEhI/EdTz8/PD1MAEgMJiIuL/kdTz9DQEFMAEgMJiIiI/EdTz8nJCVMAEgMJiImJ/kdTz8vLC1MAEgMJiIuL/kdTz8nJCVMAEgMJiIiI/EdTz9nZGVMAEgMJiImJ/kdTz8nJCVMAEgMJiImJ/kdTz9DQEFMAEgMJiIiI/EdTz8nJCVMAEgMJiIuL/kdTz9DQEFMAEgMJiIiI/EdTz9DQEFMAEgMJiImJ/kdTz9DQEFMAEgMJiImJ/kdTz9nZGVMAEgMJiIiI/EdTz8vLC1MAEgMJiIiI/EdTz8/PD1MAEgMJiIuL/kdTz9DQEFMAEgMJiImJ/kdTz9nZGVMAEgMJiIuL/kdTz8/PD1MAEgMJiImJ/kdTz8nJCVMAEgMJiIiI/EdTz9DQEFMAEgMJiImJ/kdTz9DQEFMAEgMJiImJ/kdTz8vLC1MAEgMJiIuL/kdTz8nJCVMAEgMJiIiI/EdTz9DQEFMAEgMJiIiI/EdTz8/PD1MAEgMJiImJ/kdTz8nJCVMAEgMJiImJ/kdTz9DQEFMAEgMJiIiI/EdTz9DQEFMAEgMJiIuL/kdTz9DQEFMAEgMJiIiI/EdTz9nZGVMAEgMJiImJ/kfUAAA6Ew45I4A4QAAAAABJRU5ErkJggg==");
+            opacity: 0.15;
             mix-blend-mode: multiply;
+            transform: translateZ(0);
         }
 
         /* 升级美化：全局环境光影与暗角 */
@@ -176,13 +177,14 @@
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 3;
             background: radial-gradient(circle at 50% 50%, transparent 35%, rgba(100, 75, 55, 0.25) 130%);
+            transform: translateZ(0);
         }
 
         /* 升级美化：桌面居中魔法阵水印 */
         .desk-watermark {
             position: absolute;
             top: 45%; left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%) translateZ(0);
             opacity: 0.15;
             pointer-events: none;
             width: 320px; height: 320px;
@@ -195,7 +197,7 @@
         .card {
             position: absolute; width: var(--card-w); height: var(--card-h);
             left: 50%; bottom: 30px; margin-left: calc(var(--card-w) / -2);
-            will-change: transform, opacity; z-index: 10;
+            will-change: transform, opacity, left, top; z-index: 10;
             perspective: 1000px;
         }
         
@@ -204,6 +206,7 @@
             transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
             transform-style: preserve-3d;
             border-radius: 8px; box-shadow: 0 4px 12px rgba(122, 110, 98, 0.12);
+            transform: translateZ(0);
         }
         
         .card-front, .card-back {
@@ -255,6 +258,7 @@
         .card.dragging { z-index: 9999 !important; }
         .card.dragging .card-inner { box-shadow: 0 12px 25px rgba(122, 110, 98, 0.2); transform: scale(1.08); transition: transform 0.2s; }
         .card.dragging.is-flipped .card-inner { transform: rotateY(180deg) scale(1.08); }
+        
         /* 卡牌放大详情弹窗结构 */
         #card-zoom-modal {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100dvh;
@@ -285,9 +289,9 @@
             transform-style: preserve-3d;
             border-radius: 16px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-            transform: rotateY(0deg); 
+            transform: rotateY(0deg) translateZ(0); 
         }
-        .zoom-card-inner.is-flipped { transform: rotateY(180deg); }
+        .zoom-card-inner.is-flipped { transform: rotateY(180deg) translateZ(0); }
         
         .zoom-card-front, .zoom-card-back {
             position: absolute; width: 100%; height: 100%;
@@ -307,6 +311,7 @@
             width: calc(100% - 12px); height: calc(100% - 12px);
             object-fit: cover; border-radius: 10px;
         }
+        
         /* 牌意背板排版优化 */
         .zoom-card-back {
             transform: rotateY(180deg);
@@ -328,6 +333,7 @@
         .m-meta { display: flex; justify-content: center; align-items: center; width: 100%; background: rgba(189, 162, 133, 0.1); padding: 8px 6px; border-radius: 4px; margin-bottom: 12px; }
         .m-section { width: 100%; font-size: 12px; line-height: 1.6; margin-bottom: 10px; text-align: justify; }
         .m-hl { background: rgba(234, 203, 150, 0.5); padding: 1px 4px; font-weight: bold; border-radius: 3px; display: inline-block; margin-right: 4px;}
+        
         .zoom-btn {
             position: absolute; width: 48px; height: 48px; border-radius: 50%;
             background: rgba(253, 251, 247, 0.95); border: 1px solid var(--accent-dim);
@@ -342,7 +348,7 @@
         .zoom-btn.moon-btn { bottom: -20px; right: -20px; }
         .zoom-btn.rotate-btn { bottom: -20px; left: -20px; } 
         .zoom-btn svg { width: 22px; height: 22px; stroke-width: 2.5; }
-        /* ============================================================== */
+        
         /* 后台排版样式 */
         .admin-scroll-area {
             height: calc(100% - 60px);
@@ -468,6 +474,7 @@
             background: var(--bg-grad);
             transform: scale(0.92);
         }
+        
         /* 自定义弹窗样式 */
         .custom-modal {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -934,7 +941,7 @@
             "隐士": { meta: "【星座】处女座 · 【元素】土",
                 desc: "一位孤独的老者提着指路明灯，站在冰天雪地的山巅。代表着内省、孤独、探索内心真理与寻找人生指引。",
                 up: { core: "寻求内在智慧；暂时退避反省；独自探索；谨慎行事。", love: "享受独处，暗恋，或者关系进入冷静期，需要空间。", career: "专心钻研，适合独立工作，不盲从大流。", wealth: "保守理财，看淡物质，精神富足大于物质财富。", advice: "暂时从喧嚣中抽身，去倾听自己内心的真实声音。" },
-                rev: { core: "过度孤僻导致孤立；拒绝他人帮助；固执见解；内心迷茫。", love: "过度封闭内心，导致沟通断裂，错失良缘。", career: "不合群，闭门造车导致工作受阻，缺乏团队精神。", wealth: "因固执错失投资机会，财务状况停滞不前。", advice: "不要过度封闭自己，适时接受他人的帮助与建议。" } },
+                rev: { core: "过度孤僻导致孤立；拒绝他人帮助；固执己见；内心迷茫。", love: "过度封闭内心，导致沟通断裂，错失良缘。", career: "不合群，闭门造车导致工作受阻，缺乏团队精神。", wealth: "因固执错失投资机会，财务状况停滞不前。", advice: "不要过度封闭自己，适时接受他人的帮助与建议。" } },
             "命运之轮": { meta: "【行星】木星 · 【元素】火",
                 desc: "巨大的轮盘不断旋转，四角有四大元素的象征。代表着不可抗拒的命运、转折点、好运以及轮回。",
                 up: { core: "命运的转折点；好运降临；命中注定的相遇；顺应变化的趋势。", love: "命中注定的缘分，一见钟情，关系迎来关键的转机。", career: "抓住机遇，事业出现意想不到的良好发展。", wealth: "偏财运极佳，时来运转，意外之财。", advice: "顺应命运的安排，抓住眼前稍纵即逝的机会。" },
@@ -1660,14 +1667,16 @@
                 cardObjs.forEach(obj => {
                     if (obj.status !== 'fan') return;
                     let renderX = obj.baseX - scrollPos;
-                    const radius = Math.max(window.innerWidth * 1.8, 800); 
+                    // 核心修改：放大圆弧半径 (原为1.8和800，现改为3.2和1600)，圆弧更平缓
+                    const radius = Math.max(window.innerWidth * 3.2, 1600); 
                     const angleRad = renderX / radius; 
                     const angleDeg = angleRad * (180 / Math.PI);
-                    const yDrop = radius - radius * Math.cos(angleRad);
+                    // 核心修改：精准回调 Y 轴下沉量，让最高处正好露出二分之一高度
+                    const yDrop = radius - radius * Math.cos(angleRad) + 95;
                     
                     let targetYOffset = (protrudedObj === obj) ? -40 : 0;
                     obj.protrudeY += (targetYOffset - obj.protrudeY) * 0.08; 
-                    obj.el.style.transform = `translate3d(${renderX}px, ${yDrop + obj.protrudeY}px, 0) rotate(${angleDeg}deg)`;
+                    obj.el.style.transform = `translate3d(${renderX}px, ${yDrop + obj.protrudeY}px, 0) rotate(${angleDeg}deg) translateZ(0)`;
                     
                     const dist = Math.abs(renderX);
                     
@@ -1740,7 +1749,8 @@
             active.sort((a,b) => a.deckIndex - b.deckIndex);
             TOTAL_W = Math.max(0, (active.length - 1) * SPACING);
             scrollPos = TOTAL_W / 2;
-            const radius = Math.max(window.innerWidth * 1.8, 800); 
+            // 核心修改：放大圆弧半径 (同步初始化数值)
+            const radius = Math.max(window.innerWidth * 3.2, 1600); 
             active.forEach((o, i) => {
                 o.baseX = i * SPACING; 
                 const idxLabel = o.el.querySelector('.card-index');
@@ -1752,10 +1762,11 @@
                     o.el.classList.add('animating'); o.el.classList.add('is-fanned');
                     let renderX = o.baseX - scrollPos;
                     const angleRad = renderX / radius; const angleDeg = angleRad * (180 / Math.PI);
-                    const yDrop = radius - radius * Math.cos(angleRad);
+                    // 核心修改：精准回调 Y 轴下沉量，让最高处正好露出二分之一高度
+                    const yDrop = radius - radius * Math.cos(angleRad) + 95;
                     
                     o.protrudeY = 0;
-                    o.el.style.transform = `translate3d(${renderX}px, ${yDrop}px, 0) rotate(${angleDeg}deg)`;
+                    o.el.style.transform = `translate3d(${renderX}px, ${yDrop}px, 0) rotate(${angleDeg}deg) translateZ(0)`;
                     const dist = Math.abs(renderX);
                     
                     o.el.style.opacity = Math.max(0, 3.0 - dist / (window.innerWidth * 0.5));
@@ -1850,11 +1861,10 @@
             obj.el.style.bottom = 'auto'; obj.el.style.margin = '0';
             if (x && y) { obj.el.style.left = (x - 32) + 'px'; obj.el.style.top = (y - 60) + 'px'; }
             
-            // 核心修改点：通过开关控制抽牌角度
             if (randomRotationEnabled) {
-                obj.el.style.transform = `rotate(${(Math.random()-0.5)*10}deg)`; 
+                obj.el.style.transform = `rotate(${(Math.random()-0.5)*10}deg) translateZ(0)`; 
             } else {
-                obj.el.style.transform = `rotate(0deg)`;
+                obj.el.style.transform = `rotate(0deg) translateZ(0)`;
             }
             
             obj.el.style.opacity = '1';
@@ -1863,22 +1873,29 @@
             obj.el.classList.remove('dragging');
             let match = isMatch(obj, currentFilter);
             let targetTop, targetLeft, angleDeg, renderX = 0, yDrop = 0;
-            const radius = Math.max(window.innerWidth * 1.8, 800); 
+            // 核心修改：放大圆弧半径 (同步返回计算)
+            const radius = Math.max(window.innerWidth * 3.2, 1600); 
             if (match) {
                 const activeCount = cardObjs.filter(c => (c.status === 'fan' || c.status === 'returning') && isMatch(c, currentFilter)).length;
                 obj.baseX = (activeCount - 1) * SPACING; TOTAL_W = Math.max(0, obj.baseX);
                 renderX = obj.baseX - scrollPos; const angleRad = renderX / radius; angleDeg = angleRad * (180 / Math.PI);
-                yDrop = radius - radius * Math.cos(angleRad);
+                // 核心修改：精准回调 Y 轴下沉量
+                yDrop = radius - radius * Math.cos(angleRad) + 95;
                 targetTop = window.innerHeight - 135 + yDrop; targetLeft = window.innerWidth / 2 - 32.5 + renderX;
-            } else { renderX = 0; angleDeg = 0; yDrop = radius - radius * Math.cos(0); targetTop = window.innerHeight - 135 + yDrop; targetLeft = window.innerWidth / 2 - 32.5; }
+            } else { 
+                renderX = 0; angleDeg = 0; 
+                // 核心修改：精准回调 Y 轴下沉量
+                yDrop = radius - radius * Math.cos(0) + 95; 
+                targetTop = window.innerHeight - 135 + yDrop; targetLeft = window.innerWidth / 2 - 32.5; 
+            }
             obj.el.style.transition = 'left 0.5s ease-out, top 0.5s ease-out, transform 0.5s ease-out';
-            obj.el.style.left = targetLeft + 'px'; obj.el.style.top = targetTop + 'px'; obj.el.style.transform = `rotate(${angleDeg}deg)`;
+            obj.el.style.left = targetLeft + 'px'; obj.el.style.top = targetTop + 'px'; obj.el.style.transform = `rotate(${angleDeg}deg) translateZ(0)`;
             obj.el.classList.remove('is-flipped'); 
             setTimeout(() => {
                 if (obj.status !== 'returning') return;
                 obj.el.style.transition = ''; obj.el.classList.remove('on-desktop');
                 obj.el.style.left = ''; obj.el.style.top = ''; obj.el.style.bottom = ''; obj.el.style.margin = '';
-                if (match) { obj.status = 'fan'; obj.el.style.display = 'flex'; obj.el.style.transform = `translate3d(${renderX}px, ${yDrop}px, 0) rotate(${angleDeg}deg)`; track.appendChild(obj.el); }
+                if (match) { obj.status = 'fan'; obj.el.style.display = 'flex'; obj.el.style.transform = `translate3d(${renderX}px, ${yDrop}px, 0) rotate(${angleDeg}deg) translateZ(0)`; track.appendChild(obj.el); }
                 else { obj.status = 'hidden'; obj.el.style.display = 'none'; obj.el.classList.remove('is-fanned'); track.appendChild(obj.el); }
             }, 500);
         }
