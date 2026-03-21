@@ -50,19 +50,31 @@
             mask-position: top left, bottom left;
             mask-repeat: no-repeat, repeat-x;
         }
+
+        /* 升级美化：更有魔法氛围的标题铭牌 */
         .title-badge {
-            font-size: 14px;
-            font-weight: 900;
+            font-size: 15px;
+            font-weight: bold;
             position: relative;
             z-index: 1;
-            background: rgba(253, 251, 247, 0.95);
-            color: var(--text-main);
-            padding: 6px 14px;
-            border-radius: 8px; 
-            box-shadow: 0 2px 8px rgba(122, 110, 98, 0.08), inset 0 0 0 1px rgba(189, 162, 133, 0.3);
-            letter-spacing: 1px;
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
+            background: linear-gradient(180deg, #fdfbf8 0%, #f4eee7 100%);
+            color: #5c5248;
+            padding: 8px 24px;
+            border-radius: 30px; 
+            border: 1px solid rgba(189, 162, 133, 0.4);
+            box-shadow: 0 4px 15px rgba(122, 110, 98, 0.08), inset 0 2px 4px #fff;
+            letter-spacing: 2.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-shadow: 0 1px 1px rgba(255,255,255,0.8);
+        }
+        .title-badge::before, .title-badge::after {
+            content: "✧";
+            color: var(--accent);
+            font-size: 14px;
+            font-weight: 400;
+            opacity: 0.8;
         }
         
         .nav-btn {
@@ -75,6 +87,7 @@
         }
         .nav-btn:active { background: var(--bg-grad); transform: scale(0.95); }
         .nav-btn svg { width: 18px; height: 18px; opacity: 0.85; stroke-width: 2.5; }
+        
         #sidebar {
             position: absolute; left: 12px; top: 70px;
             display: flex; flex-direction: column; justify-content: flex-start; gap: 8px;
@@ -149,6 +162,34 @@
         .sidebar-btn svg { width: 22px; height: 22px; opacity: 0.9; stroke-width: 2; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; }
         #hint { position: absolute; top: 75px; width: 100%; text-align: center; font-size: 12px; color: #a3998f; pointer-events: none; opacity: 0.9; z-index: 2000; letter-spacing: 1px;}
         
+        /* 升级美化：全局复古纸张纹理 */
+        .texture-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 2;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.05;
+            mix-blend-mode: multiply;
+        }
+
+        /* 升级美化：全局环境光影与暗角 */
+        .vignette-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 3;
+            background: radial-gradient(circle at 50% 50%, transparent 35%, rgba(100, 75, 55, 0.25) 130%);
+        }
+
+        /* 升级美化：桌面居中魔法阵水印 */
+        .desk-watermark {
+            position: absolute;
+            top: 45%; left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.15;
+            pointer-events: none;
+            width: 320px; height: 320px;
+            z-index: 1;
+            color: var(--accent);
+        }
+
         #desktop { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000; pointer-events: none;}
         #fan-track { position: absolute; bottom: -20px; left: 0; width: 100%; height: 260px; z-index: 500; pointer-events: auto; }
         .card {
@@ -313,8 +354,19 @@
             display: flex;
             justify-content: center;
             gap: 15px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
+        
+        /* 新增：设置选项区域 */
+        .admin-settings-panel {
+            margin-bottom: 25px;
+            display: flex; justify-content: center; align-items: center; gap: 12px;
+            background: rgba(253, 251, 247, 0.85); padding: 12px 20px;
+            border-radius: 16px; border: 1px solid var(--accent-dim);
+            box-shadow: 0 4px 10px rgba(122, 110, 98, 0.04);
+            backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+        }
+
         .btn-primary {
             background: var(--text-main);
             color: #fff;
@@ -468,6 +520,11 @@
     </style>
 </head>
 <body>
+
+    <!-- 升级美化：全局复古纸张纹理与环境暗角 -->
+    <div class="texture-overlay"></div>
+    <div class="vignette-overlay"></div>
+
     <!-- 全局 SVG 纹理定义 -->
     <svg style="width:0;height:0;position:absolute;" aria-hidden="true" focusable="false">
         <defs>
@@ -497,8 +554,9 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path></svg>
                 <span>辞典</span>
             </button>
-            <!-- 精简标题，使用奶油方格贴纸样式突出 -->
-            <div class="title-badge"> ✧  链接潜意识。</div>
+            
+            <!-- 升级美化：更有魔法氛围的标题铭牌 -->
+            <div class="title-badge"><span>链接潜意识</span></div>
             
             <button class="nav-btn" onclick="toggleView('admin')">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
@@ -558,8 +616,26 @@
                 </button>
             </div>
         </div>
-        <div id="hint">左右滑动浏览牌阵 · 向上拖拽抽牌</div>
         
+        <div id="hint">
+            <div style="font-size: 13px; font-weight: bold; letter-spacing: 3px; color: #8a7d70; margin-bottom: 6px; text-shadow: 0 1px 2px rgba(255,255,255,0.5);">万物皆有回响 · 倾听高我的低语</div>
+            <div style="font-size: 10px; letter-spacing: 1px; color: #a3998f; opacity: 0.8;">左右拨动牌阵 · 向上牵引以连结潜意识</div>
+        </div>
+        
+        <!-- 升级美化：桌面居中魔法阵水印 -->
+        <div class="desk-watermark">
+            <svg viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="0.5">
+                <circle cx="100" cy="100" r="90" stroke-dasharray="2 4"></circle>
+                <circle cx="100" cy="100" r="75"></circle>
+                <circle cx="100" cy="100" r="60" stroke-dasharray="4 2"></circle>
+                <path d="M 10 100 L 190 100 M 100 10 L 100 190"></path>
+                <path d="M 36.3 36.3 L 163.7 163.7 M 36.3 163.7 L 163.7 36.3"></path>
+                <polygon points="100,25 115,85 175,100 115,115 100,175 85,115 25,100 85,85"></polygon>
+                <circle cx="100" cy="100" r="25"></circle>
+                <circle cx="100" cy="100" r="5" fill="currentColor"></circle>
+            </svg>
+        </div>
+
         <div id="desktop"></div>
         <div id="fan-track"></div>
     </div>
@@ -580,7 +656,7 @@
                     </div>
                     <!-- 动态自适应的神秘学属性条 -->
                     <div class="m-meta">
-                        <span id="meaning-meta" style="width: 100%; text-align: center; color: #a48165; font-weight: bold; font-size: 11px; letter-spacing: 0.5px;">【行星】天王星 · 【元素】风</span>
+                        <span id="meaning-meta" style="width: 100%; text-align: center; color: #a48165; font-weight: bold; font-size: 11px; letter-spacing: 0.5px;">【信息】链接宇宙潜意识中...</span>
                     </div>
                     <div class="m-section">
                         <span class="m-hl">人物描述</span><br>
@@ -654,6 +730,16 @@
                         导入配置
                     </button>
                 </div>
+                
+                <!-- 新增：卡牌抽放模式设置区域 -->
+                <div class="admin-settings-panel">
+                    <span style="font-size: 13px; font-weight: bold; color: var(--text-main);">卡牌抽放模式</span>
+                    <div class="toggle-switch" id="rotation-toggle" onclick="toggleRandomRotation()" style="width: 46px; height: 24px; background: var(--accent-dim); border-radius: 12px; position: relative; cursor: pointer; transition: background 0.3s; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);">
+                        <div class="toggle-knob" style="width: 20px; height: 20px; background: #fff; border-radius: 50%; position: absolute; top: 2px; left: 2px; transition: left 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.2);"></div>
+                    </div>
+                    <span id="rotation-toggle-text" style="font-size: 12px; color: var(--text-main); width: 50px; font-weight: bold;">竖直对齐</span>
+                </div>
+
                 <div id="deck-list-container">
                     <!-- 牌组列表由 JS 渲染 -->
                 </div>
@@ -739,12 +825,32 @@
     </div>
     <script>
         let pendingDeleteId = null;
+        let randomRotationEnabled = false; // 改为默认 false，初始为竖直对齐模式
+
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
         function showCustomAlert(msg) {
             document.getElementById('modal-alert-msg').innerText = msg;
             openModal('modal-alert');
         }
+
+        /* ================= 新增补全：卡牌抽放模式切换 ================= */
+        function toggleRandomRotation() {
+            randomRotationEnabled = !randomRotationEnabled;
+            const toggle = document.getElementById('rotation-toggle');
+            const knob = toggle.querySelector('.toggle-knob');
+            const text = document.getElementById('rotation-toggle-text');
+            if (randomRotationEnabled) {
+                toggle.style.background = 'var(--accent)';
+                knob.style.left = '24px';
+                text.innerText = '生动随机';
+            } else {
+                toggle.style.background = 'var(--accent-dim)';
+                knob.style.left = '2px';
+                text.innerText = '竖直对齐';
+            }
+        }
+
         /* ================= 新增补全：牌意辞典搜索功能 ================= */
         function openSearchModal() {
             document.getElementById('search-input-name').value = '';
@@ -1746,7 +1852,15 @@
             obj.el.style.zIndex = maxZ + 1;
             obj.el.style.bottom = 'auto'; obj.el.style.margin = '0';
             if (x && y) { obj.el.style.left = (x - 32) + 'px'; obj.el.style.top = (y - 60) + 'px'; }
-            obj.el.style.transform = `rotate(${(Math.random()-0.5)*10}deg)`; obj.el.style.opacity = '1';
+            
+            // 核心修改点：通过开关控制抽牌角度
+            if (randomRotationEnabled) {
+                obj.el.style.transform = `rotate(${(Math.random()-0.5)*10}deg)`; 
+            } else {
+                obj.el.style.transform = `rotate(0deg)`;
+            }
+            
+            obj.el.style.opacity = '1';
         }
         function returnToFanAnimated(obj) {
             obj.el.classList.remove('dragging');
