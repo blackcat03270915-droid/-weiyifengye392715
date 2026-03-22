@@ -1950,67 +1950,34 @@
                 else { obj.status = 'hidden'; obj.el.style.display = 'none'; obj.el.classList.remove('is-fanned'); track.appendChild(obj.el); }
             }, 500);
         }
-        // ================= 新增：预加载引擎逻辑（平滑排队稳定版） =================
+       // ================= 新增：预加载引擎逻辑（障眼法仪式版 - 极致秒开） =================
         function preloadDeckAndRun(deckCards, onComplete) {
             const loader = document.getElementById('magic-loader');
             const loaderText = document.getElementById('loader-text');
             loader.style.display = 'flex';
+            loaderText.innerText = "正在链接潜意识...";
             requestAnimationFrame(() => { loader.style.opacity = '1'; });
             
-            let validCards = deckCards.filter(src => src); 
-            let total = validCards.length;
-            let loaded = 0;
-            let currentIndex = 0;
-            
-            // 【核心护肝科技】：控制并发数，每次只允许 5 张图同时下载，绝不拥堵！
-            const MAX_CONCURRENT = 5; 
+            // 绝不等待！瞬间在幕布后面把 78 张牌铺好，让浏览器自己去后台慢慢下图片
+            onComplete();
 
-            if(total === 0) { finishLoad(); return; }
-
-            function finishLoad() {
-                loaderText.innerText = "能量同步完成 100%... 正在显影";
-                onComplete(); // 图全在本地了，瞬间贴图
-                
-                // 恢复 0.8 秒的 GPU 缓冲，杜绝白屏
+            // 障眼法：让魔法阵转 1.5 秒，营造一种高级的仪式感，然后直接拉开幕布！
+            setTimeout(() => {
+                loaderText.innerText = "能量同步完成 100%";
                 setTimeout(() => {
                     loader.style.opacity = '0';
                     setTimeout(() => { loader.style.display = 'none'; }, 600);
-                }, 800); 
-            }
-
-            // 排队下载流水线
-            function loadNextCard() {
-                if (currentIndex >= total) return; // 全部派发完毕
-                const src = validCards[currentIndex++];
-                const img = new Image();
-                img.onload = img.onerror = () => {
-                    loaded++;
-                    let percent = Math.floor((loaded / total) * 100);
-                    loaderText.innerText = `正在同步灵性能量... ${percent}%`;
-                    
-                    if (loaded === total) {
-                        finishLoad();
-                    } else {
-                        // 这张下完了，立刻叫下一张图去排队下载，保证通道永远是 5 辆车
-                        loadNextCard(); 
-                    }
-                };
-                img.src = src;
-            }
-
-            // 初始发车：先放行最前面的 5 张图
-            for (let i = 0; i < Math.min(MAX_CONCURRENT, total); i++) {
-                loadNextCard();
-            }
+                }, 300);
+            }, 1200); 
         }
 
-        // 接管网页启动，先预加载默认牌，再铺开桌面
+        // 接管网页启动
         window.onload = () => {
             const currentDeck = decks.find(d => d.id === activeDeckId) || decks[0];
             preloadDeckAndRun(currentDeck.cards, () => {
                 init();
             });
         };
-        // =======================================================   </script>
+        // ======================================================= </script>
 </body>
 </html>
