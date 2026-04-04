@@ -1547,6 +1547,8 @@ if (actualSrc && cardImg.style.display !== 'none') {
                         o.el.style.zIndex = s.zIndex || '';
                         o.el.style.transform = s.transform || '';
                         o.el.style.opacity = '1';
+o.el.style.margin = '0';
+                        o.el.style.bottom = 'auto';
                         if (s.isFlipped) {
                             const imgEl = o.el.querySelector('.card-image');
                             if (imgEl && imgEl.dataset.src) imgEl.src = imgEl.dataset.src;
