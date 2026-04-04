@@ -852,25 +852,27 @@
     </div>
     <script>
 // ================= 终极防盗基因锁 =================
-        if (window.location.hostname !== "blackcat-moon.blackcat03270915.workers.dev") {
+        if (window.location.hostname !== "blackcat-moon.pages.dev") {
             document.body.innerHTML = `
                 <div style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:#efe9e4;color:#d9534f;z-index:999999;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:18px;font-weight:bold;text-align:center;padding:20px;font-family:'Helvetica Neue', Helvetica, 'PingFang SC', 'Microsoft YaHei', sans-serif;">
-                    <div style="font-size: 40px; margin-bottom: 10px;">🚫</div>
+                    <div style="font-size: 40px; margin-bottom: 10px;"> 🚫 </div>
                     <p style="color: #7a6e62;">警告：灵性能量场不匹配！</p>
                     <p style="color:#bda285;font-size:14px;margin-top:10px;">本塔罗工作台已绑定猫叶专属领域，严禁盗用或本地运行。</p>
                     <p style="color:#bda285;font-size:14px;">正在引导您前往正确的官方阵地...</p>
                 </div>
             `;
-            setTimeout(() => { window.location.href = "https://blackcat-moon.blackcat03270915.workers.dev/"; }, 3000);
+            setTimeout(() => { window.location.href = "https://blackcat-moon.pages.dev/"; }, 3000);
             throw new Error("【猫叶防盗锁启动】已切断所有底层潜意识链接！");
         }
         // =================================================
         let pendingDeleteId = null;
         let randomRotationEnabled = false; // 改为默认 false，初始为竖直对齐模式
-// ================= 状态缓存 (自动存档) 引擎 =================
+// ================= 状态缓存 (自动存档) 引擎 V2 =================
         function saveGameState() {
             const state = {
                 activeDeckId: activeDeckId,
+                scrollPos: scrollPos,
+                totalW: TOTAL_W,
                 cards: cardObjs.map(c => ({
                     id: c.id,
                     deckIndex: c.deckIndex,
@@ -880,7 +882,9 @@
                     left: c.el.style.left,
                     top: c.el.style.top,
                     zIndex: c.el.style.zIndex,
-                    transform: c.el.style.transform
+                    transform: c.el.style.transform,
+                    baseX: c.baseX, // 记住牌的横向位置（保留被抽走造成的空隙）
+                    indexLabel: c.el.querySelector('.card-index').innerText // 记住牌背面的专属编号
                 }))
             };
             localStorage.setItem('maoyeTarotState', JSON.stringify(state));
@@ -1479,12 +1483,10 @@ if (actualSrc && cardImg.style.display !== 'none') {
         function init() {
             track.innerHTML = ''; desktop.innerHTML = ''; cardObjs = [];
 
-            // 1. 先尝试读取潜意识存档
             const savedState = loadGameState();
             if (savedState && savedState.activeDeckId) {
                 activeDeckId = savedState.activeDeckId;
             }
-
             const currentDeck = decks.find(d => d.id === activeDeckId) || decks[0];
 
             for (let i = 0; i < TOTAL; i++) {
@@ -1513,27 +1515,26 @@ if (actualSrc && cardImg.style.display !== 'none') {
                     else if (tarotData[i].includes('星币')) category = 'pentacles';
                 }
                 const obj = {
-                    el, id: i,
-                    deckIndex: 0,
-                    baseX: 0,
-                    status: 'fan',
-                    name: tarotData[i],
-                    isMinor: isMinor,
-                    category: category,
-                    offX: 0, offY: 0,
-                    protrudeY: 0
+                    el, id: i, deckIndex: 0, baseX: 0, status: 'fan',
+                    name: tarotData[i], isMinor: isMinor, category: category,
+                    offX: 0, offY: 0, protrudeY: 0
                 };
-
-                track.appendChild(el);
-                cardObjs.push(obj);
+                track.appendChild(el); cardObjs.push(obj);
             }
 
-            // 2. 核心逻辑：如果存在存档，则复原桌面；否则随机洗牌
+            // 核心冻结逻辑
             if (savedState && savedState.cards && savedState.cards.length === TOTAL) {
+                scrollPos = savedState.scrollPos !== undefined ? savedState.scrollPos : scrollPos;
+                TOTAL_W = savedState.totalW !== undefined ? savedState.totalW : TOTAL_W;
+
                 cardObjs.forEach((o, i) => {
                     const s = savedState.cards.find(c => c.id === i) || savedState.cards[i];
                     o.deckIndex = s.deckIndex;
-                    o.status = s.status === 'returning' ? 'fan' : s.status; // 纠正动画中途退出的状态
+                    o.status = s.status === 'returning' ? 'fan' : s.status;
+                    
+                    // 完全还原位置和标签，绝不重新计算！
+                    o.baseX = s.baseX !== undefined ? s.baseX : o.baseX;
+                    if (s.indexLabel) o.el.querySelector('.card-index').innerText = s.indexLabel;
 
                     if (s.isFlipped) o.el.classList.add('is-flipped');
                     if (s.isReversed) o.el.classList.add('is-reversed');
@@ -1546,7 +1547,6 @@ if (actualSrc && cardImg.style.display !== 'none') {
                         o.el.style.zIndex = s.zIndex || '';
                         o.el.style.transform = s.transform || '';
                         o.el.style.opacity = '1';
-                        // 桌面翻开的牌，直接加载图片
                         if (s.isFlipped) {
                             const imgEl = o.el.querySelector('.card-image');
                             if (imgEl && imgEl.dataset.src) imgEl.src = imgEl.dataset.src;
@@ -1561,22 +1561,9 @@ if (actualSrc && cardImg.style.display !== 'none') {
                     }
                 });
 
-                setupEvents();
-
-                // 重建底部牌堆索引
-                const active = cardObjs.filter(o => o.status === 'fan');
-                active.sort((a,b) => a.deckIndex - b.deckIndex);
-                TOTAL_W = Math.max(0, (active.length - 1) * SPACING);
-                scrollPos = TOTAL_W / 2;
-                active.forEach((o, i) => {
-                    o.baseX = i * SPACING;
-                    o.el.querySelector('.card-index').innerText = i + 1;
-                });
-
-                engineOn = true;
-                requestAnimationFrame(renderLoop);
+                setupEvents(); engineOn = true; requestAnimationFrame(renderLoop);
             } else {
-                // 没有存档，执行初次进站的随机洗牌打乱
+                // 没有存档，进行初始洗牌
                 let initialPositions = cardObjs.map((_, i) => i);
                 for (let i = initialPositions.length - 1; i > 0; i--) {
                     const j = Math.floor(Math.random() * (i + 1));
@@ -1586,9 +1573,7 @@ if (actualSrc && cardImg.style.display !== 'none') {
                     o.deckIndex = initialPositions[i];
                     if (Math.random() > 0.5) o.el.classList.add('is-reversed');
                 });
-                setupEvents();
-                ritualFan();
-                requestAnimationFrame(renderLoop);
+                setupEvents(); ritualFan(); requestAnimationFrame(requestAnimationFrame);
             }
         }
         function renderDeckList() {
@@ -1863,7 +1848,6 @@ saveGameState();
                 [newIndices[i], newIndices[j]] = [newIndices[j], newIndices[i]];
             }
             active.forEach((o, i) => o.deckIndex = newIndices[i]);
-setTimeout(saveGameState, 800);
         }
         function ritualCut() {
             ritualSequence++; engineOn = false; resetProtruded();
@@ -1899,7 +1883,6 @@ setTimeout(saveGameState, 800);
                 const newOrder = [...bottomHalf, ...topHalf];
                 const originalIndices = active.map(o => o.deckIndex);
                 newOrder.forEach((o, i) => o.deckIndex = originalIndices[i]);
-setTimeout(saveGameState, 200);
             }, 600);
         }
         function ritualFan() {
@@ -1987,7 +1970,7 @@ setTimeout(saveGameState, 200);
             }
             lastTouchX = e.clientX; lastMoveTime = now;
         }
-        function onPointerUp(e) {
+       function onPointerUp(e) {
             if (e.pointerId !== activePointerId) return;
             const dist = Math.hypot(e.clientX - dragStartX, e.clientY - dragStartY);
             if (interactMode === 'idle' && dist < 5 && dragTarget && dragTarget.status === 'fan') {
@@ -1995,17 +1978,17 @@ setTimeout(saveGameState, 200);
             }
             if ((interactMode === 'dragging' || interactMode === 'dragging_desktop') && dragTarget) {
                 dragTarget.el.classList.remove('dragging');
-                
+
                 if (interactMode === 'dragging_desktop' && dist < 5) {
                     if (!dragTarget.el.classList.contains('is-flipped')) {
-    dragTarget.el.classList.add('is-flipped');
-    
-    // ======= 懒加载点火代码 =======
-    const imgEl = dragTarget.el.querySelector('.card-image');
-    if (imgEl && imgEl.dataset.src && !imgEl.src.includes(imgEl.dataset.src)) {
-        imgEl.src = imgEl.dataset.src; // 翻牌瞬间，把藏好的地址拿出来下载！
-    }
-    // ============================
+                        dragTarget.el.classList.add('is-flipped');
+
+                        // ======= 懒加载点火代码 =======
+                        const imgEl = dragTarget.el.querySelector('.card-image');
+                        if (imgEl && imgEl.dataset.src && !imgEl.src.includes(imgEl.dataset.src)) {
+                            imgEl.src = imgEl.dataset.src; // 翻牌瞬间，把藏好的地址拿出来下载！
+                        }
+                        // ============================
                     } else {
                         openZoomModal(dragTarget);
                     }
@@ -2013,11 +1996,12 @@ setTimeout(saveGameState, 200);
                 if (e.clientY > window.innerHeight - 80) {
                     let maxDeckIndex = Math.max(-1, ...cardObjs.map(c => c.deckIndex));
                     dragTarget.deckIndex = maxDeckIndex + 1; dragTarget.status = 'returning';
-                    returnToFanAnimated(dragTarget); setTimeout(() => { ritualFan(); }, 600); 
+                    returnToFanAnimated(dragTarget); setTimeout(() => { ritualFan(); }, 600);
                 }
+                // 完美记录桌面的变化！
+                setTimeout(saveGameState, 300); 
             }
             activePointerId = null; dragTarget = null; interactMode = 'idle';
-setTimeout(saveGameState, 600);
         }
         function promoteToDesktop(obj, x, y) {
             if (obj.status === 'desktop') return; if (protrudedObj === obj) protrudedObj = null;
