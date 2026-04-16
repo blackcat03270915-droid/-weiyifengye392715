@@ -873,6 +873,9 @@
                 activeDeckId: activeDeckId,
                 scrollPos: scrollPos,
                 totalW: TOTAL_W,
+                sizeLevel: sizeLevel, 
+                currentFilter: currentFilter, 
+                sidebarOpen: document.getElementById('sidebar-filters').classList.contains('open'), 
                 cards: cardObjs.map(c => ({
                     id: c.id,
                     deckIndex: c.deckIndex,
@@ -883,8 +886,8 @@
                     top: c.el.style.top,
                     zIndex: c.el.style.zIndex,
                     transform: c.el.style.transform,
-                    baseX: c.baseX, // 记住牌的横向位置（保留被抽走造成的空隙）
-                    indexLabel: c.el.querySelector('.card-index').innerText // 记住牌背面的专属编号
+                    baseX: c.baseX, 
+                    indexLabel: c.el.querySelector('.card-index').innerText 
                 }))
             };
             localStorage.setItem('maoyeTarotState', JSON.stringify(state));
@@ -1379,6 +1382,7 @@
             sizeLevel = (sizeLevel + 1) % 3; 
             document.documentElement.style.setProperty('--card-w', sizeOptions[sizeLevel].w + 'px');
             document.documentElement.style.setProperty('--card-h', sizeOptions[sizeLevel].h + 'px');
+saveGameState();
         }
         function toggleSidebarMenu() {
             const filters = document.getElementById('sidebar-filters');
@@ -1391,6 +1395,7 @@
                 btn.style.background = '';
                 btn.style.color = '';
             }
+saveGameState();
         }
         function toggleActionMenu() {
             const menu = document.getElementById('action-sidebar-menu');
@@ -1526,6 +1531,26 @@ if (actualSrc && cardImg.style.display !== 'none') {
             if (savedState && savedState.cards && savedState.cards.length === TOTAL) {
                 scrollPos = savedState.scrollPos !== undefined ? savedState.scrollPos : scrollPos;
                 TOTAL_W = savedState.totalW !== undefined ? savedState.totalW : TOTAL_W;
+// --- 新增：恢复 UI 面板的记忆 ---
+                if (savedState.sizeLevel !== undefined) {
+                    sizeLevel = savedState.sizeLevel;
+                    document.documentElement.style.setProperty('--card-w', sizeOptions[sizeLevel].w + 'px');
+                    document.documentElement.style.setProperty('--card-h', sizeOptions[sizeLevel].h + 'px');
+                }
+                if (savedState.currentFilter !== undefined) {
+                    currentFilter = savedState.currentFilter;
+                    document.querySelectorAll('#sidebar-filters .sidebar-btn').forEach(btn => { 
+                        btn.classList.toggle('active', btn.dataset.filter === currentFilter); 
+                    });
+                }
+                if (savedState.sidebarOpen) {
+                    const filters = document.getElementById('sidebar-filters');
+                    filters.classList.add('open');
+                    const btn = document.getElementById('filter-toggle-btn');
+                    btn.style.background = 'var(--text-main)';
+                    btn.style.color = '#fff';
+                }
+                // --- UI 面板恢复完毕 ---
 
                 cardObjs.forEach((o, i) => {
                     const s = savedState.cards.find(c => c.id === i) || savedState.cards[i];
@@ -1800,6 +1825,7 @@ saveGameState();
                 else { if (o.status === 'fan') { o.status = 'hidden'; o.el.style.display = 'none'; o.el.classList.remove('is-fanned'); } }
             });
             ritualFan();
+saveGameState();
         }
         function renderLoop() {
             if (engineOn) {
@@ -1850,6 +1876,7 @@ saveGameState();
                 [newIndices[i], newIndices[j]] = [newIndices[j], newIndices[i]];
             }
             active.forEach((o, i) => o.deckIndex = newIndices[i]);
+setTimeout(saveGameState, 800);
         }
         function ritualCut() {
             ritualSequence++; engineOn = false; resetProtruded();
@@ -1885,7 +1912,8 @@ saveGameState();
                 const newOrder = [...bottomHalf, ...topHalf];
                 const originalIndices = active.map(o => o.deckIndex);
                 newOrder.forEach((o, i) => o.deckIndex = originalIndices[i]);
-            }, 600);
+setTimeout(saveGameState, 200);
+            }, 800);
         }
         function ritualFan() {
             ritualSequence++; const currentSeq = ritualSequence;
