@@ -37,12 +37,40 @@
         }
         .view-container { width: 100%; height: 100%; position: absolute; top: 0; left: 0; }
         
+       /* --- 替换开始 --- */
         .header-bar {
-            height: 60px; display: flex; justify-content: space-between; align-items: center;
-            padding: 0 20px; background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(189, 162, 133, 0.15); z-index: 10000; position: relative;
+            position: fixed; top: 0; left: 0; width: 100%; height: 60px;
+            background: rgba(239, 233, 228, 0.95);
+            backdrop-filter: blur(10px);
+            /* 🔮 核心：使用 Grid 实现绝对居中 */
+            display: grid; 
+            grid-template-columns: 1fr auto 1fr; 
+            align-items: center;
+            padding: 0 15px; box-sizing: border-box; z-index: 3000;
+            border-bottom: 1px solid var(--accent-dim);
         }
+        /* 新增：左右两侧的容器，用来平衡空间 */
+        .header-side { display: flex; align-items: center; gap: 10px; }
+        .header-side.right { justify-content: flex-end; }
+        
+        .header-title {
+            font-size: 18px; font-weight: bold; color: var(--text-main);
+            letter-spacing: 2px;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        /* 🔮 方案三核心：全屏模式下的“隐身术” */
+        body.is-fullscreen .hide-in-fullscreen {
+            opacity: 0;
+            pointer-events: none;
+            width: 0;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        /* --- 替换结束 --- */
         /* 顶部白色的复古花边边角美化 */
         .header-bg-decor {
             position: absolute;
@@ -572,18 +600,26 @@
     <!-- 视图 1：工作台 -->
     <div id="workbench-view" class="view-container">
         <div class="header-bar">
-<button class="nav-btn" onclick="toggleFullScreen()" title="全屏模式">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;">
-                <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
-            </svg>
-        </button>
-            <!-- 顶栏花边美化：花色格子纹理铺满全层，底部呈现波浪形 -->
-            <div class="header-bg-decor">
-                <svg width="100%" height="100%" aria-hidden="true" focusable="false">
-                    <rect width="100%" height="100%" fill="url(#plaid-pattern)" />
-                </svg>
-            </div>
-            
+        <div class="header-side left">
+            <button id="filter-toggle-btn" class="nav-btn" onclick="toggleSidebarMenu()" title="筛选">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
+            </button>
+        </div>
+
+        <div class="header-title">链接潜意识</div>
+
+        <div class="header-side right">
+            <button class="nav-btn hide-in-fullscreen" onclick="openDictionary()" title="辞典">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+            </button>
+            <button class="nav-btn hide-in-fullscreen" onclick="openAdmin()" title="进入后台">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            </button>
+            <button class="nav-btn" onclick="toggleFullScreen()" title="全屏模式">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+            </button>
+        </div>
+    </div>            
             <!-- 新增：左侧书籍图案搜索按钮 -->
             <button class="nav-btn" onclick="openSearchModal()">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path></svg>
@@ -1420,6 +1456,28 @@ saveGameState();
                 }
             }
         }
+function toggleFullScreen() {
+            if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+                // 进入全屏
+                const docElm = document.documentElement;
+                if (docElm.requestFullscreen) { docElm.requestFullscreen(); }
+                else if (docElm.webkitRequestFullscreen) { docElm.webkitRequestFullscreen(); }
+                document.body.classList.add('is-fullscreen');
+            } else {
+                // 退出全屏
+                if (document.exitFullscreen) { document.exitFullscreen(); }
+                else if (document.webkitExitFullscreen) { document.webkitExitFullscreen(); }
+                document.body.classList.remove('is-fullscreen');
+            }
+        }
+
+        // 监听全屏变化（防止按 ESC 退出全屏后图标没回来的情况）
+        document.addEventListener('fullscreenchange', () => {
+            if (!document.fullscreenElement) document.body.classList.remove('is-fullscreen');
+        });
+        document.addEventListener('webkitfullscreenchange', () => {
+            if (!document.webkitFullscreenElement) document.body.classList.remove('is-fullscreen');
+        });
         function toggleSidebarMenu() {
             const filters = document.getElementById('sidebar-filters');
             filters.classList.toggle('open');
